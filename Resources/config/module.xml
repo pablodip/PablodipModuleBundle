@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- Module Factory -->
+        <parameter key="pablodip_module.module_factory.class">Pablodip\ModuleBundle\Module\ModuleFactory</parameter>
+
+        <!-- Action Factory -->
+        <parameter key="pablodip_module.action_factory.class">Pablodip\ModuleBundle\Action\ActionFactory</parameter>
+
+        <!-- Action Collection Factory -->
+        <parameter key="pablodip_module.action_collection_factory.class">Pablodip\ModuleBundle\Action\ActionCollectionFactory</parameter>
+
+        <!-- Field Guesser Factory -->
+        <parameter key="pablodip_module.field_guesser_factory.class">Pablodip\ModuleBundle\Field\Guesser\FieldGuesserFactory</parameter>
+
+        <!-- Routing Loader -->
+        <parameter key="routing.loader.pablodip_module.class">Pablodip\ModuleBundle\Routing\ModuleFactoryLoader</parameter>
+    </parameters>
+
+    <services>
+        <!-- Module Factory -->
+        <service id="pablodip_module.module_factory" class="%pablodip_module.module_factory.class%">
+            <!-- moduleIds -->
+            <argument type="collection" />
+            <!-- ContainerAware -->
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <!-- Action Factory -->
+        <service id="pablodip_module.action_factory" class="%pablodip_module.action_factory.class%">
+        </service>
+
+        <!-- Action Collection Factory -->
+        <service id="pablodip_module.action_collection_factory" class="%pablodip_module.action_collection_factory.class%">
+        </service>
+
+        <!-- Field Guesser Factory -->
+        <service id="pablodip_module.field_guesser_factory" class="%pablodip_module.field_guesser_factory.class%">
+        </service>
+
+        <!-- Routing Loader -->
+        <service id="routing.loader.pablodip_module" class="%routing.loader.pablodip_module.class%">
+            <tag name="routing.loader" />
+            <argument type="service" id="pablodip_module.module_factory" />
+        </service>
+    </services>
+
+</container>
