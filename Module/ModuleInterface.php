@@ -124,6 +124,16 @@ interface ModuleInterface
     function getActions();
 
     /**
+     * Returns an action option.
+     *
+     * @param string $actionName The action name.
+     * @param string $optionName The option name.
+     *
+     * @return mixed The option value.
+     */
+    function getActionOption($actionName, $optionName);
+
+    /**
      * Generated an admin url.
      *
      * @param string  $routeNameSuffix The route name suffix.
@@ -133,4 +143,14 @@ interface ModuleInterface
      * @return string The url.
      */
     function generateUrl($routeNameSuffix, array $parameters = array(), $absolute = false);
+
+    /**
+     * Returns a field value for a data.
+     *
+     * @param mixed  $data      The data.
+     * @param string $fieldName The field name.
+     *
+     * @return The value.
+     */
+    function getDataFieldValue($data, $fieldName);
 }

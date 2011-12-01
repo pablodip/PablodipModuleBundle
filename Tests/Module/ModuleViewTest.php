@@ -44,6 +44,25 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($url, $view->url($routeNameSuffix, $parameters));
     }
 
+    public function testGetActionOption()
+    {
+        $actionName = 'fo';
+        $optionName = 'bar';
+        $optionValue = 'ups';
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+
+        $module
+            ->expects($this->once())
+            ->method('getActionOption')
+            ->with($actionName, $optionName)
+            ->will($this->returnValue($optionValue))
+        ;
+
+        $view = new ModuleView($module);
+        $this->assertSame($optionValue, $view->getActionOption($actionName, $optionName));
+    }
+
     public function testGetParametersToPropagate()
     {
         $parametersToPropagate = array('foo' => 'bar');
@@ -58,5 +77,24 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
 
         $view = new ModuleView($module);
         $this->assertSame($parametersToPropagate, $view->getParametersToPropagate());
+    }
+
+    public function testGetDataFieldValue()
+    {
+        $data = new \DateTime();
+        $fieldName = 'foo';
+        $returnValue = 'bar';
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+
+        $module
+            ->expects($this->once())
+            ->method('getDataFieldValue')
+            ->with($data, $fieldName)
+            ->will($this->returnValue($returnValue))
+        ;
+
+        $view = new ModuleView($module);
+        $this->assertSame($returnValue, $view->getDataFieldValue($data, $fieldName));
     }
 }

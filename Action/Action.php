@@ -360,7 +360,7 @@ abstract class Action extends ContainerAware implements ActionInterface
      */
     public function setActionProcessor($actionName, \Closure $processor)
     {
-        $this->actionProcessors[] = $processor;
+        $this->actionProcessors[$actionName] = $processor;
 
         return $this;
     }

@@ -57,6 +57,20 @@ class ModuleView
     }
 
     /**
+     * Returns an action option.
+     *
+     * @param string $actionName The action name.
+     * @param string $optionName The option name.
+     *
+     * @return mixed The option value.
+     */
+    public function getActionOption($actionName, $optionName)
+    {
+        return $this->module->getActionOption($actionName, $optionName);
+    }
+
+
+    /**
      * Returns the parameters to propagate.
      *
      * Useful when you have to propagate parameters in a form.

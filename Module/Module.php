@@ -551,35 +551,48 @@ abstract class Module extends ContainerAware implements ModuleInterface
     /**
      * Returns whether an action exists or not.
      *
-     * @param string $fullName The action's full name.
+     * @param string $name The action name.
      *
      * @return Boolean Whether the action exists or not.
      */
-    public function hasAction($fullName)
+    public function hasAction($name)
     {
         if (null === $this->actions) {
             $this->initializeActions();
         }
 
-        return isset($this->actions[$fullName]);
+        return $this->findAction($this->actions, $name, false) ? true : false;
     }
 
     /**
-     * Returns an action by full name.
+     * Returns an action by name.
      *
-     * @param string $fullName The action's full name.
+     * @param string $name The action name.
      *
      * @return Action The action.
      *
      * @throws \InvalidArgumentException If the action does not exist.
      */
-    public function getAction($fullName)
+    public function getAction($name)
     {
-        if (!$this->hasAction($fullName)) {
-            throw new \InvalidArgumentException(sprintf('The action "%s" does not exist.', $fullName));
+        if (null === $this->actions) {
+            $this->initializeActions();
         }
 
-        return $this->actions[$fullName];
+        $action = $this->findAction($this->actions, $name, false);
+        if (!$action) {
+            throw new \InvalidArgumentException(sprintf('The action "%s" does not exist.', $name));
+        }
+
+        return $action;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getActionOption($actionName, $optionName)
+    {
+        return $this->getAction($actionName)->getOption($optionName);
     }
 
     /**
@@ -672,12 +685,7 @@ abstract class Module extends ContainerAware implements ModuleInterface
     }
 
     /**
-     * Returns a field value for a data.
-     *
-     * @param mixed  $data      The data.
-     * @param string $fieldName The field name.
-     *
-     * @return The value.
+     * {@inheritdoc}
      */
     public function getDataFieldValue($data, $fieldName)
     {
@@ -803,12 +811,21 @@ abstract class Module extends ContainerAware implements ModuleInterface
         if (isset($actions[$actionName])) {
             return $actions[$actionName];
         }
+
         // by name
+        $found = null;
         foreach ($actions as $action) {
             if ($action->getName() == $actionName) {
-                return $action;
+                if ($found) {
+                    throw new \RuntimeException(sprintf('The action name "%s" cannot be guessed due to there are at least two actions with the same name.', $actionName));
+                }
+                $found = $action;
             }
         }
+        if ($found) {
+            return $found;
+        }
+
         // action does not exist
         if ($throwException) {
             throw new \RuntimeException(sprintf('The action "%s" does not exist.', $actionName));
