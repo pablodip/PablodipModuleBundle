@@ -69,7 +69,6 @@ class ModuleView
         return $this->module->getActionOption($actionName, $optionName);
     }
 
-
     /**
      * Returns the parameters to propagate.
      *
