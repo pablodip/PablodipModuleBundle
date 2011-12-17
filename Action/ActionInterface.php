@@ -30,25 +30,11 @@ interface ActionInterface
     function getModule();
 
     /**
-     * Returns the namespace.
-     *
-     * @return string The namespace.
-     */
-    function getNamespace();
-
-    /**
      * Returns the name.
      *
      * @return string The name.
      */
     function getName();
-
-    /**
-     * Returns the full name (namespace + name).
-     *
-     * @return string The full name.
-     */
-    function getFullName();
 
     /**
      * Returns the route name suffix.
@@ -104,20 +90,6 @@ interface ActionInterface
      * @return array The options.
      */
     function getOptions();
-
-    /**
-     * Returns the action processors.
-     *
-     * @return array The action processors.
-     */
-    function getActionProcessors();
-
-    /**
-     * Returns the fields.
-     *
-     * @return array The fields.
-     */
-    function getFields();
 
     /**
      * Executes the controller.

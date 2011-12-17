@@ -28,13 +28,6 @@ interface ModuleInterface
     function __construct(ContainerInterface $container);
 
     /**
-     * Returns the data class.
-     *
-     * @return string The data class.
-     */
-    function getDataClass();
-
-    /**
      * Returns the route name prefix.
      *
      * @return string The route name prefix.
@@ -83,38 +76,24 @@ interface ModuleInterface
     function getOptions();
 
     /**
-     * Returns the fields.
+     * Returns whether an action exists.
      *
-     * @return array An array of fields.
+     * @param string $name The name.
+     *
+     * @return Boolean Whether the action exists.
      */
-    function getFields();
+    function hasAction($name);
 
     /**
-     * Returns whether a field exists or not.
+     * Returns an action.
      *
-     * @param string $name The field name.
+     * @param string $name The name.
      *
-     * @return Boolean Whether the field exists or not.
+     * @return ActionInterface The action.
+     *
+     * @throws \InvalidArgumentException If the action does not exist.
      */
-    function hasField($name);
-
-    /**
-     * Returns a field.
-     *
-     * @param string $name The field name.
-     *
-     * @return Field The field.
-     *
-     * @throws \InvalidArgumentException If the field does not exist.
-     */
-    function getField($name);
-
-    /**
-     * Returns the field guessers.
-     *
-     * @return array The field guessers.
-     */
-    function getFieldGuessers();
+    function getAction($name);
 
     /**
      * Returns the actions.
@@ -124,14 +103,11 @@ interface ModuleInterface
     function getActions();
 
     /**
-     * Returns an action option.
+     * Returns the controller pre executes.
      *
-     * @param string $actionName The action name.
-     * @param string $optionName The option name.
-     *
-     * @return mixed The option value.
+     * @return array The controller pre executes.
      */
-    function getActionOption($actionName, $optionName);
+    function getControllerPreExecutes();
 
     /**
      * Generated an admin url.
@@ -143,14 +119,4 @@ interface ModuleInterface
      * @return string The url.
      */
     function generateUrl($routeNameSuffix, array $parameters = array(), $absolute = false);
-
-    /**
-     * Returns a field value for a data.
-     *
-     * @param mixed  $data      The data.
-     * @param string $fieldName The field name.
-     *
-     * @return The value.
-     */
-    function getDataFieldValue($data, $fieldName);
 }

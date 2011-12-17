@@ -1,1 +1,4 @@
 phpunit.xml
+/vendor/
+/Tests/Model/Base/
+/Tests/Model/Mapping/

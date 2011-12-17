@@ -11,21 +11,19 @@
 
 namespace Pablodip\ModuleBundle\Module;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Pablodip\ModuleBundle\Action\ActionInterface;
 use Pablodip\ModuleBundle\Action\ActionCollectionInterface;
 use Pablodip\ModuleBundle\Field\Field;
-use Pablodip\ModuleBundle\Field\FieldConfigurator;
 
 /**
  * Module.
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class Module extends ContainerAware implements ModuleInterface
+abstract class Module implements ModuleInterface
 {
-    private $dataClass;
+    private $container;
 
     private $routeNamePrefix;
     private $routePatternPrefix;
@@ -34,18 +32,7 @@ abstract class Module extends ContainerAware implements ModuleInterface
     private $options;
     private $requiredOptions;
 
-    private $rawFields;
-    private $fields;
-
-    private $rawFieldGuessers;
-    private $fieldGuessers;
-
-    private $rawActions;
-    private $actionParsers;
     private $actions;
-    private $actionOptionsSets;
-    private $actionOptionsProcessors;
-    private $actionCollectionOptionsSets;
 
     private $controllerPreExecutes;
 
@@ -56,32 +43,20 @@ abstract class Module extends ContainerAware implements ModuleInterface
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->setContainer($container);
+        $this->container = $container;
 
         $this->parametersToPropagate = array();
 
         $this->options = array();
         $this->requiredOptions = array();
 
-        $this->rawFields = array();
-
-        $this->rawFieldGuessers = array();
-
-        $this->rawActions = array();
-        $this->actionParsers = array();
-        $this->actionOptionsSets = array();
-        $this->actionOptionsProcessors = array();
-        $this->actionCollectionOptionsSets = array();
+        $this->actions = array();
 
         $this->controllerPreExecutes = array();
 
         $this->preConfigure();
         $this->configure();
         $this->postConfigure();
-
-        if (!$this->dataClass) {
-            throw new \RuntimeException('A module must have data class.');
-        }
 
         if ($diff = array_diff($this->requiredOptions, array_keys($this->options))) {
             throw new \RuntimeException(sprintf('%s requires the options: "%s".', get_class($this), implode(', ', $diff)));
@@ -123,38 +98,6 @@ abstract class Module extends ContainerAware implements ModuleInterface
     public function getContainer()
     {
         return $this->container;
-    }
-
-    /**
-     * Configures the fields for an action.
-     *
-     * @param ActionInterface   $action            An action.
-     * @param FieldConfigurator $fieldConfigurator A FieldConfigurator instance.
-     */
-    public function configureFieldsByAction(ActionInterface $action, FieldConfigurator $fieldConfigurator)
-    {
-    }
-
-    /**
-     * Sets the data class.
-     *
-     * @param string $dataClass The data class.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function setDataClass($dataClass)
-    {
-        $this->dataClass = $dataClass;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataClass()
-    {
-        return $this->dataClass;
     }
 
     /**
@@ -385,137 +328,22 @@ abstract class Module extends ContainerAware implements ModuleInterface
     }
 
     /**
-     * Adds a field.
-     *
-     * @param string $name   The name.
-     * @param array  $option An array of options (optional).
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function addField($name, array $options = array())
-    {
-        $this->rawFields[$name] = $options;
-
-        return $this;
-    }
-
-    /**
-     * Adds fields.
-     *
-     * You can define the fields in two ways:
-     *
-     *   * The name as the key and the options as the value.
-     *   * The name as the value (without options).
-     *
-     * @param array $fields An array of fields.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function addFields(array $fields)
-    {
-        foreach ($fields as $name => $options) {
-            if (is_integer($name) && is_string($options)) {
-                $name = $options;
-                $options = array();
-            }
-            $this->addField($name, $options);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFields()
-    {
-        if (null === $this->fields) {
-            $this->initializeFields();
-        }
-
-        return $this->fields;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasField($name)
-    {
-        if (null === $this->fields) {
-            $this->initializeFields();
-        }
-
-        return isset($this->fields[$name]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField($name)
-    {
-        if (!$this->hasField($name)) {
-            throw new \InvalidArgumentException(sprintf('The field "%s" does not exist.', $name));
-        }
-
-        return $this->fields[$name];
-    }
-
-    /**
-     * Adds a field guesser.
-     *
-     * @param mixed $fieldGuesser A field guesser.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function addFieldGuesser($fieldGuesser)
-    {
-        $this->rawFieldGuessers[] = $fieldGuesser;
-
-        return $this;
-    }
-
-    /**
-     * Adds field guessers.
-     *
-     * @param array $fieldGuessers An array of field guessers.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function addFieldGuessers(array $fieldGuessers)
-    {
-        foreach ($fieldGuessers as $fieldGuesser) {
-            $this->addFieldGuesser($fieldGuesser);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFieldGuessers()
-    {
-        if (null == $this->fieldGuessers) {
-            $this->initializeFieldGuessers();
-        }
-
-        return $this->fieldGuessers;
-    }
-
-    /**
      * Adds an action.
      *
-     * @param string|Action|ActionCollection $action An action.
+     * @param ActionInterface $action An action.
      *
      * @return ModuleInterface The module (fluent interface).
+     *
+     * @throws \InvalidArgumentException If the action already exists.
      */
-    public function addAction($action)
+    public function addAction(ActionInterface $action)
     {
-        if (!is_string($action) && !$action instanceof ActionInterface && !$action instanceof ActionCollectionInterface) {
-            throw new \InvalidArgumentException('Some action is not an string nor an instance of ActionInterface nor ActionCollectionInterface.');
+        if (isset($this->actions[$action->getName()])) {
+            throw new \InvalidArgumentException(sprintf('The action "%s" already exists.', $action->getName()));
         }
 
-        $this->rawActions[is_string($action) ? $action : $action->getFullName()] = $action;
+        $action->setModule($this);
+        $this->actions[$action->getName()] = $action;
 
         return $this;
     }
@@ -539,60 +367,29 @@ abstract class Module extends ContainerAware implements ModuleInterface
     /**
      * {@inheritdoc}
      */
-    public function getActions()
-    {
-        if (null === $this->actions) {
-            $this->initializeActions();
-        }
-
-        return $this->actions;
-    }
-
-    /**
-     * Returns whether an action exists or not.
-     *
-     * @param string $name The action name.
-     *
-     * @return Boolean Whether the action exists or not.
-     */
     public function hasAction($name)
     {
-        if (null === $this->actions) {
-            $this->initializeActions();
-        }
-
-        return $this->findAction($this->actions, $name, false) ? true : false;
-    }
-
-    /**
-     * Returns an action by name.
-     *
-     * @param string $name The action name.
-     *
-     * @return Action The action.
-     *
-     * @throws \InvalidArgumentException If the action does not exist.
-     */
-    public function getAction($name)
-    {
-        if (null === $this->actions) {
-            $this->initializeActions();
-        }
-
-        $action = $this->findAction($this->actions, $name, false);
-        if (!$action) {
-            throw new \InvalidArgumentException(sprintf('The action "%s" does not exist.', $name));
-        }
-
-        return $action;
+        return isset($this->actions[$name]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getActionOption($actionName, $optionName)
+    public function getAction($name)
     {
-        return $this->getAction($actionName)->getOption($optionName);
+        if (!isset($this->actions[$name])) {
+            throw new \InvalidArgumentException(sprintf('The action "%s" does not exist.', $name));
+        }
+
+        return $this->actions[$name];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getActions()
+    {
+        return $this->actions;
     }
 
     /**
@@ -612,38 +409,6 @@ abstract class Module extends ContainerAware implements ModuleInterface
     }
 
     /**
-     * Adds an option processor to an action.
-     *
-     * @param string   $actionName The action name.
-     * @param string   $optionName The option name.
-     * @param \Closure $processor  The processor.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function addActionOptionProcessor($actionName, $optionName, \Closure $processor)
-    {
-        $this->actionOptionsProcessors[$actionName][$optionName][] = $processor;
-
-        return $this;
-    }
-
-    /**
-     * Adds an option to set in an action collection.
-     *
-     * @param string $actionCollectionName  The action collection name.
-     * @param string $optionName  The option name.
-     * @param mixed  $optionValue The option value.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     */
-    public function setActionCollectionOption($actionCollectionName, $optionName, $optionValue)
-    {
-        $this->actionCollectionOptionsSets[$actionCollectionName][$optionName] = $optionValue;
-
-        return $this;
-    }
-
-    /**
      * Adds a controller pre execute.
      *
      * @param \Closure $controllerPreExecute A controller pre execute.
@@ -658,9 +423,7 @@ abstract class Module extends ContainerAware implements ModuleInterface
     }
 
     /**
-     * Returns the controller pre executes.
-     *
-     * @return array The controller pre executes.
+     * {@inheritdoc}
      */
     public function getControllerPreExecutes()
     {
@@ -684,153 +447,6 @@ abstract class Module extends ContainerAware implements ModuleInterface
         return $this->container->get('router')->generate($this->getRouteNamePrefix().'_'.$routeNameSuffix, $parameters, $absolute);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataFieldValue($data, $fieldName)
-    {
-        return $data->{'get'.ucfirst($fieldName)}();
-    }
-
-    private function initializeFields()
-    {
-        $fields = array();
-        foreach ($this->rawFields as $name => $options) {
-            $fields[$name] = new Field($name, $options);
-        }
-        $this->fields = $fields;
-        $this->rawFields = null;
-    }
-
-    private function initializeFieldGuessers()
-    {
-        $fieldGuessers = array();
-        foreach ($this->rawFieldGuessers as $rawFieldGuesser) {
-            if (is_string($rawFieldGuesser)) {
-                $rawFieldGuesser = $this->container->get('pablodip_module.field_guesser_factory')->get($rawFieldGuesser);
-            }
-            $fieldGuessers[] = $rawFieldGuesser;
-        }
-        $this->fieldGuessers = $fieldGuessers;
-        $this->rawFieldGuessers = null;
-    }
-
-    private function initializeActions()
-    {
-        $actions = array();
-        foreach ($this->cleanActions($this->rawActions) as $action) {
-            if (isset($actions[$action->getFullName()])) {
-                throw new \RuntimeException(sprintf('You cannot use the action "%s" more than once.', $action->getFullName()));
-            }
-            $action->setModule($this);
-            $action->setContainer($this->container);
-
-            foreach ($action->getActionProcessors() as $actionName => $processor) {
-                $actionToProcess = $this->findAction($actions, $actionName);
-                if (null !== $actionToProcess) {
-                    $processor($actionToProcess);
-                }
-            }
-
-            $actions[$action->getFullName()] = $action;
-        }
-
-        // action options sets
-        foreach ($this->actionOptionsSets as $actionName => $options) {
-            $action = $this->findAction($actions, $actionName);
-
-            foreach ($options as $name => $value) {
-                $action->setOption($name, $value);
-            }
-        }
-
-        // action options processors
-        foreach ($this->actionOptionsProcessors as $actionName => $options) {
-            $action = $this->findAction($actions, $actionName);
-
-            foreach ($options as $name => $processors) {
-                $value = $action->getOption($name);
-                foreach ($processors as $processor) {
-                    $value = $processor($value);
-                }
-                $action->setOption($name, $value);
-            }
-        }
-
-        $this->actions = $actions;
-        $this->rawActions = null;
-    }
-
-    private function cleanActions(array $inputActions)
-    {
-        $actions = array();
-        foreach ($inputActions as $action) {
-            // in the container
-            if (is_string($action)) {
-                // action
-                if ($this->container->get('pablodip_module.action_factory')->has($action)) {
-                    $action = clone $this->container->get('pablodip_module.action_factory')->get($action);
-                } else {
-                    // collection
-                    if ($this->container->get('pablodip_module.action_collection_factory')->has($action)) {
-                        $action = clone $this->container->get('pablodip_module.action_collection_factory')->get($action);
-                    }
-                }
-            }
-
-            // normal action
-            if ($action instanceof ActionInterface) {
-                $actions[] = $action;
-                continue;
-            }
-            // action collection
-            if ($action instanceof ActionCollectionInterface) {
-                foreach (array($action->getFullName(), $action->getName()) as $actionCollectionName) {
-                    if (isset($this->actionCollectionOptionsSets[$actionCollectionName])) {
-                        foreach ($this->actionCollectionOptionsSets[$actionCollectionName] as $optionName => $optionValue) {
-                            $action->setOption($optionName, $optionValue);
-                        }
-                        break;
-                    }
-                }
-
-                $actions = array_merge($actions, $this->cleanActions($action->getActions()));
-                continue;
-            }
-
-            // invalid
-            throw new \RuntimeException('The action is not an instance of ActionInterface nor ActionCollectionInterface.');
-        }
-
-        return $actions;
-    }
-
-    private function findAction(array $actions, $actionName, $throwException = true)
-    {
-        // by full name
-        if (isset($actions[$actionName])) {
-            return $actions[$actionName];
-        }
-
-        // by name
-        $found = null;
-        foreach ($actions as $action) {
-            if ($action->getName() == $actionName) {
-                if ($found) {
-                    throw new \RuntimeException(sprintf('The action name "%s" cannot be guessed due to there are at least two actions with the same name.', $actionName));
-                }
-                $found = $action;
-            }
-        }
-        if ($found) {
-            return $found;
-        }
-
-        // action does not exist
-        if ($throwException) {
-            throw new \RuntimeException(sprintf('The action "%s" does not exist.', $actionName));
-        }
-    }
     /**
      * Returns a module view with the module.
      *

@@ -18,7 +18,7 @@ namespace Pablodip\ModuleBundle\Module;
  */
 class ModuleView
 {
-    protected $module;
+    private $module;
 
     /**
      * Constructor.
@@ -28,6 +28,16 @@ class ModuleView
     public function __construct(ModuleInterface $module)
     {
         $this->module = $module;
+    }
+
+    /**
+     * Returns the module.
+     *
+     * @return ModuleInterface The module.
+     */
+    protected function getModule()
+    {
+        return $this->module;
     }
 
     /**
@@ -57,19 +67,6 @@ class ModuleView
     }
 
     /**
-     * Returns an action option.
-     *
-     * @param string $actionName The action name.
-     * @param string $optionName The option name.
-     *
-     * @return mixed The option value.
-     */
-    public function getActionOption($actionName, $optionName)
-    {
-        return $this->module->getActionOption($actionName, $optionName);
-    }
-
-    /**
      * Returns the parameters to propagate.
      *
      * Useful when you have to propagate parameters in a form.
@@ -79,18 +76,5 @@ class ModuleView
     public function getParametersToPropagate()
     {
         return $this->module->getParametersToPropagate();
-    }
-
-    /**
-     * Returns a field value for a data.
-     *
-     * @param mixed  $data      The data.
-     * @param string $fieldName The field name.
-     *
-     * @return The value.
-     */
-    public function getDataFieldValue($data, $fieldName)
-    {
-        return $this->module->getDataFieldValue($data, $fieldName);
     }
 }

@@ -9,15 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Pablodip\ModuleBundle;
+namespace Pablodip\ModuleBundle\Extension;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Pablodip\ModuleBundle\Module\ModuleInterface;
 
 /**
- * PablodipModuleBundle.
+ * ExtensionInterface.
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-class PablodipModuleBundle extends Bundle
+interface ExtensionInterface
 {
+    /**
+     * Applies the extension to a module.
+     *
+     * @param ModuleInterface $module A module.
+     */
+    function apply(ModuleInterface $module);
 }

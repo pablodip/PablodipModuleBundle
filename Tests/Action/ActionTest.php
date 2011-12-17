@@ -37,40 +37,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testConfigure()
     {
         $action = new Action();
-        $this->assertSame('action.test', $action->getFullName());
+        $this->assertSame('action.test', $action->getName());
         $this->assertSame('foo', $action->getRouteNameSuffix());
         $this->assertSame('/bar', $action->getRoutePatternSuffix());
-    }
-
-    public function testNameNamespaceFullName()
-    {
-        $action = new Action();
-
-        // name
-        $this->assertSame($action, $action->setName('foobar'));
-        $this->assertNull($action->getNamespace());
-        $this->assertSame('foobar', $action->getName());
-        $this->assertSame('foobar', $action->getFullName());
-
-        // name + namespace
-        $action->setName('upsfoo.bar');
-        $this->assertSame('upsfoo', $action->getNamespace());
-        $this->assertSame('bar', $action->getName());
-        $this->assertSame('upsfoo.bar', $action->getFullName());
-
-        // more than one dot
-        $action->setName('some.more.long');
-        $this->assertSame('some.more', $action->getNamespace());
-        $this->assertSame('long', $action->getName());
-        $this->assertSame('some.more.long', $action->getFullName());
-
-        // empty name
-        try {
-            $action->setName('');
-            $this->fail();
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-        }
     }
 
     public function testRouteNameSuffix()

@@ -25,16 +25,14 @@ class ActionController extends Controller
      */
     public function executeAction()
     {
-        $moduleId = $this->get('request')->get('_pablodip_module.module');
-        $actionFullName = $this->get('request')->get('_pablodip_module.action');
+        $moduleClass = $this->get('request')->get('_pablodip_module.module');
+        $actionName = $this->get('request')->get('_pablodip_module.action');
 
-        $module = $this->container->get($moduleId);
+        $module = new $moduleClass($this->container);
         foreach ($module->getControllerPreExecutes() as $controllerPreExecute) {
             $controllerPreExecute($this->container);
         }
 
-        $action = $module->getAction($actionFullName);
-
-        return $action->executeController();
+        return $module->getAction($actionName)->executeController();
     }
 }

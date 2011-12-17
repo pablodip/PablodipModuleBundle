@@ -9,29 +9,29 @@ class Module extends BaseModule
 {
     protected function configure()
     {
-        $this->setDataClass('foobar');
     }
 }
 
 class ModuleTest extends \PHPUnit_Framework_TestCase
 {
+    private $container;
     private $module;
 
     protected function setUp()
     {
-        $this->module = new Module(new Container());
+        $this->container = new Container();
+        $this->module = new Module($this->container);
     }
 
-    public function testConfigure()
+    public function testDefaultValues()
     {
         $this->assertTrue(is_string($this->module->getRouteNamePrefix()));
         $this->assertTrue(is_string($this->module->getRoutePatternPrefix()));
     }
 
-    public function testDataClass()
+    public function testGetContainer()
     {
-        $this->assertSame($this->module, $this->module->setDataClass('ups'));
-        $this->assertSame('ups', $this->module->getDataClass());
+        $this->assertSame($this->container, $this->module->getContainer());
     }
 
     public function testRouteNamePrefix()
@@ -131,6 +131,82 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('foo'), $this->module->getRequiredOptions());
         $this->module->addRequiredOption('bar');
         $this->assertSame(array('foo', 'bar'), $this->module->getRequiredOptions());
+    }
+
+    public function testAddAction()
+    {
+        $actions = array();
+        for ($i = 1; $i <= 2; $i++) {
+            $actions[$i] = $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+            $action
+                ->expects($this->once())
+                ->method('setModule')
+                ->with($this->anything())
+            ;
+            $action
+                ->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('action'.$i))
+            ;
+        }
+
+        $this->assertSame($this->module, $this->module->addAction($actions[1]));
+        $this->assertSame($this->module, $this->module->addAction($actions[2]));
+        $this->assertSame(2, count($this->module->getActions()));
+    }
+
+    public function testAddActions()
+    {
+        $actions = array();
+        for ($i = 1; $i <= 2; $i++) {
+            $actions[$i] = $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+            $action
+                ->expects($this->once())
+                ->method('setModule')
+                ->with($this->anything())
+            ;
+            $action
+                ->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('action'.$i))
+            ;
+        }
+
+        $this->assertSame($this->module, $this->module->addActions($actions));
+        $this->assertSame(2, count($this->module->getActions()));
+    }
+
+    public function testHasAction()
+    {
+        $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+        $action
+            ->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('foo'))
+        ;
+
+        $this->module->addAction($action);
+
+        $this->assertTrue($this->module->hasAction('foo'));
+        $this->assertFalse($this->module->hasAction('bar'));
+    }
+
+    public function testGetAction()
+    {
+        $actions = array();
+        for ($i = 1; $i <= 2; $i++) {
+            $actions[$i] = $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+            $action
+                ->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('action'.$i))
+            ;
+        }
+
+        $this->module->addActions($actions);
+
+        $this->assertSame($actions[1], $this->module->getAction('action1'));
+        $this->assertSame($actions[2], $this->module->getAction('action2'));
     }
 
     public function testControllerPreExecutes()

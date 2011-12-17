@@ -31,6 +31,16 @@ class ActionView
     }
 
     /**
+     * Returns the action.
+     *
+     * @return ActionInterface The action.
+     */
+    protected function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
      * Returns an action option.
      *
      * @param string $name The name.
@@ -40,15 +50,5 @@ class ActionView
     public function getOption($name)
     {
         return $this->action->getOption($name);
-    }
-
-    /**
-     * Returns the action fields.
-     *
-     * @return array The action fields.
-     */
-    public function getFields()
-    {
-        return $this->action->getFields();
     }
 }

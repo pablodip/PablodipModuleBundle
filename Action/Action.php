@@ -14,9 +14,6 @@ namespace Pablodip\ModuleBundle\Action;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Pablodip\ModuleBundle\Field\FieldBag;
-use Pablodip\ModuleBundle\Field\FieldConfigurator;
-use Pablodip\ModuleBundle\Field\Guesser\FieldGuessador;
 use Pablodip\ModuleBundle\Module\ModuleInterface;
 
 /**
@@ -26,8 +23,9 @@ use Pablodip\ModuleBundle\Module\ModuleInterface;
  */
 abstract class Action extends ContainerAware implements ActionInterface
 {
+    private $module;
+
     private $name;
-    private $namespace;
 
     private $routeNameSuffix;
     private $routePatternSuffix;
@@ -35,8 +33,6 @@ abstract class Action extends ContainerAware implements ActionInterface
     private $routeRequirements;
 
     private $options;
-    private $actionProcessors;
-    private $fields;
 
     /**
      * Constructor.
@@ -48,7 +44,6 @@ abstract class Action extends ContainerAware implements ActionInterface
         $this->routeDefaults = array();
         $this->routeRequirements = array();
         $this->options = array();
-        $this->actionProcessors = array();
 
         $this->configure();
 
@@ -105,28 +100,12 @@ abstract class Action extends ContainerAware implements ActionInterface
     /**
      * Sets the name.
      *
-     * Sets the name and namespace separating them by the last dot.
-     *
      * @param string $name The name.
      *
      * @return Action The action (fluent interface).
-     *
-     * @throws \InvalidArgumentException If the name is empty.
      */
     public function setName($name)
     {
-        if (false !== $pos = strrpos($name, '.')) {
-            $namespace = substr($name, 0, $pos);
-            $name = substr($name, $pos + 1);
-        } else {
-            $namespace = null;
-        }
-
-        if (!$name) {
-            throw new \InvalidArgumentException('An action must have a name.');
-        }
-
-        $this->namespace = $namespace;
         $this->name = $name;
 
         return $this;
@@ -135,25 +114,9 @@ abstract class Action extends ContainerAware implements ActionInterface
     /**
      * {@inheritdoc}
      */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFullName()
-    {
-        return $this->getNamespace() ? $this->getNamespace().'.'.$this->getName() : $this->getName();
     }
 
     /**
@@ -265,34 +228,6 @@ abstract class Action extends ContainerAware implements ActionInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function hasOption($name)
-    {
-        return array_key_exists($name, $this->options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOption($name)
-    {
-        if (!$this->hasOption($name)) {
-            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
-        }
-
-        return $this->options[$name];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * Adds an option.
      *
      * @param string $name         The name.
@@ -351,58 +286,31 @@ abstract class Action extends ContainerAware implements ActionInterface
     }
 
     /**
-     * Sets an action processor
-     *
-     * @param string   $actionName The action name.
-     * @param \Closure $processor  The processor.
-     *
-     * @return ActionInterface The action (fluent interface).
+     * {@inheritdoc}
      */
-    public function setActionProcessor($actionName, \Closure $processor)
+    public function hasOption($name)
     {
-        $this->actionProcessors[$actionName] = $processor;
-
-        return $this;
+        return array_key_exists($name, $this->options);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getActionProcessors()
+    public function getOption($name)
     {
-        return $this->actionProcessors;
-    }
-
-    /**
-     * Sets an action closure option.
-     */
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFields()
-    {
-        if (null === $this->fields) {
-            $fields = array();
-            foreach ($this->module->getFields() as $field) {
-                $fields[$field->getName()] = clone $field;
-            }
-
-            $fieldConfigurator = new FieldConfigurator($fields);
-            $this->module->configureFieldsByAction($this, $fieldConfigurator);
-            $fields = $fieldConfigurator->all();
-
-            $dataClass = $this->module->getDataClass();
-            $guessador = new FieldGuessador($this->module->getFieldGuessers());
-            foreach ($fields as $field) {
-                $guessOptions = $guessador->guessOptions($dataClass, $field->getName());
-                $field->setOptions(array_merge($guessOptions, $field->getOptions()));
-            }
-
-            $this->fields = new FieldBag($fields);
+        if (!$this->hasOption($name)) {
+            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
         }
 
-        return $this->fields;
+        return $this->options[$name];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**
@@ -421,6 +329,12 @@ abstract class Action extends ContainerAware implements ActionInterface
 
     /**
      * Generates a module url.
+     *
+     * @param string  $routeNameSuffix The route name suffix.
+     * @param array   $parameters      An array of parameters.
+     * @param Boolean $absolute        Whether to generate an absolute URL.
+     *
+     * @return string The URL.
      */
     public function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false)
     {
