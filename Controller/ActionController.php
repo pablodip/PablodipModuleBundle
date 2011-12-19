@@ -30,7 +30,9 @@ class ActionController extends Controller
 
         $module = new $moduleClass($this->container);
         foreach ($module->getControllerPreExecutes() as $controllerPreExecute) {
-            $controllerPreExecute($this->container);
+            if (null !== $retval = $controllerPreExecute($module)) {
+                return $retval;
+            }
         }
 
         return $module->getAction($actionName)->executeController();

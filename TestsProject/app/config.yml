@@ -1,0 +1,6 @@
+framework:
+    secret: secret
+    router: { resource: "%kernel.root_dir%/routing.yml" }
+    test: ~
+    session:
+        storage_id: session.storage.filesystem

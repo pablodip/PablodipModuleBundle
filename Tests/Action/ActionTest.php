@@ -177,7 +177,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testHas()
     {
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
         $container
             ->expects($this->once())
             ->method('has')
@@ -185,8 +184,15 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
         $action = new Action();
-        $action->setContainer($container);
+        $action->setModule($module);
 
         $this->assertTrue($action->has('foo'));
     }
@@ -194,9 +200,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
         $service = new \DateTime();
-
         $container
             ->expects($this->once())
             ->method('get')
@@ -204,8 +208,15 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($service))
         ;
 
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
         $action = new Action();
-        $action->setContainer($container);
+        $action->setModule($module);
 
         $this->assertSame($service, $action->get('bar'));
     }

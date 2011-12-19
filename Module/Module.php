@@ -91,9 +91,7 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Returns the container.
-     *
-     * @return ContainerInterface The container.
+     * {@inheritdoc}
      */
     public function getContainer()
     {

@@ -11,7 +11,6 @@
 
 namespace Pablodip\ModuleBundle\Action;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pablodip\ModuleBundle\Module\ModuleInterface;
@@ -21,9 +20,10 @@ use Pablodip\ModuleBundle\Module\ModuleInterface;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class Action extends ContainerAware implements ActionInterface
+abstract class Action implements ActionInterface
 {
     private $module;
+    private $container;
 
     private $name;
 
@@ -75,6 +75,7 @@ abstract class Action extends ContainerAware implements ActionInterface
     public function setModule(ModuleInterface $module)
     {
         $this->module = $module;
+        $this->container = $module->getContainer();
     }
 
     /**

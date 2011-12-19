@@ -28,6 +28,13 @@ interface ModuleInterface
     function __construct(ContainerInterface $container);
 
     /**
+     * Returns the container.
+     *
+     * @return ContainerInterface The container.
+     */
+    function getContainer();
+
+    /**
      * Returns the route name prefix.
      *
      * @return string The route name prefix.

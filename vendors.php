@@ -18,9 +18,22 @@ $deps = array(
 );
 
 foreach ($deps as $dep) {
-    list($name, $url, $rev) = $dep;
+    if (3 === count($dep)) {
+        list($name, $url, $rev) = $dep;
+        $target = null;
+    } else {
+        list($name, $url, $rev, $target) = $dep;
+    }
 
-    $installDir = $vendorDir.'/'.$name;
+    if (null === $rev) {
+        $rev = 'origin/master';
+    }
+
+    if (null !== $target) {
+        $installDir = $vendorDir.'/'.$target;
+    } else {
+        $installDir = $vendorDir.'/'.$name;
+    }
 
     $install = false;
     if (!is_dir($installDir)) {
