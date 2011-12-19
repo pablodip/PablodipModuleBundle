@@ -6,4 +6,4 @@ php:
 
 before_script: php vendors.php
 
-script: phpunit ; phpunit -c TestsProject/app/
+script: php tests.php
