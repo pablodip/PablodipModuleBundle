@@ -27,15 +27,14 @@ class MandangoExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->module->hasOption('filter_criteria_callbacks'));
     }
 
-    public function testCreateQueryClosure()
+    public function testCreateQueryCallback()
     {
-        $closure = $this->module->getOption('create_query_closure');
-        $query = $closure();
+        $query = call_user_func($this->module->getOption('create_query_callback'));
 
         $this->assertInstanceOf('Model\ArticleQuery', $query);
     }
 
-    public function testCreateQueryClosureFilterCriteria()
+    public function testCreateQueryCallbackFilterCriteria()
     {
         $callbacks = $this->module->getOption('filter_criteria_callbacks');
         $callbacks->append(function (array $criteria) {
@@ -47,8 +46,7 @@ class MandangoExtensionTest extends \PHPUnit_Framework_TestCase
             return $criteria;
         });
 
-        $closure = $this->module->getOption('create_query_closure');
-        $query = $closure();
+        $query = call_user_func($this->module->getOption('create_query_callback'));
 
         $this->assertSame(array('foo' => 'bar', 'ups' => true), $query->getCriteria());
     }
@@ -58,27 +56,25 @@ class MandangoExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->module->hasOption('create_data_after_callbacks'));
     }
 
-    public function testCreateDataClosure()
+    public function testCreateDataCallback()
     {
-        $closure = $this->module->getOption('create_data_closure');
-        $data = $closure();
+        $data = call_user_func($this->module->getOption('create_data_callback'));
 
         $this->assertInstanceOf('Model\Article', $data);
     }
 
-    public function testCreateDataClosureAfterCallbacks()
+    public function testCreateDataCallbackAfterCallbacks()
     {
         $this->module->getOption('create_data_after_callbacks')->append(function ($data) {
             $data->setTitle('foobar');
         });
 
-        $closure = $this->module->getOption('create_data_closure');
-        $data = $closure();
+        $data = call_user_func($this->module->getOption('create_data_callback'));
 
         $this->assertSame('foobar', $data->getTitle());
     }
 
-    public function testSaveDataClosure()
+    public function testSaveDataCallback()
     {
         $data = $this->getMockBuilder('Mandango\Document\Document')
             ->disableOriginalConstructor()
@@ -89,11 +85,10 @@ class MandangoExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('save')
         ;
 
-        $closure = $this->module->getOption('save_data_closure');
-        $closure($data);
+        call_user_func($this->module->getOption('save_data_callback'), $data);
     }
 
-    public function testDeleteDataClosure()
+    public function testDeleteDataCallback()
     {
         $data = $this->getMockBuilder('Mandango\Document\Document')
             ->disableOriginalConstructor()
@@ -104,7 +99,6 @@ class MandangoExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('delete')
         ;
 
-        $closure = $this->module->getOption('delete_data_closure');
-        $closure($data);
+        call_user_func($this->module->getOption('delete_data_callback'), $data);
     }
 }

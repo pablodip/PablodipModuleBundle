@@ -39,9 +39,9 @@ class MandangoExtension implements ExtensionInterface
         $options['filter_criteria_callbacks'] = new \ArrayObject();
 
         /*
-         * Closure to create a query to query the data class repository.
+         * Callback to create a query to query the data class repository.
          */
-        $options['create_query_closure'] = function () use ($module) {
+        $options['create_query_callback'] = function () use ($module) {
             $query = $module->getContainer()->get('mandango')->getRepository($module->getDataClass())->createQuery();
 
             // filter criteria
@@ -58,9 +58,9 @@ class MandangoExtension implements ExtensionInterface
         $options['create_data_after_callbacks'] = new \ArrayObject();
 
         /*
-         * Closure to create a data.
+         * Callback to create a data.
          */
-        $options['create_data_closure'] = function () use ($module) {
+        $options['create_data_callback'] = function () use ($module) {
             $data = $module->getContainer()->get('mandango')->create($module->getDataClass());
 
             // after callbacks
@@ -72,18 +72,17 @@ class MandangoExtension implements ExtensionInterface
         };
 
         /*
-         * Closure to save a data.
+         * Callback to save a data.
          */
-        $options['save_data_closure'] = function ($data) {
+        $options['save_data_callback'] = function ($data) {
             $data->save();
         };
 
         /*
-         * Closure to find a data by id.
+         * Callback to find a data by id.
          */
         $options['find_data_by_id'] = function ($id) use ($module) {
-            $closure = $module->getOption('create_query_closure');
-            $query = $closure();
+            $query = call_user_func($module->getOption('create_query_callback'));
 
             $id = $module->getContainer()->get('mandango')->getRepository($module->getDataClass())->idToMongo($id);
 
@@ -91,9 +90,9 @@ class MandangoExtension implements ExtensionInterface
         };
 
         /*
-         * Closure to delete a data.
+         * Callback to delete a data.
          */
-        $options['delete_data_closure'] = function ($data) {
+        $options['delete_data_callback'] = function ($data) {
             $data->delete();
         };
 
