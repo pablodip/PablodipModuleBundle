@@ -88,6 +88,11 @@ class MandangoExtensionTest extends \PHPUnit_Framework_TestCase
         call_user_func($this->module->getOption('save_data_callback'), $data);
     }
 
+    public function testFindDataByIdCallback()
+    {
+        $this->assertTrue($this->module->hasOption('find_data_by_id_callback'));
+    }
+
     public function testDeleteDataCallback()
     {
         $data = $this->getMockBuilder('Mandango\Document\Document')

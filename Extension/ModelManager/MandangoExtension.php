@@ -46,7 +46,7 @@ class MandangoExtension implements ExtensionInterface
 
             // filter criteria
             foreach ($module->getOption('filter_criteria_callbacks') as $callback) {
-                $query->criteria(call_user_func($callback, $query->getCriteria(), $module));
+                $query->criteria(call_user_func($callback, $query->getCriteria()));
             }
 
             return $query;
@@ -65,7 +65,7 @@ class MandangoExtension implements ExtensionInterface
 
             // after callbacks
             foreach ($module->getOption('create_data_after_callbacks') as $callback) {
-                call_user_func($callback, $data, $module);
+                call_user_func($callback, $data);
             }
 
             return $data;
@@ -81,8 +81,13 @@ class MandangoExtension implements ExtensionInterface
         /*
          * Callback to find a data by id.
          */
-        $options['find_data_by_id'] = function ($id) use ($module) {
+        $options['find_data_by_id_callback'] = function ($id) use ($module) {
             $query = call_user_func($module->getOption('create_query_callback'));
+
+            // filter criteria
+            foreach ($module->getOption('filter_criteria_callbacks') as $callback) {
+                $query->criteria(call_user_func($callback, $query->getCriteria()));
+            }
 
             $id = $module->getContainer()->get('mandango')->getRepository($module->getDataClass())->idToMongo($id);
 
