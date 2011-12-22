@@ -174,6 +174,170 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGenerateUrl()
+    {
+        $route = 'route_name';
+        $parameters = array('foo' => 'bar');
+        $absolute = true;
+        $retval = new \DateTime();
+
+        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router
+            ->expects($this->once())
+            ->method('generate')
+            ->with($route, $parameters, $absolute)
+            ->will($this->returnValue($retval))
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('router')
+            ->will($this->returnValue($router))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $this->assertSame($retval, $action->generateUrl($route, $parameters, $absolute));
+    }
+
+    public function testForward()
+    {
+        $controller = 'ups';
+        $path = array('foo' => 'bar');
+        $query = array('bar' => 'fo');
+        $retval = new \DateTime();
+
+        $httpKernel = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\HttpKernel')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $httpKernel
+            ->expects($this->once())
+            ->method('forward')
+            ->with($controller, $path, $query)
+            ->will($this->returnValue($retval))
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('http_kernel')
+            ->will($this->returnValue($httpKernel))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $this->assertSame($retval, $action->forward($controller, $path, $query));
+    }
+
+    public function testRedirect()
+    {
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue(''))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $response = $action->redirect($url = 'http://symfony.com');
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertSame($url, $response->headers->get('Location'));
+        $this->assertTrue($response->isRedirect());
+    }
+
+    public function testCreateForm()
+    {
+        $type = 'typeups';
+        $data = 'data';
+        $options = array('foo' => 'bar');
+        $retval = new \DateTime();
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->with($type, $data, $options)
+            ->will($this->returnValue($retval))
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('form.factory')
+            ->will($this->returnValue($formFactory))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $this->assertSame($retval, $action->createForm($type, $data, $options));
+    }
+
+    public function testCreateFormBuilder()
+    {
+        $data = 'data';
+        $options = array('foo' => 'bar');
+        $retval = new \DateTime();
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory
+            ->expects($this->once())
+            ->method('createBuilder')
+            ->with('form', $data, $options)
+            ->will($this->returnValue($retval))
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('form.factory')
+            ->will($this->returnValue($formFactory))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $this->assertSame($retval, $action->createFormBuilder($data, $options));
+    }
+
     public function testHas()
     {
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');

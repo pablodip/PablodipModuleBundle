@@ -372,7 +372,7 @@ abstract class Action implements ActionInterface
     /**
      * Renders a view.
      *
-     * Adds the "_admin" and "_action" parameters with their view objects.
+     * Adds the "_module" and "_action" parameters with their view objects.
      *
      * @param string $template   The template.
      * @param array  $parameters An array of parameters (optional).
@@ -381,7 +381,7 @@ abstract class Action implements ActionInterface
      */
     public function renderView($template, array $parameters = array())
     {
-        $parameters['_admin'] = $this->admin->createView();
+        $parameters['_module'] = $this->module->createView();
         $parameters['_action'] = $this->createView();
 
         return $this->container->get('templating')->render($template, $parameters);
@@ -390,7 +390,7 @@ abstract class Action implements ActionInterface
     /**
      * Renders a view a returns a response.
      *
-     * Adds the "_admin" and "_action" parameters with their view objects.
+     * Adds the "_module" and "_action" parameters with their view objects.
      *
      * @param string   $template   The template.
      * @param array    $parameters An array of parameters (optional).
