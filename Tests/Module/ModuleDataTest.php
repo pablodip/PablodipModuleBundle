@@ -16,14 +16,27 @@ class ModuleData extends BaseModuleData
 
 class Data
 {
+    private $name;
+    private $createdAt;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
     public function getName()
     {
-        return 'foo';
+        return $this->name;
+    }
+
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function getCreatedAt()
     {
-        return 'bar';
+        return $this->createdAt;
     }
 }
 
@@ -124,9 +137,21 @@ class ModuleDataTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($fieldGuesser1, $fieldGuesser2), $this->module->getFieldGuessers());
     }
 
+    public function testSetDataFieldValue()
+    {
+        $data = new Data();
+
+        $this->module->setDataFieldValue($data, 'name', 'foo');
+        $this->module->setDataFieldValue($data, 'createdAt', 'bar');
+        $this->assertSame('foo', $data->getName());
+        $this->assertSame('bar', $data->getCreatedAt());
+    }
+
     public function testGetDataFieldValue()
     {
         $data = new Data();
+        $data->setName('foo');
+        $data->setCreatedAt('bar');
 
         $this->assertSame('foo', $this->module->getDataFieldValue($data, 'name'));
         $this->assertSame('bar', $this->module->getDataFieldValue($data, 'createdAt'));

@@ -60,9 +60,18 @@ interface ModuleDataInterface extends ModuleInterface
     function getFieldGuessers();
 
     /**
+     * Sets a data field value.
+     *
+     * @param object $data      The data.
+     * @param string $fieldName The field name.
+     * @param mixed  $value     The value.
+     */
+    function setDataFieldValue($data, $fieldName, $value);
+
+    /**
      * Returns a field value for a data.
      *
-     * @param mixed  $data      The data.
+     * @param object $data      The data.
      * @param string $fieldName The field name.
      *
      * @return The value.

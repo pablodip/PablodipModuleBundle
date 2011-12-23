@@ -165,6 +165,16 @@ abstract class ModuleData extends Module implements ModuleDataInterface
     /**
      * {@inheritdoc}
      */
+    public function setDataFieldValue($data, $fieldName, $value)
+    {
+        $data->{'set'.ucfirst($fieldName)}($value);
+
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getDataFieldValue($data, $fieldName)
     {
         return $data->{'get'.ucfirst($fieldName)}();
