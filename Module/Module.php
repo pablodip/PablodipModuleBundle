@@ -446,9 +446,7 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Returns a module view with the module.
-     *
-     * @return ModuleView A module view.
+     * {@inheritdoc}
      */
     public function createView()
     {

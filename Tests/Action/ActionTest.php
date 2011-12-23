@@ -4,6 +4,7 @@ namespace Pablodip\ModuleBundle\Tests\Action;
 
 use Pablodip\ModuleBundle\Action\Action as BaseAction;
 use Pablodip\ModuleBundle\Action\ActionView;
+use Symfony\Component\HttpFoundation\Response;
 
 class Action extends BaseAction
 {
@@ -265,6 +266,99 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
         $this->assertSame($url, $response->headers->get('Location'));
         $this->assertTrue($response->isRedirect());
+    }
+
+    public function testRenderView()
+    {
+        $template = 'ups';
+        $parameters = array('foo' => 'bar');
+        $moduleView = new \DateTime();
+        $retval = new \DateTime();
+
+        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($templating))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+        $module
+            ->expects($this->any())
+            ->method('createView')
+            ->will($this->returnValue($moduleView))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $templating
+            ->expects($this->once())
+            ->method('render')
+            ->with($template, array_merge($parameters, array('_module' => $moduleView, '_action' => $action->createView())))
+            ->will($this->returnValue($retval))
+        ;
+
+        $this->assertSame($retval, $action->renderView($template, $parameters));
+    }
+
+    public function testRender()
+    {
+        $template = 'ups';
+        $parameters = array('foo' => 'bar');
+        $response = new Response();
+        $moduleView = new \DateTime();
+        $retval = new \DateTime();
+
+        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($templating))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+        $module
+            ->expects($this->any())
+            ->method('createView')
+            ->will($this->returnValue($moduleView))
+        ;
+
+        $action = new Action();
+        $action->setModule($module);
+
+        $templating
+            ->expects($this->once())
+            ->method('renderResponse')
+            ->with($template, array_merge($parameters, array('_module' => $moduleView, '_action' => $action->createView())), $response)
+            ->will($this->returnValue($retval))
+        ;
+
+        $this->assertSame($retval, $action->render($template, $parameters, $response));
+    }
+
+    public function testCreateNotFoundException()
+    {
+        $action = new Action();
+
+        $exception = $action->createNotFoundException();
+        $this->assertInstanceOf('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', $exception);
     }
 
     public function testCreateForm()

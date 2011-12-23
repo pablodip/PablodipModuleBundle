@@ -126,4 +126,11 @@ interface ModuleInterface
      * @return string The url.
      */
     function generateUrl($routeNameSuffix, array $parameters = array(), $absolute = false);
+
+    /**
+     * Returns a module view with the module.
+     *
+     * @return ModuleView A module view.
+     */
+    function createView();
 }
