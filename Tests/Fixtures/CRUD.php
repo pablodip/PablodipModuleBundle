@@ -2,9 +2,10 @@
 
 namespace Pablodip\ModuleBundle\Tests\Fixtures;
 
-use Pablodip\ModuleBundle\Module\Module as ModuleBase;
+use Pablodip\ModuleBundle\Module\Module as BaseModule;
+use Pablodip\ModuleBundle\Action\Action;
 
-class CRUD extends ModuleBase
+class CRUD extends BaseModule
 {
     protected function configure()
     {
@@ -14,72 +15,10 @@ class CRUD extends ModuleBase
         ;
 
         $this->addActions(array(
-            new ListAction(),
-            new CreateAction(),
-            new UpdateAction(),
-            new DeleteAction(),
+            new Action('list', '/', null, function () {}),
+            new Action('cre', '/create', 'POST', function () {}),
+            new Action('update', '/up', 'PUT', function () {}),
+            new Action('delete', '/delete', 'DELETE', function () {}),
         ));
-    }
-}
-
-use Pablodip\ModuleBundle\Action\Action;
-
-class ListAction extends Action
-{
-    protected function configure()
-    {
-        $this
-            ->setName('list')
-            ->setRoute('list', '/')
-        ;
-    }
-
-    public function executeController()
-    {
-    }
-}
-
-class CreateAction extends Action
-{
-    protected function configure()
-    {
-        $this
-            ->setName('create')
-            ->setRoute('cre', '/create', array(), array('_method' => 'POST'))
-        ;
-    }
-
-    public function executeController()
-    {
-    }
-}
-
-class UpdateAction extends Action
-{
-    protected function configure()
-    {
-        $this
-            ->setName('update')
-            ->setRoute('update', '/up', array(), array('_method' => 'PUT'))
-        ;
-    }
-
-    public function executeController()
-    {
-    }
-}
-
-class DeleteAction extends Action
-{
-    protected function configure()
-    {
-        $this
-            ->setName('delete')
-            ->setRoute('delete', '/delete', array(), array('_method' => 'DELETE'))
-        ;
-    }
-
-    public function executeController()
-    {
     }
 }

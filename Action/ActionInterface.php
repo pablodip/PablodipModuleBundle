@@ -13,6 +13,11 @@ namespace Pablodip\ModuleBundle\Action;
 
 use Pablodip\ModuleBundle\Module\ModuleInterface;
 
+/**
+ * ActionInterface.
+ *
+ * @author Pablo Díez <pablodip@gmail.com>
+ */
 interface ActionInterface
 {
     /**
@@ -30,25 +35,25 @@ interface ActionInterface
     function getModule();
 
     /**
-     * Returns the name.
+     * Returns the action name.
      *
-     * @return string The name.
+     * @return string The action name.
      */
     function getName();
 
     /**
-     * Returns the route name suffix.
+     * Returns the route name.
      *
-     * @return string The route name suffix.
+     * @return string The route name.
      */
-    function getRouteNameSuffix();
+    function getRouteName();
 
     /**
-     * Returns the route pattern suffix.
+     * Returns the route pattern.
      *
-     * @return string The route pattern suffix.
+     * @return string The route pattern.
      */
-    function getRoutePatternSuffix();
+    function getRoutePattern();
 
     /**
      * Returns the route defaults.
@@ -63,33 +68,6 @@ interface ActionInterface
      * @return array The route requirements.
      */
     function getRouteRequirements();
-
-    /**
-     * Returns where an option exists or not.
-     *
-     * @param string $name The name.
-     *
-     * @return Boolean Where the option exists or not.
-     */
-    function hasOption($name);
-
-    /**
-     * Returns an option value.
-     *
-     * @param string $name The name.
-     *
-     * @return mixed The value.
-     *
-     * @throws \InvalidArgumentException If the option does not exist.
-     */
-    function getOption($name);
-
-    /**
-     * Returns the options.
-     *
-     * @return array The options.
-     */
-    function getOptions();
 
     /**
      * Executes the controller.
