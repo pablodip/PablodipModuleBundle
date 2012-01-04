@@ -247,6 +247,27 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($retval, $this->action->generateUrl($route, $parameters, $absolute));
     }
 
+    public function testGenerateModuleUrl()
+    {
+        $routeNameSuffix = 'list';
+        $parameters = array('foo' => 'bar');
+        $absolute = true;
+        $retval = new \DateTime();
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->once())
+            ->method('generateModuleUrl')
+            ->with($routeNameSuffix, $parameters, $absolute)
+            ->will($this->returnValue($retval))
+        ;
+
+        $action = new AbstractAction();
+        $action->setModule($module);
+
+        $this->assertSame($retval, $action->generateModuleUrl($routeNameSuffix, $parameters, $absolute));
+    }
+
     public function testForward()
     {
         $controller = 'ups';

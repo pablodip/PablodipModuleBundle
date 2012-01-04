@@ -342,10 +342,10 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($preExecute1, $preExecute2), $this->module->getControllerPreExecutes());
     }
 
-    public function testGenerateActionUrl()
+    public function testGenerateModuleUrl()
     {
         $routeNamePrefix = 'my_prefix';
-        $actionRouteName = 'list';
+        $routeNameSuffix = 'list';
         $parameters = array('foo' => 'bar', 'bar' => 'foo');
         $absolute = false;
         $url = '/ups/bump';
@@ -354,7 +354,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $router
             ->expects($this->once())
             ->method('generate')
-            ->with($routeNamePrefix.'_'.$actionRouteName, $parameters, $absolute)
+            ->with($routeNamePrefix.'_'.$routeNameSuffix, $parameters, $absolute)
             ->will($this->returnValue($url))
         ;
 
@@ -369,7 +369,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $module = new Module($container);
         $module->setRouteNamePrefix($routeNamePrefix);
 
-        $this->assertSame($url, $module->generateActionUrl($actionRouteName, $parameters, $absolute));
+        $this->assertSame($url, $module->generateModuleUrl($routeNameSuffix, $parameters, $absolute));
     }
 
     public function testCreateView()

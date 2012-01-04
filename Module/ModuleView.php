@@ -41,29 +41,29 @@ class ModuleView
     }
 
     /**
-     * Generates a path for an action url.
+     * Generates a path for a module url.
      *
-     * @param string $actionRouteName The action route name.
+     * @param string $routeNameSuffix The route name suffix.
      * @param array  $parameters      An array of parameters.
      *
      * @return string The path.
      */
-    public function path($actionRouteName, array $parameters = array())
+    public function path($routeNameSuffix, array $parameters = array())
     {
-        return $this->module->generateActionUrl($actionRouteName, $parameters, false);
+        return $this->module->generateModuleUrl($routeNameSuffix, $parameters, false);
     }
 
     /**
-     * Generates a url for an action url.
+     * Generates a url for a module url.
      *
-     * @param string $actionRouteName The action route name.
+     * @param string $routeNameSuffix The route name suffix.
      * @param array  $parameters      An array of parameters.
      *
      * @return string The path.
      */
-    public function url($actionRouteName, array $parameters = array())
+    public function url($routeNameSuffix, array $parameters = array())
     {
-        return $this->module->generateActionUrl($actionRouteName, $parameters, true);
+        return $this->module->generateModuleUrl($routeNameSuffix, $parameters, true);
     }
 
     /**

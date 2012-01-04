@@ -157,15 +157,15 @@ interface ModuleInterface
     function getControllerPreExecutes();
 
     /**
-     * Generates an action url.
+     * Generates a module url.
      *
-     * @param string  $actionRouteName The action route name.
+     * @param string  $routeNameSuffix The routeNameSuffix.
      * @param array   $parameters      An array of parameters.
      * @param Boolean $absolute        Whether to generate an absolute url or not.
      *
      * @return string The url.
      */
-    function generateActionUrl($actionRouteName, array $parameters = array(), $absolute = false);
+    function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false);
 
     /**
      * Returns a module view with the module.

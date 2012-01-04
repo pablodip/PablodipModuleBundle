@@ -381,7 +381,7 @@ class AbstractAction implements ActionInterface
      */
     public function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false)
     {
-        return $this->module->generateUrl($routeNameSuffix, $parameters, $absolute);
+        return $this->module->generateModuleUrl($routeNameSuffix, $parameters, $absolute);
     }
 
     /**
