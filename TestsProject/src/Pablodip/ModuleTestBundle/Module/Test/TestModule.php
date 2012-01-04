@@ -23,7 +23,7 @@ class TestModule extends Module
         }));
 
         $this->addAction(new Action('redirect', '/redirect', 'GET', function () use ($module) {
-            return new RedirectResponse($module->generateUrl('simple'));
+            return new RedirectResponse($module->generateActionUrl('simple'));
         }));
     }
 }

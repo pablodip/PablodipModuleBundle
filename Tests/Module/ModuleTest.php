@@ -220,6 +220,36 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($preExecute1, $preExecute2), $this->module->getControllerPreExecutes());
     }
 
+    public function testGenerateActionUrl()
+    {
+        $routeNamePrefix = 'my_prefix';
+        $actionRouteName = 'list';
+        $parameters = array('foo' => 'bar', 'bar' => 'foo');
+        $absolute = false;
+        $url = '/ups/bump';
+
+        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router
+            ->expects($this->once())
+            ->method('generate')
+            ->with($routeNamePrefix.'_'.$actionRouteName, $parameters, $absolute)
+            ->will($this->returnValue($url))
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('router')
+            ->will($this->returnValue($router))
+        ;
+
+        $module = new Module($container);
+        $module->setRouteNamePrefix($routeNamePrefix);
+
+        $this->assertSame($url, $module->generateActionUrl($actionRouteName, $parameters, $absolute));
+    }
+
     public function testCreateView()
     {
         $view = $this->module->createView();

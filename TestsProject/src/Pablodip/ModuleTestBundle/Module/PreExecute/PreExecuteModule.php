@@ -21,7 +21,7 @@ class PreExecuteModule extends Module
             })
             ->addControllerPreExecute(function ($module) {
                 if ($module->getContainer()->get('request')->query->get('redirect')) {
-                    return new RedirectResponse($module->generateUrl('index'));
+                    return new RedirectResponse($module->generateActionUrl('index'));
                 }
             })
         ;

@@ -431,8 +431,10 @@ abstract class Module implements ModuleInterface
     /**
      * {@inheritdoc}
      */
-    public function generateUrl($routeNameSuffix, array $parameters = array(), $absolute = false)
+    public function generateActionUrl($actionRouteName, array $parameters = array(), $absolute = false)
     {
+        $routeName = $this->getRouteNamePrefix().'_'.$actionRouteName;
+
         if ($this->parametersToPropagate) {
             $request = $this->container->get('request');
             foreach ($this->parametersToPropagate as $parameter) {
@@ -442,7 +444,7 @@ abstract class Module implements ModuleInterface
             }
         }
 
-        return $this->container->get('router')->generate($this->getRouteNamePrefix().'_'.$routeNameSuffix, $parameters, $absolute);
+        return $this->container->get('router')->generate($routeName, $parameters, $absolute);
     }
 
     /**

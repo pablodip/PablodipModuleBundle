@@ -8,7 +8,7 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
 {
     public function testPath()
     {
-        $routeNameSuffix = 'list';
+        $actionRouteName = 'list';
         $parameters = array('foo' => 'bar');
         $url = '/foo/bar/ups';
 
@@ -16,18 +16,18 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
 
         $module
             ->expects($this->once())
-            ->method('generateUrl')
-            ->with($routeNameSuffix, $parameters, false)
+            ->method('generateActionUrl')
+            ->with($actionRouteName, $parameters, false)
             ->will($this->returnValue($url))
         ;
 
         $view = new ModuleView($module);
-        $this->assertSame($url, $view->path($routeNameSuffix, $parameters));
+        $this->assertSame($url, $view->path($actionRouteName, $parameters));
     }
 
     public function testUrl()
     {
-        $routeNameSuffix = 'list';
+        $actionRouteName = 'list';
         $parameters = array('foo' => 'bar');
         $url = 'http://foo/bar/ups';
 
@@ -35,13 +35,13 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
 
         $module
             ->expects($this->once())
-            ->method('generateUrl')
-            ->with($routeNameSuffix, $parameters, true)
+            ->method('generateActionUrl')
+            ->with($actionRouteName, $parameters, true)
             ->will($this->returnValue($url))
         ;
 
         $view = new ModuleView($module);
-        $this->assertSame($url, $view->url($routeNameSuffix, $parameters));
+        $this->assertSame($url, $view->url($actionRouteName, $parameters));
     }
 
     public function testGetParametersToPropagate()
