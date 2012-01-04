@@ -56,20 +56,20 @@ interface ModuleInterface
     function getParametersToPropagate();
 
     /**
-     * Returns where an option exists or not.
+     * Returns whether an option exists or not.
      *
      * @param string $name The name.
      *
-     * @return Boolean Where the option exists or not.
+     * @return Boolean Whether the option exists or not.
      */
     function hasOption($name);
 
     /**
-     * Returns an option value.
+     * Returns an option value by name.
      *
      * @param string $name The name.
      *
-     * @return mixed The value.
+     * @return mixed The option value.
      *
      * @throws \InvalidArgumentException If the option does not exist.
      */
@@ -81,6 +81,46 @@ interface ModuleInterface
      * @return array The options.
      */
     function getOptions();
+
+    /**
+     * Returns whether a callback exists or not.
+     *
+     * @param string $name The name.
+     *
+     * @return Boolean Whether the callback exists or not.
+     */
+    function hasCallback($name);
+
+    /**
+     * Returns a callback by name.
+     *
+     * @param string $name The name.
+     *
+     * @return mixed The callback.
+     *
+     * @throws \InvalidArgumentException If the callback does not exist.
+     */
+    function getCallback($name);
+
+    /**
+     * Returns the callbacks.
+     *
+     * @return array The callbacks.
+     */
+    function getCallbacks();
+
+    /**
+     * Calls a callback and returns the callback return value.
+     *
+     * The arguments from second are passed to the callback.
+     *
+     * @param string $callbackName The callback name.
+     *
+     * @return mixed The callback return value.
+     *
+     * @throws \InvalidArgumentException If the callback does not exist.
+     */
+    function call($callbackName);
 
     /**
      * Returns whether an action exists.

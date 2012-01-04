@@ -133,6 +133,128 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('foo', 'bar'), $this->module->getRequiredOptions());
     }
 
+    public function testAddCallback()
+    {
+        $this->assertSame($this->module, $this->module->addCallback('foo', $foo = function () {}));
+        $this->assertSame(array('foo' => $foo), $this->module->getCallbacks());
+        $this->assertSame($this->module, $this->module->addCallback('bar', $bar = function () {}));
+        $this->assertSame(array('foo' => $foo, 'bar' => $bar), $this->module->getCallbacks());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testAddCallbackAlreadyExists()
+    {
+        $this->module->addCallback('foo', function () {});
+        $this->module->addCallback('foo', function () {});
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @dataProvider      providerNotCallback
+     */
+    public function testAddCallbackNotCallable($callback)
+    {
+        $this->module->addCallback('foo', $callback);
+    }
+
+    public function testSetCallback()
+    {
+        $this->module->addCallback('foo', $foo = function () {});
+        $this->module->addCallback('bar', $bar = function () {});
+
+        $this->assertSame($this->module, $this->module->setCallback('bar', $bar2 = function () {}));
+        $this->assertSame(array('foo' => $foo, 'bar' => $bar2), $this->module->getCallbacks());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetCallbackNotExists()
+    {
+        $this->module->setCallback('foo', function () {});
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @dataProvider      providerNotCallback
+     */
+    public function testSetCallbackNotCallable($callback)
+    {
+        $this->module->addCallback('foo', function () {});
+        $this->module->setCallback('foo', $callback);
+    }
+
+    public function testHasCallback()
+    {
+        $this->module->addCallback('foo', function () {});
+
+        $this->assertTrue($this->module->hasCallback('foo'));
+        $this->assertFalse($this->module->hasCallback('bar'));
+    }
+
+    public function testGetCallback()
+    {
+        $this->module->addCallback('foo', $foo = function () {});
+        $this->module->addCallback('bar', $bar = function () {});
+
+        $this->assertSame($foo, $this->module->getCallback('foo'));
+        $this->assertSame($bar, $this->module->getCallback('bar'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetCallbackNotExists()
+    {
+        $this->module->getCallback('foo');
+    }
+
+    public function testGetCallbacks()
+    {
+        $this->module->addCallback('foo', $foo = function () {});
+        $this->module->addCallback('bar', $bar = function () {});
+
+        $this->assertSame(array('foo' => $foo, 'bar' => $bar), $this->module->getCallbacks());
+    }
+
+    public function testCall()
+    {
+        $fooNb = 0;
+        $barNb = 0;
+
+        $this->module->addCallback('foo', function () use (&$fooNb) {
+            return ++$fooNb;
+        });
+        $this->module->addCallback('bar', function () use (&$barNb) {
+            return ++$barNb;
+        });
+
+        $this->assertSame(1, $this->module->call('foo'));
+        $this->assertSame(2, $this->module->call('foo'));
+        $this->assertSame(1, $this->module->call('bar'));
+    }
+
+    public function testCallArguments()
+    {
+        $this->module->addCallback('foo', function () {
+            return func_get_args();
+        });
+
+        $this->assertSame(array(), $this->module->call('foo'));
+        $this->assertSame(array('bar'), $this->module->call('foo', 'bar'));
+        $this->assertSame(array('bar', 'ups', 'bump'), $this->module->call('foo', 'bar', 'ups', 'bump'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCallNotExists()
+    {
+        $this->module->call('foo');
+    }
+
     public function testAddAction()
     {
         $actions = array();
@@ -254,5 +376,15 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     {
         $view = $this->module->createView();
         $this->assertInstanceOf('Pablodip\ModuleBundle\Module\ModuleView', $view);
+    }
+
+    public function providerNotCallback()
+    {
+        return array(
+            array(1),
+            array(1.1),
+            array('no'),
+            array(new \DateTime()),
+        );
     }
 }
