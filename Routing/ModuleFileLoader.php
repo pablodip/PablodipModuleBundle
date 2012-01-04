@@ -75,10 +75,10 @@ class ModuleFileLoader extends FileLoader
                 $reflection = new \ReflectionObject($action);
                 $collection->addResource(new FileResource($reflection->getFileName()));
 
-                // name (module prefix + action)
-                $name = $routeNamePrefix.'_'.$action->getRouteName();
-                // pattern (module prefix + action)
-                $pattern = $routePatternPrefix.('/' !== $action->getRoutePattern() ? $action->getRoutePattern() : '');
+                // name (module prefix + action suffix)
+                $name = $routeNamePrefix.'_'.$action->getRouteNameSuffix();
+                // pattern (module prefix + action suffix)
+                $pattern = $routePatternPrefix.('/' !== $action->getRoutePatternSuffix() ? $action->getRoutePatternSuffix() : '');
                 // defaults (action defaults + defaults needed to execute)
                 $defaults = array_merge($action->getRouteDefaults(), array(
                     '_controller' => 'PablodipModuleBundle:Action:execute',

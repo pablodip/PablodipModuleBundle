@@ -12,8 +12,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $action = new Action('list', '/list', 'GET', $controller);
 
         $this->assertSame('list', $action->getName());
-        $this->assertSame('list', $action->getRouteName());
-        $this->assertSame('/list', $action->getRoutePattern());
+        $this->assertSame('list', $action->getRouteNameSuffix());
+        $this->assertSame('/list', $action->getRoutePatternSuffix());
         $this->assertSame(array('_method' => 'GET'), $action->getRouteRequirements());
         $this->assertSame($controller, $action->getController());
     }

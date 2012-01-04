@@ -30,11 +30,11 @@ abstract class BaseAction extends AbstractAction
         if (!$this->getName()) {
             throw new \RuntimeException('An action must have name.');
         }
-        if (!$this->getRouteName()) {
-            throw new \RuntimeException('An action must have route name.');
+        if (!$this->getRouteNameSuffix()) {
+            throw new \RuntimeException('An action must have route name suffix.');
         }
-        if (!$this->getRoutePattern()) {
-            throw new \RuntimeException('An action must have route pattern.');
+        if (!$this->getRoutePatternSuffix()) {
+            throw new \RuntimeException('An action must have route pattern suffix.');
         }
         if (!$this->getController()) {
             throw new \RuntimeException('An action must have controller.');

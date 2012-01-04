@@ -26,8 +26,8 @@ class AbstractAction implements ActionInterface
 
     private $name;
 
-    private $routeName;
-    private $routePattern;
+    private $routeNameSuffix;
+    private $routePatternSuffix;
     private $routeDefaults;
     private $routeRequirements;
 
@@ -95,15 +95,15 @@ class AbstractAction implements ActionInterface
     }
 
     /**
-     * Sets the route name.
+     * Sets the route name suffix.
      *
-     * @param string $routeName The route name.
+     * @param string $routeNameSuffix The route name suffix.
      *
      * @return AbstractAction The action (fluent interface).
      */
-    public function setRouteName($routeName)
+    public function setRouteNameSuffix($routeNameSuffix)
     {
-        $this->routeName = $routeName;
+        $this->routeNameSuffix = $routeNameSuffix;
 
         return $this;
     }
@@ -111,21 +111,21 @@ class AbstractAction implements ActionInterface
     /**
      * {@inheritdoc}
      */
-    public function getRouteName()
+    public function getRouteNameSuffix()
     {
-        return $this->routeName;
+        return $this->routeNameSuffix;
     }
 
     /**
-     * Sets the route pattern.
+     * Sets the route pattern suffix.
      *
-     * @param string $routePattern The route pattern.
+     * @param string $routePatternSuffix The route pattern suffix.
      *
      * @return AbstractAction The action (fluent interface).
      */
-    public function setRoutePattern($routePattern)
+    public function setRoutePatternSuffix($routePatternSuffix)
     {
-        $this->routePattern = $routePattern;
+        $this->routePatternSuffix = $routePatternSuffix;
 
         return $this;
     }
@@ -133,9 +133,9 @@ class AbstractAction implements ActionInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoutePattern()
+    public function getRoutePatternSuffix()
     {
-        return $this->routePattern;
+        return $this->routePatternSuffix;
     }
 
     /**
@@ -215,16 +215,16 @@ class AbstractAction implements ActionInterface
     /**
      * Set the route (less verbose than to use all the methods).
      *
-     * @param string      $name    The route name.
-     * @param string      $pattern The route pattern.
-     * @param string|null $method  The method (null for any) (null by default).
+     * @param string      $nameSuffix    The route name.
+     * @param string      $patternSuffix The route pattern.
+     * @param string|null $method        The method (null for any) (null by default).
      *
      * @return AbstractAction The action (fluent interface).
      */
-    public function setRoute($name, $pattern, $method = null)
+    public function setRoute($nameSuffix, $patternSuffix, $method = null)
     {
-        $this->setRouteName($name);
-        $this->setRoutePattern($pattern);
+        $this->setRouteNameSuffix($nameSuffix);
+        $this->setRoutePatternSuffix($patternSuffix);
         if (null !== $method) {
             $this->setRouteRequirement('_method', $method);
         }

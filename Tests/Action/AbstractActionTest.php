@@ -47,19 +47,19 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetRouteName()
     {
-        $this->assertSame($this->action, $this->action->setRouteName('list'));
-        $this->assertSame('list', $this->action->getRouteName());
+        $this->assertSame($this->action, $this->action->setRouteNameSuffix('list'));
+        $this->assertSame('list', $this->action->getRouteNameSuffix());
     }
 
     public function testSetGetRoutePattern()
     {
-        // empty string to /
-        $this->assertSame($this->action, $this->action->setRoutePattern(''));
-        $this->assertSame('', $this->action->getRoutePattern());
+        // /
+        $this->assertSame($this->action, $this->action->setRoutePatternSuffix('/'));
+        $this->assertSame('/', $this->action->getRoutePatternSuffix());
 
         // normal
-        $this->assertSame($this->action, $this->action->setRoutePattern('/list'));
-        $this->assertSame('/list', $this->action->getRoutePattern());
+        $this->assertSame($this->action, $this->action->setRoutePatternSuffix('/list'));
+        $this->assertSame('/list', $this->action->getRoutePatternSuffix());
     }
 
     public function testSetGetRouteDefaults()
@@ -95,8 +95,8 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
     public function testSetRouteBasic()
     {
         $this->assertSame($this->action, $this->action->setRoute('list', '/list'));
-        $this->assertSame('list', $this->action->getRouteName());
-        $this->assertSame('/list', $this->action->getRoutePattern());
+        $this->assertSame('list', $this->action->getRouteNameSuffix());
+        $this->assertSame('/list', $this->action->getRoutePatternSuffix());
     }
 
     public function testSetRouteMethod()

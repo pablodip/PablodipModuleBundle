@@ -42,18 +42,18 @@ interface ActionInterface
     function getName();
 
     /**
-     * Returns the route name.
+     * Returns the route name suffix.
      *
-     * @return string The route name.
+     * @return string The route name suffix.
      */
-    function getRouteName();
+    function getRouteNameSuffix();
 
     /**
-     * Returns the route pattern.
+     * Returns the route pattern suffix.
      *
-     * @return string The route pattern.
+     * @return string The route pattern suffix.
      */
-    function getRoutePattern();
+    function getRoutePatternSuffix();
 
     /**
      * Returns the route defaults.

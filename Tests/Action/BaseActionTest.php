@@ -7,8 +7,8 @@ use Pablodip\ModuleBundle\Action\BaseAction as BaseBaseAction;
 class BaseAction extends BaseBaseAction
 {
     static public $name;
-    static public $routeName;
-    static public $routePattern;
+    static public $routeNameSuffix;
+    static public $routePatternSuffix;
     static public $controller;
 
     protected function configure()
@@ -16,11 +16,11 @@ class BaseAction extends BaseBaseAction
         if (null !== self::$name) {
             $this->setName(self::$name);
         }
-        if (null !== self::$routeName) {
-            $this->setRouteName(self::$routeName);
+        if (null !== self::$routeNameSuffix) {
+            $this->setRouteNameSuffix(self::$routeNameSuffix);
         }
-        if (null !== self::$routePattern) {
-            $this->setRoutePattern(self::$routePattern);
+        if (null !== self::$routePatternSuffix) {
+            $this->setRoutePatternSuffix(self::$routePatternSuffix);
         }
         if (null !== self::$controller) {
             $this->setController(self::$controller);
@@ -33,8 +33,8 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         BaseAction::$name = 'list';
-        BaseAction::$routeName = 'list';
-        BaseAction::$routePattern = '/list';
+        BaseAction::$routeNameSuffix = 'list';
+        BaseAction::$routePatternSuffix = '/list';
         BaseAction::$controller = function () {};
     }
 
@@ -55,9 +55,9 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testConstructorConfigureNoRouteName()
+    public function testConstructorConfigureNoRouteNameSuffix()
     {
-        BaseAction::$routeName = null;
+        BaseAction::$routeNameSuffix = null;
 
         new BaseAction();
     }
@@ -65,9 +65,9 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testConstructorConfigureNoRoutePattern()
+    public function testConstructorConfigureNoRoutePatternSuffix()
     {
-        BaseAction::$routePattern = null;
+        BaseAction::$routePatternSuffix = null;
 
         new BaseAction();
     }
