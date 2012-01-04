@@ -11,6 +11,8 @@
 
 namespace Pablodip\ModuleBundle\Action;
 
+use Pablodip\ModuleBundle\Module\ModuleInterface;
+
 /**
  * BaseAction.
  *
@@ -18,12 +20,31 @@ namespace Pablodip\ModuleBundle\Action;
  */
 abstract class BaseAction extends AbstractAction
 {
+    private $constructorOptions;
+
     /**
      * Constructor.
      *
      * @param array $options An array of options (optional).
      */
     public function __construct(array $options = array())
+    {
+        parent::__construct();
+
+        $this->constructorOptions = $options;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setModule(ModuleInterface $module)
+    {
+        parent::setModule($module);
+
+        $this->initialize();
+    }
+
+    private function initialize()
     {
         $this->configure();
 
@@ -40,7 +61,7 @@ abstract class BaseAction extends AbstractAction
             throw new \RuntimeException('An action must have controller.');
         }
 
-        foreach ($options as $name => $value) {
+        foreach ($this->constructorOptions as $name => $value) {
             $this->setOption($name, $value);
         }
     }

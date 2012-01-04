@@ -51,6 +51,10 @@ class AbstractAction implements ActionInterface
      */
     public function setModule(ModuleInterface $module)
     {
+        if (null !== $this->module) {
+            throw new \LogicException('The module has already been set.');
+        }
+
         $this->module = $module;
     }
 
@@ -59,6 +63,10 @@ class AbstractAction implements ActionInterface
      */
     public function getModule()
     {
+        if (null === $this->module) {
+            throw new \LogicException('There is no module.');
+        }
+
         return $this->module;
     }
 
@@ -69,7 +77,7 @@ class AbstractAction implements ActionInterface
      */
     public function getContainer()
     {
-        return $this->module->getContainer();
+        return $this->getModule()->getContainer();
     }
 
     /**

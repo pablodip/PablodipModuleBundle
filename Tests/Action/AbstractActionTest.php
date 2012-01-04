@@ -25,6 +25,26 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($module, $this->action->getModule());
     }
 
+    /**
+     * @expectedException \LogicException
+     */
+    public function testSetModuleTwice()
+    {
+        $module1 = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module2 = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+
+        $this->action->setModule($module1);
+        $this->action->setModule($module2);
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetModuleWithoutModule()
+    {
+        $this->action->getModule();
+    }
+
     public function testGetContainer()
     {
         $container = new \DateTime();

@@ -30,26 +30,33 @@ class BaseAction extends BaseBaseAction
 
 class BaseActionTest extends \PHPUnit_Framework_TestCase
 {
+    private $module;
+
     protected function setUp()
     {
         BaseAction::$name = 'list';
         BaseAction::$routeNameSuffix = 'list';
         BaseAction::$routePatternSuffix = '/list';
         BaseAction::$controller = function () {};
+
+        $this->module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
     }
 
     public function testConstructorConfigure()
     {
+        $action = new BaseAction();
+        $action->setModule($this->module);
     }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testConstructorConfigureNoName()
+    public function testConfigureNoName()
     {
         BaseAction::$name = null;
 
-        new BaseAction();
+        $action = new BaseAction();
+        $action->setModule($this->module);
     }
 
     /**
@@ -59,7 +66,8 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
     {
         BaseAction::$routeNameSuffix = null;
 
-        new BaseAction();
+        $action = new BaseAction();
+        $action->setModule($this->module);
     }
 
     /**
@@ -69,7 +77,8 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
     {
         BaseAction::$routePatternSuffix = null;
 
-        new BaseAction();
+        $action = new BaseAction();
+        $action->setModule($this->module);
     }
 
     /**
@@ -79,6 +88,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
     {
         BaseAction::$controller = null;
 
-        new BaseAction();
+        $action = new BaseAction();
+        $action->setModule($this->module);
     }
 }

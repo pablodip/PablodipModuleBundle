@@ -24,6 +24,8 @@ interface ActionInterface
      * Sets the module.
      *
      * @param ModuleInterface $module A module.
+     *
+     * @throws \LogicException If the module has already been set.
      */
     function setModule(ModuleInterface $module);
 
@@ -31,6 +33,8 @@ interface ActionInterface
      * Returns the module.
      *
      * @return ModuleInterface The module.
+     *
+     * @throws \LogicException If the module hasn't been set yet.
      */
     function getModule();
 
