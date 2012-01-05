@@ -34,7 +34,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        BaseAction::$name = 'list';
+        BaseAction::$name = 'list_name';
         BaseAction::$routeNameSuffix = 'list';
         BaseAction::$routePatternSuffix = '/list';
         BaseAction::$controller = function () {};
@@ -42,21 +42,22 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $this->module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
     }
 
-    public function testConstructorConfigure()
+    public function testConfigure()
     {
         $action = new BaseAction();
         $action->setModule($this->module);
+
+        $this->assertSame('list_name', $action->getName());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testConfigureNoName()
+    public function testConfigureDefaultName()
     {
         BaseAction::$name = null;
 
         $action = new BaseAction();
         $action->setModule($this->module);
+
+        $this->assertSame('list', $action->getName());
     }
 
     /**

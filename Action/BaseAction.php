@@ -48,9 +48,6 @@ abstract class BaseAction extends AbstractAction
     {
         $this->configure();
 
-        if (!$this->getName()) {
-            throw new \RuntimeException('An action must have name.');
-        }
         if (!$this->getRouteNameSuffix()) {
             throw new \RuntimeException('An action must have route name suffix.');
         }
@@ -59,6 +56,11 @@ abstract class BaseAction extends AbstractAction
         }
         if (!$this->getController()) {
             throw new \RuntimeException('An action must have controller.');
+        }
+
+        // if there is no name the route name suffix is the name
+        if (!$this->getName()) {
+            $this->setName($this->getRouteNameSuffix());
         }
 
         foreach ($this->constructorOptions as $name => $value) {
