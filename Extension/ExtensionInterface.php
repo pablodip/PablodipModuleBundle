@@ -48,6 +48,13 @@ interface ExtensionInterface
     function getModule();
 
     /**
+     * Returns the extension name.
+     *
+     * @return string The extension name.
+     */
+    function getName();
+
+    /**
      * @see Module::defineConfiguration()
      */
     function defineConfiguration();

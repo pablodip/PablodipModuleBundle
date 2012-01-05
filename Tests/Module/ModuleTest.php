@@ -6,7 +6,7 @@ use Pablodip\ModuleBundle\Module\Module as BaseModule;
 use Pablodip\ModuleBundle\Extension\BaseExtension;
 use Symfony\Component\DependencyInjection\Container;
 
-class ModuleExtension extends BaseExtension
+abstract class BaseModuleExtension extends BaseExtension
 {
     public function defineConfiguration()
     {
@@ -19,6 +19,14 @@ class ModuleExtension extends BaseExtension
     public function parseConfiguration()
     {
     }
+}
+
+class ModuleExtension1 extends BaseModuleExtension
+{
+}
+
+class ModuleExtension2 extends BaseModuleExtension
+{
 }
 
 class Module extends BaseModule
@@ -59,15 +67,39 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->container, $this->module->getContainer());
     }
 
-    public function testGetExtensions()
+    public function testRegisterExtensions()
     {
-        Module::$registerExtensions = $extensions = array(
-            new ModuleExtension(),
-            new ModuleExtension(),
+        Module::$registerExtensions = array(
+            $extension1 = new ModuleExtension1(),
+            $extension2 = new ModuleExtension2(),
         );
         $module = new Module($this->container);
 
-        $this->assertSame($extensions, $module->getExtensions());
+        $this->assertSame(array(
+            $extension1->getName() => $extension1,
+            $extension2->getName() => $extension2,
+        ), $module->getExtensions());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testRegisterExtensionsNotExtensionInterface()
+    {
+        Module::$registerExtensions = array(new \DateTime());
+        new Module($this->container);
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testRegisterExtensionsTwiceSameExtension()
+    {
+        Module::$registerExtensions = array(
+            new ModuleExtension1(),
+            new ModuleExtension1(),
+        );
+        new Module($this->container);
     }
 
     public function testRouteNamePrefix()

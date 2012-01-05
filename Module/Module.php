@@ -57,15 +57,36 @@ abstract class Module implements ModuleInterface
         $this->actions = array();
         $this->controllerPreExecutes = array();
 
+        // register extensions
         foreach ($this->registerExtensions() as $extension) {
             if (!$extension instanceof ExtensionInterface) {
-                throw new \RuntimeException('The extensions must be an instance of ExtensionInterface.');
+                throw new \LogicException('The extensions must be an instance of ExtensionInterface.');
             }
-            $this->extensions[] = $extension;
+
+            $name = $extension->getName();
+            if (isset($this->extensions[$name])) {
+                throw new \LogicException(sprintf('Trying to register two extensions with the same name: "%s".', $name));
+            }
+
+            $this->extensions[$name] = $extension;
         }
 
+        // define configuration
+        foreach ($this->extensions as $extension) {
+            $extension->defineConfiguration();
+        }
         $this->defineConfiguration();
+
+        // configure
+        foreach ($this->extensions as $extension) {
+            $extension->configure();
+        }
         $this->configure();
+
+        // parse configuration
+        foreach ($this->extensions as $extension) {
+            $extension->parseConfiguration();
+        }
         $this->parseConfiguration();
 
         if ($diff = array_diff($this->requiredOptions, array_keys($this->options))) {
