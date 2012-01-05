@@ -14,7 +14,7 @@ namespace Pablodip\ModuleBundle\Module;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Pablodip\ModuleBundle\Action\ActionInterface;
 use Pablodip\ModuleBundle\Action\ActionCollectionInterface;
-use Pablodip\ModuleBundle\Field\Field;
+use Pablodip\ModuleBundle\Extension\ExtensionInterface;
 
 /**
  * Module.
@@ -24,6 +24,8 @@ use Pablodip\ModuleBundle\Field\Field;
 abstract class Module implements ModuleInterface
 {
     private $container;
+
+    private $extensions;
 
     private $routeNamePrefix;
     private $routePatternPrefix;
@@ -47,20 +49,24 @@ abstract class Module implements ModuleInterface
     {
         $this->container = $container;
 
+        $this->extensions = array();
         $this->parametersToPropagate = array();
-
         $this->options = array();
         $this->requiredOptions = array();
-
         $this->callbacks = array();
-
         $this->actions = array();
-
         $this->controllerPreExecutes = array();
 
-        $this->preConfigure();
+        foreach ($this->registerExtensions() as $extension) {
+            if (!$extension instanceof ExtensionInterface) {
+                throw new \RuntimeException('The extensions must be an instance of ExtensionInterface.');
+            }
+            $this->extensions[] = $extension;
+        }
+
+        $this->defineConfiguration();
         $this->configure();
-        $this->postConfigure();
+        $this->parseConfiguration();
 
         if ($diff = array_diff($this->requiredOptions, array_keys($this->options))) {
             throw new \RuntimeException(sprintf('%s requires the options: "%s".', get_class($this), implode(', ', $diff)));
@@ -76,21 +82,36 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Pre configures the module.
+     * Here you should register the extensions.
+     *
+     * Be aware to continue registering the parent extensions.
      */
-    protected function preConfigure()
+    protected function registerExtensions()
+    {
+        return array();
+    }
+
+    /**
+     * Here is where you should define your configuration for reusable modules.
+     *
+     * Defining configuration is add options, actions, parameters to propagate.
+     * These things can be modified later in the configuration by the final module.
+     */
+    protected function defineConfiguration()
     {
     }
 
     /**
-     * Configures the module.
+     * Here is where you should configure the module.
      */
     abstract protected function configure();
 
     /**
-     * Post configures the module.
+     * Here is where you should check and/or parse the configuration for reusable modules.
+     *
+     * This is mostly for checking and parsing option values.
      */
-    protected function postConfigure()
+    protected function parseConfiguration()
     {
     }
 
@@ -100,6 +121,16 @@ abstract class Module implements ModuleInterface
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * Returns the extensions.
+     *
+     * @return array The extensions.
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
     }
 
     /**
@@ -351,6 +382,22 @@ abstract class Module implements ModuleInterface
         }
 
         $this->callbacks[$name] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Adds an array of callbacks, the key as the name and the value as the callback.
+     *
+     * @param array $callbacks An array of callbacks.
+     *
+     * @return ModuleInterface The Module (fluent interface).
+     */
+    public function addCallbacks(array $callbacks)
+    {
+        foreach ($callbacks as $name => $callback) {
+            $this->addCallback($name, $callback);
+        }
 
         return $this;
     }

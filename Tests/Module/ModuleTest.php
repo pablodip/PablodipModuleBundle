@@ -3,10 +3,33 @@
 namespace Pablodip\ModuleBundle\Tests\Module;
 
 use Pablodip\ModuleBundle\Module\Module as BaseModule;
+use Pablodip\ModuleBundle\Extension\BaseExtension;
 use Symfony\Component\DependencyInjection\Container;
+
+class ModuleExtension extends BaseExtension
+{
+    public function defineConfiguration()
+    {
+    }
+
+    public function configure()
+    {
+    }
+
+    public function parseConfiguration()
+    {
+    }
+}
 
 class Module extends BaseModule
 {
+    public static $registerExtensions;
+
+    protected function registerExtensions()
+    {
+        return self::$registerExtensions;
+    }
+
     protected function configure()
     {
     }
@@ -20,6 +43,8 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->container = new Container();
+
+        Module::$registerExtensions = array();
         $this->module = new Module($this->container);
     }
 
@@ -32,6 +57,17 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     public function testGetContainer()
     {
         $this->assertSame($this->container, $this->module->getContainer());
+    }
+
+    public function testGetExtensions()
+    {
+        Module::$registerExtensions = $extensions = array(
+            new ModuleExtension(),
+            new ModuleExtension(),
+        );
+        $module = new Module($this->container);
+
+        $this->assertSame($extensions, $module->getExtensions());
     }
 
     public function testRouteNamePrefix()
@@ -157,6 +193,15 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     public function testAddCallbackNotCallable($callback)
     {
         $this->module->addCallback('foo', $callback);
+    }
+
+    public function testAddCallbacks()
+    {
+        $this->assertSame($this->module, $this->module->addCallbacks($callbacks = array(
+            'foo' => function () {},
+            'bar' => function () {},
+        )));
+        $this->assertSame($callbacks, $this->module->getCallbacks());
     }
 
     public function testSetCallback()
