@@ -12,6 +12,7 @@
 namespace Pablodip\ModuleBundle\Action;
 
 use Pablodip\ModuleBundle\Module\ModuleInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -361,7 +362,55 @@ class AbstractAction implements ActionInterface
      */
     public function executeController()
     {
-        return call_user_func($this->controller);
+        $arguments = $this->getArguments($this->getContainer()->get('request'), $this->controller);
+
+        return call_user_func_array($this->controller, $arguments);
+    }
+
+    /*
+     * Code from Symfony ControllerResolver.
+     */
+    private function getArguments(Request $request, $controller)
+    {
+        if (is_array($controller)) {
+            $r = new \ReflectionMethod($controller[0], $controller[1]);
+        } elseif (is_object($controller) && !$controller instanceof \Closure) {
+            $r = new \ReflectionObject($controller);
+            $r = $r->getMethod('__invoke');
+        } else {
+            $r = new \ReflectionFunction($controller);
+        }
+
+        return $this->doGetArguments($request, $controller, $r->getParameters());
+    }
+
+    private function doGetArguments(Request $request, $controller, array $parameters)
+    {
+        $attributes = $request->attributes->all();
+        $arguments = array();
+        foreach ($parameters as $param) {
+            if (array_key_exists($param->getName(), $attributes)) {
+                $arguments[] = $attributes[$param->getName()];
+            } elseif ($param->getClass() && $param->getClass()->isInstance($request)) {
+                $arguments[] = $request;
+            } elseif ($param->getClass() && $param->getClass()->isInstance($this)) {
+                $arguments[] = $this;
+            } elseif ($param->isDefaultValueAvailable()) {
+                $arguments[] = $param->getDefaultValue();
+            } else {
+                if (is_array($controller)) {
+                    $repr = sprintf('%s::%s()', get_class($controller[0]), $controller[1]);
+                } elseif (is_object($controller)) {
+                    $repr = get_class($controller);
+                } else {
+                    $repr = $controller;
+                }
+
+                throw new \RuntimeException(sprintf('Controller "%s" requires that you provide a value for the "$%s" argument (because there is no default value or because there is a non optional argument after this one).', $repr, $param->getName()));
+            }
+        }
+
+        return $arguments;
     }
 
     /**

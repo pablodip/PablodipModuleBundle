@@ -3,6 +3,7 @@
 namespace Pablodip\ModuleBundle\Tests\Action;
 
 use Pablodip\ModuleBundle\Action\AbstractAction as BaseAbstractAction;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AbstractAction extends BaseAbstractAction
@@ -223,14 +224,90 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
         $this->action->setController('string');
     }
 
-    public function testExecuteController()
+    /**
+     * @dataProvider executeControllerArgumentsProvider
+     */
+    public function testExecuteControllerArguments($attributes, $controller, $expectedArguments)
     {
-        $retval = new \DateTime();
-        $this->action->setController(function () use ($retval) {
-            return $retval;
-        });
+        $request = new Request();
+        $request->attributes->replace($attributes);
 
-        $this->assertSame($retval, $this->action->executeController());
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue($request))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
+        foreach ($expectedArguments as &$argument) {
+            if ('@request' === $argument) {
+                $argument = $request;
+            } elseif ('@action' === $argument) {
+                $argument = $this->action;
+            }
+        }
+
+        $this->action->setModule($module);
+        $this->action->setController($controller);
+        $this->assertSame($expectedArguments, $this->action->executeController());
+    }
+
+    public function executeControllerArgumentsProvider()
+    {
+        $provider = array();
+
+        // normal arguments
+        $provider[] = array(
+            array('id' => 1, 'order' => 'title'),
+            function ($id, $order) {
+                return func_get_args();
+            },
+            array(1, 'title'),
+        );
+
+        // order does not matter
+        $provider[] = array(
+            array('id' => 2, 'order' => 'date'),
+            function ($order, $id) {
+                return func_get_args();
+            },
+            array('date', 2),
+        );
+
+        // request
+        $provider[] = array(
+            array('id' => 3),
+            function (Request $request, $id) {
+                return func_get_args();
+            },
+            array('@request', 3),
+        );
+
+        // action
+        $provider[] = array(
+            array('action' => 'list', 'page' => '3'),
+            function ($action, $page) {
+                return func_get_args();
+            },
+            array('list', '3'),
+        );
+        $provider[] = array(
+            array('hash' => 'bump'),
+            function (AbstractAction $action, $hash) {
+                return func_get_args();
+            },
+            array('@action', 'bump'),
+        );
+
+        return $provider;
     }
 
     public function testGenerateUrl()

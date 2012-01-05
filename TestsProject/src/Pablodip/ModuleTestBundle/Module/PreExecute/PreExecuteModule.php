@@ -11,8 +11,6 @@ class PreExecuteModule extends Module
 {
     protected function configure()
     {
-        $module = $this;
-
         $this
             ->setRouteNamePrefix('pre_execute_module')
             ->setRoutePatternPrefix('/pre-execute-module')
@@ -26,8 +24,8 @@ class PreExecuteModule extends Module
             })
         ;
 
-        $this->addAction(new Action('index', '/index', 'GET', function () use ($module) {
-            return new Response($module->getContainer()->get('request')->attributes->get('foo'));
+        $this->addAction(new Action('index', '/index', 'GET', function (Action $action) {
+            return new Response($action->get('request')->attributes->get('foo'));
         }));
     }
 }
