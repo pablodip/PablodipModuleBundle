@@ -18,7 +18,7 @@ use Pablodip\ModuleBundle\Extension\BaseExtension;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class BaseDataManagerExtension extends BaseExtension implements DataManagerExtensionInterface
+abstract class BaseDataManagerExtension extends BaseExtension
 {
     /**
      * {@inheritdoc}
@@ -53,4 +53,29 @@ abstract class BaseDataManagerExtension extends BaseExtension implements DataMan
     public function parseConfiguration()
     {
     }
+
+    /**
+     * Creates a query.
+     */
+    abstract public function createQuery();
+
+    /**
+     * Finds a data by id.
+     */
+    abstract public function findDataById($id);
+
+    /**
+     * Creates a data.
+     */
+    abstract public function createData();
+
+    /**
+     * Saves a data.
+     */
+    abstract public function saveData($data);
+
+    /**
+     * Deletes a data.
+     */
+    abstract public function deleteData($data);
 }
