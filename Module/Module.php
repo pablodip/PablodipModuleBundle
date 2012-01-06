@@ -61,6 +61,7 @@ abstract class Module implements ModuleInterface
                 throw new \LogicException(sprintf('Trying to register two extensions with the same name: "%s".', $name));
             }
 
+            $extension->setModule($this);
             $this->extensions[$name] = $extension;
         }
 

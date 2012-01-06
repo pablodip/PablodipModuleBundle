@@ -79,6 +79,9 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
             $extension1->getName() => $extension1,
             $extension2->getName() => $extension2,
         ), $module->getExtensions());
+
+        $this->assertSame($module, $extension1->getModule());
+        $this->assertSame($module, $extension2->getModule());
     }
 
     /**
