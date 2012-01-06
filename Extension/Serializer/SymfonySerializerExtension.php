@@ -13,7 +13,6 @@ namespace Pablodip\ModuleBundle\Extension\Serializer;
 
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 /**
@@ -43,7 +42,6 @@ class SymfonySerializerExtension extends BaseSerializerExtension
         $this->getModule()->addOptions(array(
             'serializerNormalizers' => new \ArrayObject(array(
                 new CustomNormalizer(),
-                new GetSetMethodNormalizer(),
             )),
             'serializerEncoders'    => new \ArrayObject(array(
                 new JsonEncoder(),
