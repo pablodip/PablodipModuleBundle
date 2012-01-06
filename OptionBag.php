@@ -16,7 +16,7 @@ namespace Pablodip\ModuleBundle;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-class OptionBag
+class OptionBag implements \Countable, \IteratorAggregate
 {
     private $options;
     private $parser;
@@ -125,5 +125,25 @@ class OptionBag
     public function remove($name)
     {
         unset($this->options[$name]);
+    }
+
+    /**
+     * Returns the number of options.
+     *
+     * Implements the countable interface.
+     *
+     * @return integer The number of options.
+     */
+    public function count()
+    {
+        return count($this->options);
+    }
+
+    /**
+     * Implements the IteratorAggregate interface.
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->options);
     }
 }
