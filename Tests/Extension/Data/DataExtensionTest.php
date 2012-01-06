@@ -61,13 +61,13 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDefineConfigurationDataFieldsOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertSame(array(), $this->module->getOption('dataFields'));
+        $this->assertTrue($this->module->hasOption('dataFields'));
     }
 
     public function testDefineConfigurationDataFieldGuessersOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertSame(array(), $this->module->getOption('dataFieldGuessers'));
+        $this->assertTrue($this->module->hasOption('dataFieldGuessers'));
     }
 
     public function testDefineConfigurationSetDataFieldValueCallback()
@@ -113,7 +113,7 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDataFromArray()
     {
         $this->extension->defineConfiguration();
-        $this->module->setOption('dataFields', array(
+        $this->module->getOption('dataFields')->add(array(
             'title'   => array(),
             'content' => array(),
         ));
@@ -147,7 +147,7 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDataToArray()
     {
         $this->extension->defineConfiguration();
-        $this->module->setOption('dataFields', array(
+        $this->module->getOption('dataFields')->add(array(
             'title'   => array(),
             'content' => array(),
         ));

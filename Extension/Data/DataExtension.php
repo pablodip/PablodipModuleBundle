@@ -12,6 +12,7 @@
 namespace Pablodip\ModuleBundle\Extension\Data;
 
 use Pablodip\ModuleBundle\Extension\BaseExtension;
+use Pablodip\ModuleBundle\OptionBag;
 use Pablodip\ModuleBundle\Field\Guesser\FieldGuessador;
 
 /**
@@ -36,8 +37,8 @@ class DataExtension extends BaseExtension
     {
         $this->getModule()->addOptions(array(
             'dataClass'         => null,
-            'dataFields'        => array(),
-            'dataFieldGuessers' => array(),
+            'dataFields'        => new OptionBag(),
+            'dataFieldGuessers' => new OptionBag(),
         ));
 
         $this->getModule()->addCallbacks(array(
@@ -112,7 +113,7 @@ class DataExtension extends BaseExtension
     public function dataFromArray($data, array $array)
     {
         // extra fields
-        if (array_diff(array_keys($array), array_keys($this->getModule()->getOption('dataFields')))) {
+        if (array_diff(array_keys($array), $this->getModule()->getOption('dataFields')->keys())) {
             return false;
         }
 
@@ -133,7 +134,7 @@ class DataExtension extends BaseExtension
     public function dataToArray($data)
     {
         $array = array();
-        foreach (array_keys($this->getModule()->getOption('dataFields')) as $fieldName) {
+        foreach ($this->getModule()->getOption('dataFields')->keys() as $fieldName) {
             $array[$fieldName] = $this->getModule()->call('getDataFieldValue', $data, $fieldName);
         }
 
