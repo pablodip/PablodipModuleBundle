@@ -104,6 +104,63 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('bar', $this->extension->getDataFieldValue($article, 'content'));
     }
 
+    public function testDefineConfigurationDataFromArrayCallback()
+    {
+        $this->extension->defineConfiguration();
+        $this->assertSame(array($this->extension, 'dataFromArray'), $this->module->getCallback('dataFromArray'));
+    }
+
+    public function testDataFromArray()
+    {
+        $this->extension->defineConfiguration();
+        $this->module->setOption('dataFields', array(
+            'title'   => array(),
+            'content' => array(),
+        ));
+
+        $article = new Article();
+        $this->assertTrue($this->extension->dataFromArray($article, array(
+            'title'   => 'foo',
+            'content' => 'bar',
+        )));
+        $this->assertSame('foo', $article->getTitle());
+        $this->assertSame('bar', $article->getContent());
+    }
+
+    public function testDataFromArrayExtraFields()
+    {
+        $this->extension->defineConfiguration();
+
+        $article = new Article();
+        $this->assertFalse($this->extension->dataFromArray($article, array(
+            'title' => 'foo',
+            'ups'   => 'bump',
+        )));
+    }
+
+    public function testDefineConfigurationDataToArrayCallback()
+    {
+        $this->extension->defineConfiguration();
+        $this->assertSame(array($this->extension, 'dataToArray'), $this->module->getCallback('dataToArray'));
+    }
+
+    public function testDataToArray()
+    {
+        $this->extension->defineConfiguration();
+        $this->module->setOption('dataFields', array(
+            'title'   => array(),
+            'content' => array(),
+        ));
+
+        $article = new Article();
+        $article->setTitle('foo');
+        $article->setContent('bar');
+        $this->assertSame(array(
+            'title'   => 'foo',
+            'content' => 'bar',
+        ), $this->extension->dataToArray($article));
+    }
+
     /**
      * @expectedException \RuntimeException
      */

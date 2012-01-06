@@ -43,6 +43,8 @@ class DataExtension extends BaseExtension
         $this->getModule()->addCallbacks(array(
             'setDataFieldValue' => array($this, 'setDataFieldValue'),
             'getDataFieldValue' => array($this, 'getDataFieldValue'),
+            'dataFromArray'     => array($this, 'dataFromArray'),
+            'dataToArray'       => array($this, 'dataToArray'),
         ));
     }
 
@@ -71,13 +73,70 @@ class DataExtension extends BaseExtension
         }
     }
 
+    /**
+     * Sets a data field value by setter.
+     *
+     * @param object $data      The data.
+     * @param string $fieldName The field name.
+     * @param mixed  $value     The value.
+     */
     public function setDataFieldValue($data, $fieldName, $value)
     {
         $data->{'set'.ucfirst($fieldName)}($value);
     }
 
+    /**
+     * Returns a data field value by getter.
+     *
+     * @param object $data      The data.
+     * @param string $fieldName The field name.
+     *
+     * @return mixed The value.
+     */
     public function getDataFieldValue($data, $fieldName)
     {
         return $data->{'get'.ucfirst($fieldName)}();
+    }
+
+    /**
+     * Sets an array of field values to a data.
+     *
+     * The fields sets are the ones in the dataFields option.
+     * It fails if there are extra fields.
+     *
+     * @param object $data  The data.
+     * @param array  $array The array.
+     *
+     * @return Boolean True if everything is ok, false if something fails.
+     */
+    public function dataFromArray($data, array $array)
+    {
+        // extra fields
+        if (array_diff(array_keys($array), array_keys($this->getModule()->getOption('dataFields')))) {
+            return false;
+        }
+
+        foreach ($array as $name => $value) {
+            $this->getModule()->call('setDataFieldValue', $data, $name, $value);
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns an array with the field values.
+     *
+     * @param object $data The data.
+     *
+     * @return array The array.
+     */
+    public function dataToArray($data)
+    {
+        $array = array();
+        foreach (array_keys($this->getModule()->getOption('dataFields')) as $fieldName) {
+            $array[$fieldName] = $this->getModule()->call('getDataFieldValue', $data, $fieldName);
+        }
+
+        return $array;
     }
 }
