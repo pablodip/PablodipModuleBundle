@@ -7,6 +7,11 @@ use Pablodip\ModuleBundle\Module\Module;
 
 class BaseSerializerExtension extends BaseBaseSerializerExtension
 {
+    public function getName()
+    {
+        return 'base_serializer';
+    }
+
     public function serialize($data)
     {
     }

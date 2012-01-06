@@ -135,6 +135,24 @@ abstract class Module implements ModuleInterface
     }
 
     /**
+     * Returns an extension by name.
+     *
+     * @param string $name The name.
+     *
+     * @return ExtensionInterface The extension.
+     *
+     * @throws \InvalidArgumentException If the exception does not exist.
+     */
+    public function getExtension($name)
+    {
+        if (!isset($this->extensions[$name])) {
+            throw new \InvalidArgumentException(sprintf('The extension "%s" does not exist.', $name));
+        }
+
+        return $this->extensions[$name];
+    }
+
+    /**
      * Returns the extensions.
      *
      * @return array The extensions.

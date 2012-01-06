@@ -28,6 +28,14 @@ class SymfonySerializerExtension extends BaseSerializerExtension
     /**
      * {@inheritdoc}
      */
+    public function getName()
+    {
+        return 'symfony_serializer';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function defineConfiguration()
     {
         parent::defineConfiguration();

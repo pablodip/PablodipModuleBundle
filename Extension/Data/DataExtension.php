@@ -24,6 +24,14 @@ class DataExtension extends BaseExtension
     /**
      * {@inheritdoc}
      */
+    public function getName()
+    {
+        return 'data';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function defineConfiguration()
     {
         $this->getModule()->addOptions(array(
@@ -54,7 +62,7 @@ class DataExtension extends BaseExtension
             throw new \RuntimeException('The dataClass option must have a value.');
         }
 
-        if (count($fieldGuessers = $this->getModule()->getOption('fieldGuessers'))) {
+        if (count($fieldGuessers = $this->getModule()->getOption('dataFieldGuessers'))) {
             $guessador = new FieldGuessador($this->fieldGuessers);
             foreach ($this->fields as $field) {
                 $guessOptions = $guessador->guessOptions($this->dataClass, $field->getName());

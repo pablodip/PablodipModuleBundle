@@ -7,6 +7,11 @@ use Pablodip\ModuleBundle\Module\Module;
 
 class BaseExtension extends BaseBaseExtension
 {
+    public function getName()
+    {
+        return 'base_extension';
+    }
+
     public function defineConfiguration()
     {
     }

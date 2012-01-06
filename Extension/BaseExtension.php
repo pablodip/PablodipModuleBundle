@@ -20,23 +20,7 @@ use Pablodip\ModuleBundle\Module\ModuleInterface;
  */
 abstract class BaseExtension implements ExtensionInterface
 {
-    private $name;
     private $module;
-
-    /**
-     * {@inheritdoc}
-     */
-    final public function getName()
-    {
-        if (null !== $this->name) {
-            return $this->name;
-        }
-
-        $name = get_class($this);
-        $pos = strrpos($name, '\\');
-
-        return $this->name = false === $pos ? $name :  substr($name, $pos + 1);
-    }
 
     /**
      * {@inheritdoc}

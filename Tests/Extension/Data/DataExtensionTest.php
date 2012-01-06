@@ -48,7 +48,6 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
         $this->module = new DataExtensionModule($container);
-
         $this->extension = new DataExtension();
         $this->extension->setModule($this->module);
     }
@@ -74,25 +73,35 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDefineConfigurationSetDataFieldValueCallback()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasCallback('setDataFieldValue'));
+        $this->assertSame(array($this->extension, 'setDataFieldValue'), $this->module->getCallback('setDataFieldValue'));
+    }
+
+    public function testSetDataFieldValue()
+    {
+        $this->extension->defineConfiguration();
 
         $article = new Article();
-        $this->module->call('setDataFieldValue', $article, 'title', 'foo');
+        $this->extension->setDataFieldValue($article, 'title', 'foo');
         $this->assertSame('foo', $article->getTitle());
-        $this->module->call('setDataFieldValue', $article, 'content', 'bar');
+        $this->extension->setDataFieldValue($article, 'content', 'bar');
         $this->assertSame('bar', $article->getContent());
     }
 
     public function testDefineConfigurationGetDataFieldValueCallback()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasCallback('getDataFieldValue'));
+        $this->assertSame(array($this->extension, 'getDataFieldValue'), $this->module->getCallback('getDataFieldValue'));
+    }
+
+    public function testGetDataFieldValue()
+    {
+        $this->extension->defineConfiguration();
 
         $article = new Article();
         $article->setTitle('foo');
         $article->setContent('bar');
-        $this->assertSame('foo', $this->module->call('getDataFieldValue', $article, 'title'));
-        $this->assertSame('bar', $this->module->call('getDataFieldValue', $article, 'content'));
+        $this->assertSame('foo', $this->extension->getDataFieldValue($article, 'title'));
+        $this->assertSame('bar', $this->extension->getDataFieldValue($article, 'content'));
     }
 
     /**

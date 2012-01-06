@@ -21,20 +21,30 @@ class MandangoDataManagerExtension extends BaseDataManagerExtension
     /**
      * {@inheritdoc}
      */
+    public function getName()
+    {
+        return 'mandango_data_manager';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function defineConfiguration()
     {
-        $this->addOptions(array(
+        parent::defineConfiguration();
+
+        $this->getModule()->addOptions(array(
             'filterCriteriaCallbacks' => new \ArrayObject(),
         ));
 
-        $this->addCallbacks(array(
+        $this->getModule()->addCallbacks(array(
             'filterCriteria' => array($this, 'filterCriteria'),
         ));
     }
 
     public function filterCriteria(array $criteria)
     {
-        foreach ($this->getModule()->getModule('filterCriteriaCallbacks') as $callback) {
+        foreach ($this->getModule()->getOption('filterCriteriaCallbacks') as $callback) {
             $criteria = call_user_func($callback, $criteria);
         }
 
@@ -48,7 +58,7 @@ class MandangoDataManagerExtension extends BaseDataManagerExtension
         )->createQuery();
 
         // filter criteria
-        $query->criteria($this->getModule()->call('filterCriteria', $criteria));
+        $query->criteria($this->getModule()->call('filterCriteria', $query->getCriteria()));
 
         return $query;
     }

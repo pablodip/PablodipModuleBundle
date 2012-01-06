@@ -1,12 +1,17 @@
 <?php
 
-namespace Pablodip\ModuleBundle\Tests\Extension;
+namespace Pablodip\ModuleBundle\Tests\Extension\Data;
 
 use Pablodip\ModuleBundle\Extension\Data\BaseDataManagerExtension as BaseBaseDataManagerExtension;
 use Pablodip\ModuleBundle\Module\Module;
 
 class BaseDataManagerExtension extends BaseBaseDataManagerExtension
 {
+    public function getName()
+    {
+        return 'base_data_manager';
+    }
+
     public function createQuery()
     {
     }
@@ -35,7 +40,7 @@ class BaseDataManagerExtensionModule extends Module
     }
 }
 
-class DataExtensionTest extends \PHPUnit_Framework_TestCase
+class BaseDataManagerExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $module;
     private $extension;

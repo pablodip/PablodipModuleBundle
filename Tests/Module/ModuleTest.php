@@ -23,10 +23,18 @@ abstract class BaseModuleExtension extends BaseExtension
 
 class ModuleExtension1 extends BaseModuleExtension
 {
+    public function getName()
+    {
+        return 'extension1';
+    }
 }
 
 class ModuleExtension2 extends BaseModuleExtension
 {
+    public function getName()
+    {
+        return 'extension2';
+    }
 }
 
 class Module extends BaseModule
@@ -67,7 +75,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->container, $this->module->getContainer());
     }
 
-    public function testRegisterExtensions()
+    public function testRegisterExtensionsGetExtensions()
     {
         Module::$registerExtensions = array(
             $extension1 = new ModuleExtension1(),
@@ -103,6 +111,31 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
             new ModuleExtension1(),
         );
         new Module($this->container);
+    }
+
+    public function testGetExtension()
+    {
+        Module::$registerExtensions = array(
+            $extension1 = new ModuleExtension1(),
+            $extension2 = new ModuleExtension2(),
+        );
+        $module = new Module($this->container);
+
+        $this->assertSame($extension1, $module->getExtension('extension1'));
+        $this->assertSame($extension2, $module->getExtension('extension2'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetExtensionNotExists($value='')
+    {
+        Module::$registerExtensions = array(
+            $extension1 = new ModuleExtension1(),
+        );
+        $module = new Module($this->container);
+
+        $module->getExtension('extension2');
     }
 
     public function testRouteNamePrefix()
