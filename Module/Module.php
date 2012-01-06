@@ -24,7 +24,6 @@ use Pablodip\ModuleBundle\Extension\ExtensionInterface;
 abstract class Module implements ModuleInterface
 {
     private $container;
-
     private $extensions;
 
     private $routeNamePrefix;
@@ -32,12 +31,8 @@ abstract class Module implements ModuleInterface
     private $parametersToPropagate;
 
     private $options;
-    private $requiredOptions;
-
     private $callbacks;
-
     private $actions;
-
     private $controllerPreExecutes;
 
     /**
@@ -48,11 +43,9 @@ abstract class Module implements ModuleInterface
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-
         $this->extensions = array();
         $this->parametersToPropagate = array();
         $this->options = array();
-        $this->requiredOptions = array();
         $this->callbacks = array();
         $this->actions = array();
         $this->controllerPreExecutes = array();
@@ -88,10 +81,6 @@ abstract class Module implements ModuleInterface
             $extension->parseConfiguration();
         }
         $this->parseConfiguration();
-
-        if ($diff = array_diff($this->requiredOptions, array_keys($this->options))) {
-            throw new \RuntimeException(sprintf('%s requires the options: "%s".', get_class($this), implode(', ', $diff)));
-        }
 
         if (null === $this->routePatternPrefix) {
             $this->routePatternPrefix = '/'.strtolower(str_replace('\\', '-', get_class($this)));
@@ -252,34 +241,6 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function hasOption($name)
-    {
-        return array_key_exists($name, $this->options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOption($name)
-    {
-        if (!$this->hasOption($name)) {
-            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
-        }
-
-        return $this->options[$name];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * Adds an option.
      *
      * @param string $name         The name.
@@ -328,7 +289,7 @@ abstract class Module implements ModuleInterface
      */
     public function setOption($name, $value)
     {
-        if (!$this->hasOption($name) && !in_array($name, $this->requiredOptions)) {
+        if (!$this->hasOption($name)) {
             throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
         }
 
@@ -338,47 +299,31 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Returns the required options.
-     *
-     * @return array The required options.
+     * {@inheritdoc}
      */
-    public function getRequiredOptions()
+    public function hasOption($name)
     {
-        return $this->requiredOptions;
+        return array_key_exists($name, $this->options);
     }
 
     /**
-     * Adds a required option.
-     *
-     * @param string $name The name.
-     *
-     * @return ModuleInterface The module (fluent interface).
+     * {@inheritdoc}
      */
-    public function addRequiredOption($name)
+    public function getOption($name)
     {
-        if (in_array($name, $this->requiredOptions)) {
-            throw new \LogicException(sprintf('The required option "%s" already exists.'));
+        if (!$this->hasOption($name)) {
+            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
         }
 
-        $this->requiredOptions[] = $name;
-
-        return $this;
+        return $this->options[$name];
     }
 
     /**
-     * Adds required options.
-     *
-     * @param array $names An array of names.
-     *
-     * @return ModuleInterface The module (fluent interface).
+     * {@inheritdoc}
      */
-    public function addRequiredOptions(array $names)
+    public function getOptions()
     {
-        foreach ($names as $name) {
-            $this->addRequiredOption($name);
-        }
-
-        return $this;
+        return $this->options;
     }
 
     /**

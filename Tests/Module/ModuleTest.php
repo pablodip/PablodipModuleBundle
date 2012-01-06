@@ -192,15 +192,6 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testRequiredOptions()
-    {
-        $this->assertSame(array(), $this->module->getRequiredOptions());
-        $this->assertSame($this->module, $this->module->addRequiredOption('foo'));
-        $this->assertSame(array('foo'), $this->module->getRequiredOptions());
-        $this->module->addRequiredOption('bar');
-        $this->assertSame(array('foo', 'bar'), $this->module->getRequiredOptions());
-    }
-
     public function testAddCallback()
     {
         $this->assertSame($this->module, $this->module->addCallback('foo', $foo = function () {}));
