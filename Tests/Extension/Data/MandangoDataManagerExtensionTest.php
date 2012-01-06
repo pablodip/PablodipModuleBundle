@@ -41,40 +41,54 @@ class MandangoDataManagerExtensionTest extends \PHPUnit_Framework_TestCase
     private $container;
     private $module;
     private $extension;
-    private $functionalModule;
-    private $functionalExtension;
 
     protected function setUp()
     {
+        if (!class_exists('Mongo')) {
+            $this->markTestSkipped('Mongo is not available.');
+        }
+
         $this->mandango = new Mandango(new Metadata(), new ArrayCache());
         $this->mandango->setConnection('global', new Connection('mongodb://localhost:27017', 'mandango_data_manager_extension'));
         $this->mandango->setDefaultConnectionName('global');
 
         $this->container = new Container();
         $this->container->set('mandango', $this->mandango);
+    }
 
+    private function setUpExtension()
+    {
         $this->module = new MandangoDataManagerExtensionModule($this->container);
         $this->extension = new MandangoDataManagerExtension();
         $this->extension->setModule($this->module);
+    }
 
-        $this->functionalModule = new FunctionalMandangoDataManagerExtensionModule($this->container);
-        $this->functionalExtension = $this->functionalModule->getExtension('mandango_data_manager');
+    private function setUpFunctionalExtension()
+    {
+        $this->module = new FunctionalMandangoDataManagerExtensionModule($this->container);
+        $this->extension = $this->module->getExtension('mandango_data_manager');
     }
 
     public function testDefineConfigurationFilterCriteriaCallbacksOption()
     {
+        $this->setUpExtension();
+
         $this->extension->defineConfiguration();
         $this->assertTrue($this->module->hasOption('filterCriteriaCallbacks'));
     }
 
     public function testDefineConfigurationFilterCriteriaCallback()
     {
+        $this->setUpExtension();
+
         $this->extension->defineConfiguration();
         $this->assertSame(array($this->extension, 'filterCriteria'), $this->module->getCallback('filterCriteria'));
     }
 
     public function testFilterCriteria()
     {
+        $this->setUpExtension();
+
         $this->extension->defineConfiguration();
 
         $this->module->getOption('filterCriteriaCallbacks')->append(function (array $criteria) {
@@ -95,38 +109,48 @@ class MandangoDataManagerExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateQuery()
     {
-        $query = $this->functionalExtension->createQuery();
+        $this->setUpFunctionalExtension();
+
+        $query = $this->extension->createQuery();
         $this->assertInstanceOf('Model\ArticleQuery', $query);
     }
 
     public function testFindDataById()
     {
+        $this->setUpFunctionalExtension();
+
         $articles = array();
         for ($i = 0; $i < 10; $i++) {
             $articles[$i] = $this->mandango->create('Model\Article')->setTitle('foo')->save();
         }
 
-        $this->assertSame($articles[1], $this->functionalExtension->findDataById($articles[1]->getId()));
+        $this->assertSame($articles[1], $this->extension->findDataById($articles[1]->getId()));
     }
 
     public function testCreateData()
     {
-        $data = $this->functionalExtension->createData();
+        $this->setUpFunctionalExtension();
+
+        $data = $this->extension->createData();
         $this->assertInstanceOf('Model\Article', $data);
         $this->assertTrue($data->isNew());
     }
 
     public function testSaveData()
     {
+        $this->setUpFunctionalExtension();
+
         $article = $this->mandango->create('Model\Article')->setTitle('foo');
-        $this->functionalExtension->saveData($article);
+        $this->extension->saveData($article);
         $this->assertFalse($article->isNew());
     }
 
     public function testDeleteData()
     {
+        $this->setUpFunctionalExtension();
+
         $article = $this->mandango->create('Model\Article')->setTitle('foo')->save();
-        $this->functionalExtension->deleteData($article);
+        $this->extension->deleteData($article);
         $this->assertNull($this->mandango->getRepository('Model\Article')->findOneById($article->getId()));
     }
 }
