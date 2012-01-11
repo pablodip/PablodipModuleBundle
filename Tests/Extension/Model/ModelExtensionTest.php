@@ -1,11 +1,11 @@
 <?php
 
-namespace Pablodip\ModuleBundle\Tests\Extension\Data;
+namespace Pablodip\ModuleBundle\Tests\Extension\Model;
 
-use Pablodip\ModuleBundle\Extension\Data\DataExtension;
+use Pablodip\ModuleBundle\Extension\Model\ModelExtension;
 use Pablodip\ModuleBundle\Module\Module;
 
-class DataExtensionModule extends Module
+class ModelExtensionModule extends Module
 {
     protected function defineConfiguration()
     {
@@ -38,7 +38,7 @@ class Article
     }
 }
 
-class DataExtensionTest extends \PHPUnit_Framework_TestCase
+class ModelExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $module;
     private $extension;
@@ -47,79 +47,79 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $this->module = new DataExtensionModule($container);
-        $this->extension = new DataExtension();
+        $this->module = new ModelExtensionModule($container);
+        $this->extension = new ModelExtension();
         $this->extension->setModule($this->module);
     }
 
-    public function testDefineConfigurationDataClassOption()
+    public function testDefineConfigurationModelClassOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertNull($this->module->getOption('dataClass'));
+        $this->assertNull($this->module->getOption('modelClass'));
     }
 
-    public function testDefineConfigurationDataFieldsOption()
+    public function testDefineConfigurationModelFieldsOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('dataFields'));
+        $this->assertTrue($this->module->hasOption('modelFields'));
     }
 
-    public function testDefineConfigurationDataFieldGuessersOption()
+    public function testDefineConfigurationModelFieldGuessersOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('dataFieldGuessers'));
+        $this->assertTrue($this->module->hasOption('modelFieldGuessers'));
     }
 
-    public function testDefineConfigurationSetDataFieldValueCallback()
+    public function testDefineConfigurationSetModelFieldValueCallback()
     {
         $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'setDataFieldValue'), $this->module->getCallback('setDataFieldValue'));
+        $this->assertSame(array($this->extension, 'setModelFieldValue'), $this->module->getCallback('setModelFieldValue'));
     }
 
-    public function testSetDataFieldValue()
+    public function testSetModelFieldValue()
     {
         $this->extension->defineConfiguration();
 
         $article = new Article();
-        $this->extension->setDataFieldValue($article, 'title', 'foo');
+        $this->extension->setModelFieldValue($article, 'title', 'foo');
         $this->assertSame('foo', $article->getTitle());
-        $this->extension->setDataFieldValue($article, 'content', 'bar');
+        $this->extension->setModelFieldValue($article, 'content', 'bar');
         $this->assertSame('bar', $article->getContent());
     }
 
-    public function testDefineConfigurationGetDataFieldValueCallback()
+    public function testDefineConfigurationGetModelFieldValueCallback()
     {
         $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'getDataFieldValue'), $this->module->getCallback('getDataFieldValue'));
+        $this->assertSame(array($this->extension, 'getModelFieldValue'), $this->module->getCallback('getModelFieldValue'));
     }
 
-    public function testGetDataFieldValue()
+    public function testGetModelFieldValue()
     {
         $this->extension->defineConfiguration();
 
         $article = new Article();
         $article->setTitle('foo');
         $article->setContent('bar');
-        $this->assertSame('foo', $this->extension->getDataFieldValue($article, 'title'));
-        $this->assertSame('bar', $this->extension->getDataFieldValue($article, 'content'));
+        $this->assertSame('foo', $this->extension->getModelFieldValue($article, 'title'));
+        $this->assertSame('bar', $this->extension->getModelFieldValue($article, 'content'));
     }
 
-    public function testDefineConfigurationDataFromArrayCallback()
+    public function testDefineConfigurationModelFromArrayCallback()
     {
         $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'dataFromArray'), $this->module->getCallback('dataFromArray'));
+        $this->assertSame(array($this->extension, 'modelFromArray'), $this->module->getCallback('modelFromArray'));
     }
 
-    public function testDataFromArray()
+    public function testModelFromArray()
     {
         $this->extension->defineConfiguration();
-        $this->module->getOption('dataFields')->add(array(
+        $this->module->getOption('modelFields')->add(array(
             'title'   => array(),
             'content' => array(),
         ));
 
         $article = new Article();
-        $this->assertTrue($this->extension->dataFromArray($article, array(
+        $this->assertTrue($this->extension->modelFromArray($article, array(
             'title'   => 'foo',
             'content' => 'bar',
         )));
@@ -127,27 +127,27 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('bar', $article->getContent());
     }
 
-    public function testDataFromArrayExtraFields()
+    public function testModelFromArrayExtraFields()
     {
         $this->extension->defineConfiguration();
 
         $article = new Article();
-        $this->assertFalse($this->extension->dataFromArray($article, array(
+        $this->assertFalse($this->extension->modelFromArray($article, array(
             'title' => 'foo',
             'ups'   => 'bump',
         )));
     }
 
-    public function testDefineConfigurationDataToArrayCallback()
+    public function testDefineConfigurationModelToArrayCallback()
     {
         $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'dataToArray'), $this->module->getCallback('dataToArray'));
+        $this->assertSame(array($this->extension, 'modelToArray'), $this->module->getCallback('modelToArray'));
     }
 
-    public function testDataToArray()
+    public function testModelToArray()
     {
         $this->extension->defineConfiguration();
-        $this->module->getOption('dataFields')->add(array(
+        $this->module->getOption('modelFields')->add(array(
             'title'   => array(),
             'content' => array(),
         ));
@@ -158,13 +158,13 @@ class DataExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array(
             'title'   => 'foo',
             'content' => 'bar',
-        ), $this->extension->dataToArray($article));
+        ), $this->extension->modelToArray($article));
     }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testParseConfigurationDataClassNull()
+    public function testParseConfigurationModelClassNull()
     {
         $this->extension->defineConfiguration();
         $this->extension->parseConfiguration();
