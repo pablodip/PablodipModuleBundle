@@ -35,7 +35,7 @@ class BaseDataManagerExtension extends BaseBaseDataManagerExtension
 
 class BaseDataManagerExtensionModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
     }
 }

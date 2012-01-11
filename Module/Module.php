@@ -103,19 +103,20 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Here is where you should define your configuration for reusable modules.
+     * Here is where you should define your configuration.
      *
      * Defining configuration is add options, actions, parameters to propagate.
-     * These things can be modified later in the configuration by the final module.
+     * These things can be modified later in the configure method by other users
+     * in reusable modules.
      */
-    protected function defineConfiguration()
-    {
-    }
+    abstract protected function defineConfiguration();
 
     /**
-     * Here is where you should configure the module.
+     * Here is where users can configure reusable modules.
      */
-    abstract protected function configure();
+    protected function configure()
+    {
+    }
 
     /**
      * Here is where you should check and/or parse the configuration for reusable modules.

@@ -46,7 +46,7 @@ class Module extends BaseModule
         return self::$registerExtensions;
     }
 
-    protected function configure()
+    protected function defineConfiguration()
     {
     }
 }

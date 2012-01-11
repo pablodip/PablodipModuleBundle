@@ -7,7 +7,7 @@ use Pablodip\ModuleBundle\Action\Action;
 
 class CRUD extends BaseModule
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
         $this
             ->setRouteNamePrefix('my_crud')

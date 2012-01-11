@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class SymfonySerializerExtensionModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
     }
 }

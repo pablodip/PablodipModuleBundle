@@ -23,7 +23,7 @@ class BaseSerializerExtension extends BaseBaseSerializerExtension
 
 class BaseSerializerExtensionModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
     }
 }

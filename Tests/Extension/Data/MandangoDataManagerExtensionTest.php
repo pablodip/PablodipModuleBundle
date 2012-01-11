@@ -13,7 +13,7 @@ use Mandango\Connection;
 
 class MandangoDataManagerExtensionModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
     }
 }
@@ -29,7 +29,7 @@ class FunctionalMandangoDataManagerExtensionModule extends Module
         return $extensions;
     }
 
-    protected function configure()
+    protected function defineConfiguration()
     {
         $this->setOption('dataClass', 'Model\Article');
     }

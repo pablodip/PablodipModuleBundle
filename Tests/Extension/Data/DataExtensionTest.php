@@ -7,7 +7,7 @@ use Pablodip\ModuleBundle\Module\Module;
 
 class DataExtensionModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
     }
 }

@@ -46,7 +46,7 @@ abstract class BaseAction extends AbstractAction
 
     private function initialize()
     {
-        $this->configure();
+        $this->defineConfiguration();
 
         if (!$this->getRouteNameSuffix()) {
             throw new \RuntimeException('An action must have route name suffix.');
@@ -69,9 +69,9 @@ abstract class BaseAction extends AbstractAction
     }
 
     /**
-     * Configures the action.
+     * Defines the action configuration.
      *
-     * You must put in this method at least the name, route name, route pattern and controller.
+     * You must put in this method at least the route name, pattern and controller.
      */
-    abstract protected function configure();
+    abstract protected function defineConfiguration();
 }

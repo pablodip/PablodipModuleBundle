@@ -11,7 +11,7 @@ class BaseAction extends BaseBaseAction
     static public $routePatternSuffix;
     static public $controller;
 
-    protected function configure()
+    protected function defineConfiguration()
     {
         if (null !== self::$name) {
             $this->setName(self::$name);
@@ -42,7 +42,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $this->module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
     }
 
-    public function testConfigure()
+    public function testDefineConfiguration()
     {
         $action = new BaseAction();
         $action->setModule($this->module);
@@ -50,7 +50,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('list_name', $action->getName());
     }
 
-    public function testConfigureDefaultName()
+    public function testDefineConfigurationDefaultName()
     {
         BaseAction::$name = null;
 

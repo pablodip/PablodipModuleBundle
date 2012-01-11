@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TestModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
         $this
             ->setRouteNamePrefix('test_module')

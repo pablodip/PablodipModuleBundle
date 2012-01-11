@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PreExecuteModule extends Module
 {
-    protected function configure()
+    protected function defineConfiguration()
     {
         $this
             ->setRouteNamePrefix('pre_execute_module')
