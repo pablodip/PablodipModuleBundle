@@ -448,7 +448,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateModuleUrl()
     {
-        $routeNamePrefix = 'my_prefix';
+        $routeNamePrefix = 'my_prefix_';
         $routeNameSuffix = 'list';
         $parameters = array('foo' => 'bar', 'bar' => 'foo');
         $absolute = false;
@@ -458,7 +458,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $router
             ->expects($this->once())
             ->method('generate')
-            ->with($routeNamePrefix.'_'.$routeNameSuffix, $parameters, $absolute)
+            ->with($routeNamePrefix.$routeNameSuffix, $parameters, $absolute)
             ->will($this->returnValue($url))
         ;
 

@@ -11,7 +11,7 @@ class TestModule extends Module
     protected function defineConfiguration()
     {
         $this
-            ->setRouteNamePrefix('test_module')
+            ->setRouteNamePrefix('test_module_')
             ->setRoutePatternPrefix('/test-module')
         ;
 

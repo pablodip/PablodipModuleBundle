@@ -10,7 +10,7 @@ class CRUD extends BaseModule
     protected function defineConfiguration()
     {
         $this
-            ->setRouteNamePrefix('my_crud')
+            ->setRouteNamePrefix('my_crud_')
             ->setRoutePatternPrefix('/foo-bar')
         ;
 

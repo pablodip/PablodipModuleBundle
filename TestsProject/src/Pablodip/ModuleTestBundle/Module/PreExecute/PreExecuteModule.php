@@ -12,7 +12,7 @@ class PreExecuteModule extends Module
     protected function defineConfiguration()
     {
         $this
-            ->setRouteNamePrefix('pre_execute_module')
+            ->setRouteNamePrefix('pre_execute_module_')
             ->setRoutePatternPrefix('/pre-execute-module')
             ->addControllerPreExecute(function ($module) {
                 $module->getContainer()->get('request')->attributes->set('foo', 'ups');
