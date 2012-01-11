@@ -44,7 +44,11 @@ abstract class Module implements ModuleInterface
     {
         $this->container = $container;
         $this->extensions = array();
+
+        $this->routeNamePrefix = '';
+        $this->routePatternPrefix = '';
         $this->parametersToPropagate = array();
+
         $this->options = array();
         $this->callbacks = array();
         $this->actions = array();
@@ -82,14 +86,6 @@ abstract class Module implements ModuleInterface
             $extension->parseConfiguration();
         }
         $this->parseConfiguration();
-
-        if (null === $this->routePatternPrefix) {
-            $this->routePatternPrefix = '/'.strtolower(str_replace('\\', '-', get_class($this)));
-        }
-
-        if (null === $this->routeNamePrefix) {
-            $this->routeNamePrefix = strtolower(str_replace('\\', '_', get_class($this)));
-        }
     }
 
     /**

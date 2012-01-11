@@ -17,7 +17,7 @@ class ModuleFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testLoad()
     {
-        $collection = $this->loader->load(__DIR__.'/../Fixtures/CRUD.php');
+        $collection = $this->loader->load(__DIR__.'/../Fixtures/CRUDModule.php');
 
         $this->assertInstanceOf('Symfony\Component\Routing\RouteCollection', $collection);
         $this->assertSame(4, count($collection->all()));
@@ -33,6 +33,15 @@ class ModuleFileLoaderTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('/foo-bar'.$data[0], $route->getPattern());
             $this->assertSame($data[1], $route->getRequirements());
         }
+    }
+
+    public function testLoadHomepage()
+    {
+        $collection = $this->loader->load(__DIR__.'/../Fixtures/NoRoutePrefixesModule.php');
+
+        $route = $collection->get('list');
+        $this->assertNotNull($route);
+        $this->assertSame('/', $route->getPattern());
     }
 
     public function testSupports()

@@ -64,10 +64,10 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->module = new Module($this->container);
     }
 
-    public function testDefaultValues()
+    public function testEmptyPrefixes()
     {
-        $this->assertTrue(is_string($this->module->getRouteNamePrefix()));
-        $this->assertTrue(is_string($this->module->getRoutePatternPrefix()));
+        $this->assertSame('', $this->module->getRouteNamePrefix());
+        $this->assertSame('', $this->module->getRoutePatternPrefix());
     }
 
     public function testGetContainer()

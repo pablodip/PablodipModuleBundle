@@ -2,10 +2,10 @@
 
 namespace Pablodip\ModuleBundle\Tests\Fixtures;
 
-use Pablodip\ModuleBundle\Module\Module as BaseModule;
+use Pablodip\ModuleBundle\Module\Module;
 use Pablodip\ModuleBundle\Action\Action;
 
-class CRUD extends BaseModule
+class CRUDModule extends Module
 {
     protected function defineConfiguration()
     {

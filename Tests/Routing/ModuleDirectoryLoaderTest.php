@@ -20,7 +20,7 @@ class ModuleDirectoryLoaderTest extends \PHPUnit_Framework_TestCase
         $collection = $this->loader->load(__DIR__.'/..');
 
         $this->assertInstanceOf('Symfony\Component\Routing\RouteCollection', $collection);
-        $this->assertSame(4, count($collection->all()));
+        $this->assertSame(6, count($collection->all()));
     }
 
     public function testSupports()

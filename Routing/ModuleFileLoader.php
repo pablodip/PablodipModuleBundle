@@ -78,7 +78,11 @@ class ModuleFileLoader extends FileLoader
                 // name (module prefix + action suffix)
                 $name = $routeNamePrefix.$action->getRouteNameSuffix();
                 // pattern (module prefix + action suffix)
-                $pattern = $routePatternPrefix.('/' !== $action->getRoutePatternSuffix() ? $action->getRoutePatternSuffix() : '');
+                if ('/' === $action->getRoutePatternSuffix() && '' !== $routePatternPrefix) {
+                    $pattern = $routePatternPrefix;
+                } else {
+                    $pattern = $routePatternPrefix.$action->getRoutePatternSuffix();
+                }
                 // defaults (action defaults + defaults needed to execute)
                 $defaults = array_merge($action->getRouteDefaults(), array(
                     '_controller' => 'PablodipModuleBundle:Action:execute',
