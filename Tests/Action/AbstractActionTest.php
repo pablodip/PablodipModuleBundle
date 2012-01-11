@@ -118,12 +118,20 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->action, $this->action->setRoute('list', '/list'));
         $this->assertSame('list', $this->action->getRouteNameSuffix());
         $this->assertSame('/list', $this->action->getRoutePatternSuffix());
+        $this->assertSame(array(), $this->action->getRouteDefaults());
+        $this->assertSame(array(), $this->action->getRouteRequirements());
     }
 
     public function testSetRouteMethod()
     {
         $this->assertSame($this->action, $this->action->setRoute('list', '/list', 'GET'));
         $this->assertSame(array('_method' => 'GET'), $this->action->getRouteRequirements());
+    }
+
+    public function testSetRouteMethodAny()
+    {
+        $this->assertSame($this->action, $this->action->setRoute('list', '/list', 'ANY'));
+        $this->assertSame(array(), $this->action->getRouteRequirements());
     }
 
     public function testAddOption()

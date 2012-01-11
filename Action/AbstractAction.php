@@ -226,7 +226,7 @@ class AbstractAction implements ActionInterface
      *
      * @param string      $nameSuffix    The route name.
      * @param string      $patternSuffix The route pattern.
-     * @param string|null $method        The method (null for any) (null by default).
+     * @param string|null $method        The method (null or 'ANY' for any) (null by default).
      *
      * @return AbstractAction The action (fluent interface).
      */
@@ -234,7 +234,7 @@ class AbstractAction implements ActionInterface
     {
         $this->setRouteNameSuffix($nameSuffix);
         $this->setRoutePatternSuffix($patternSuffix);
-        if (null !== $method) {
+        if (null !== $method && 'ANY' !== $method) {
             $this->setRouteRequirement('_method', $method);
         }
 

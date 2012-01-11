@@ -25,7 +25,7 @@ class Action extends AbstractAction
      *
      * @param string      $routeName    The route name.
      * @param string      $routePattern The route pattern.
-     * @param string|null $method       The method (null for any).
+     * @param string|null $method       The method (null or 'ANY' for any).
      * @param mixed       $controller   The controller (a callback).
      *
      * @return Action The action (fluent interface).
