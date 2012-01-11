@@ -204,6 +204,22 @@ abstract class Module implements ModuleInterface
     }
 
     /**
+     * Sets the route name and pattern prefixes.
+     *
+     * @param string $routeNamePrefix    The route name prefix.
+     * @param string $routePatternPrefix The route pattern prefix.
+     *
+     * @return ModuleInterface The module (fluent interface).
+     */
+    public function setRoutePrefixes($routeNamePrefix, $routePatternPrefix)
+    {
+        $this->setRouteNamePrefix($routeNamePrefix);
+        $this->setRoutePatternPrefix($routePatternPrefix);
+
+        return $this;
+    }
+
+    /**
      * Adds a parameter to propagate.
      *
      * @param string $parameter The parameter.

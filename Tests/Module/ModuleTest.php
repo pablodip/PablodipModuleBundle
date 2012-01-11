@@ -64,12 +64,6 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->module = new Module($this->container);
     }
 
-    public function testEmptyPrefixes()
-    {
-        $this->assertSame('', $this->module->getRouteNamePrefix());
-        $this->assertSame('', $this->module->getRoutePatternPrefix());
-    }
-
     public function testGetContainer()
     {
         $this->assertSame($this->container, $this->module->getContainer());
@@ -138,6 +132,12 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $module->getExtension('extension2');
     }
 
+    public function testEmptyRoutePrefixes()
+    {
+        $this->assertSame('', $this->module->getRouteNamePrefix());
+        $this->assertSame('', $this->module->getRoutePatternPrefix());
+    }
+
     public function testRouteNamePrefix()
     {
         $this->assertSame($this->module, $this->module->setRouteNamePrefix('foo_bar'));
@@ -147,6 +147,13 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     public function testRoutePatternPrefix()
     {
         $this->assertSame($this->module, $this->module->setRoutePatternPrefix('/foo/bar'));
+        $this->assertSame('/foo/bar', $this->module->getRoutePatternPrefix());
+    }
+
+    public function testSetRoutePrefixes()
+    {
+        $this->assertSame($this->module, $this->module->setRoutePrefixes('foo_bar_', '/foo/bar'));
+        $this->assertSame('foo_bar_', $this->module->getRouteNamePrefix());
         $this->assertSame('/foo/bar', $this->module->getRoutePatternPrefix());
     }
 
