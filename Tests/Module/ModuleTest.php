@@ -311,6 +311,29 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($actions[2], $this->module->getAction('action2'));
     }
 
+    public function testSetActionOption()
+    {
+        $actionName = 'list';
+        $optionName = 'template';
+        $optionValue = 'foo';
+
+        $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+        $action
+            ->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue($actionName))
+        ;
+        $action
+            ->expects($this->once())
+            ->method('setOption')
+            ->with($optionName, $optionValue)
+        ;
+
+        $this->module->addAction($action);
+
+        $this->assertSame($this->module, $this->module->setActionOption($actionName, $optionName, $optionValue));
+    }
+
     public function testControllerPreExecutes()
     {
         $preExecute1 = function () {};

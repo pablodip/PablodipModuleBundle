@@ -422,7 +422,7 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Adds an option to set in an action.
+     * Shortcut for setting options to actions.
      *
      * @param string $actionName  The action name.
      * @param string $optionName  The option name.
@@ -432,7 +432,7 @@ abstract class Module implements ModuleInterface
      */
     public function setActionOption($actionName, $optionName, $optionValue)
     {
-        $this->actionOptionsSets[$actionName][$optionName] = $optionValue;
+        $this->getAction($actionName)->setOption($optionName, $optionValue);
 
         return $this;
     }

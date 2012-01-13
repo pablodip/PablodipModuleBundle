@@ -74,6 +74,43 @@ interface ActionInterface
     function getRouteRequirements();
 
     /**
+     * Sets an option.
+     *
+     * @param string $name  The name.
+     * @param mixed  $value The value.
+     *
+     * @return Action The action (fluent interface).
+     *
+     * @throws \InvalidArgumentException If the option does not exist.
+     */
+    function setOption($name, $value);
+
+    /**
+     * Returns if an option exists.
+     *
+     * @return Boolean If an option exists.
+     */
+    function hasOption($name);
+
+    /**
+     * Returns an option value.
+     *
+     * @param string $name The option name.
+     *
+     * @return mixed The option value.
+     *
+     * @throws \InvalidArgumentException If the option does not exist.
+     */
+    function getOption($name);
+
+    /**
+     * Returns the options.
+     *
+     * @return array The options.
+     */
+    function getOptions();
+
+    /**
      * Executes the controller.
      *
      * @return Response A response object.

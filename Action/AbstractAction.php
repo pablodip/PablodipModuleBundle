@@ -279,14 +279,7 @@ class AbstractAction implements ActionInterface
     }
 
     /**
-     * Sets an option.
-     *
-     * @param string $name  The name.
-     * @param mixed  $value The value.
-     *
-     * @return Action The action (fluent interface).
-     *
-     * @throws \InvalidArgumentException If the option does not exist.
+     * {@inheritdoc}
      */
     public function setOption($name, $value)
     {
