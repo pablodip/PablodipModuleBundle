@@ -75,6 +75,11 @@ class SymfonySerializerExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension->setModule($this->module);
     }
 
+    public function testGetName()
+    {
+        $this->assertSame('serializer', $this->extension->getName());
+    }
+
     public function testDefineConfigurationSerializerNormalizersOption()
     {
         $this->extension->defineConfiguration();

@@ -83,46 +83,6 @@ interface ModuleInterface
     function getOptions();
 
     /**
-     * Returns whether a callback exists or not.
-     *
-     * @param string $name The name.
-     *
-     * @return Boolean Whether the callback exists or not.
-     */
-    function hasCallback($name);
-
-    /**
-     * Returns a callback by name.
-     *
-     * @param string $name The name.
-     *
-     * @return mixed The callback.
-     *
-     * @throws \InvalidArgumentException If the callback does not exist.
-     */
-    function getCallback($name);
-
-    /**
-     * Returns the callbacks.
-     *
-     * @return array The callbacks.
-     */
-    function getCallbacks();
-
-    /**
-     * Calls a callback and returns the callback return value.
-     *
-     * The arguments from second are passed to the callback.
-     *
-     * @param string $callbackName The callback name.
-     *
-     * @return mixed The callback return value.
-     *
-     * @throws \InvalidArgumentException If the callback does not exist.
-     */
-    function call($callbackName);
-
-    /**
      * Returns whether an action exists.
      *
      * @param string $name The name.

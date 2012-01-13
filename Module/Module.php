@@ -31,7 +31,6 @@ abstract class Module implements ModuleInterface
     private $parametersToPropagate;
 
     private $options;
-    private $callbacks;
     private $actions;
     private $controllerPreExecutes;
 
@@ -50,7 +49,6 @@ abstract class Module implements ModuleInterface
         $this->parametersToPropagate = array();
 
         $this->options = array();
-        $this->callbacks = array();
         $this->actions = array();
         $this->controllerPreExecutes = array();
 
@@ -356,117 +354,6 @@ abstract class Module implements ModuleInterface
     public function getOptions()
     {
         return $this->options;
-    }
-
-    /**
-     * Adds a callback.
-     *
-     * @param string $name     The name.
-     * @param mixed  $callback The callback.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     *
-     * @throws \LogicException           If the callback already exists.
-     * @throws \InvalidArgumentException If the callback is not callable.
-     */
-    public function addCallback($name, $callback)
-    {
-        if (array_key_exists($name, $this->callbacks)) {
-            throw new \LogicException(sprintf('The callback "%s" already exists.', $name));
-        }
-
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('The callback is not callable.');
-        }
-
-        $this->callbacks[$name] = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Adds an array of callbacks, the key as the name and the value as the callback.
-     *
-     * @param array $callbacks An array of callbacks.
-     *
-     * @return ModuleInterface The Module (fluent interface).
-     */
-    public function addCallbacks(array $callbacks)
-    {
-        foreach ($callbacks as $name => $callback) {
-            $this->addCallback($name, $callback);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets a callback.
-     *
-     * @param string $name     The name.
-     * @param mixed  $callback The callback.
-     *
-     * @return ModuleInterface The module (fluent interface).
-     *
-     * @throws \InvalidArgumentException If the callback does not exist.
-     * @throws \InvalidArgumentException If the callback is not callable.
-     */
-    public function setCallback($name, $callback)
-    {
-        if (!array_key_exists($name, $this->callbacks)) {
-            throw new \InvalidArgumentException(sprintf('The callback "%s" does not exists.', $name));
-        }
-
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('The callback is not callable.');
-        }
-
-        $this->callbacks[$name] = $callback;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasCallback($name)
-    {
-        return array_key_exists($name, $this->callbacks);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCallback($name)
-    {
-        if (!array_key_exists($name, $this->callbacks)) {
-            throw new \InvalidArgumentException(sprintf('The callback "%s" does not exist.', $name));
-        }
-
-        return $this->callbacks[$name];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCallbacks()
-    {
-        return $this->callbacks;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function call($callbackName)
-    {
-        if (!array_key_exists($callbackName, $this->callbacks)) {
-            throw new \InvalidArgumentException(sprintf('The callback "%s" does not exist.', $callbackName));
-        }
-
-        $args = func_get_args();
-        array_shift($args);
-
-        return call_user_func_array($this->callbacks[$callbackName], $args);
     }
 
     /**

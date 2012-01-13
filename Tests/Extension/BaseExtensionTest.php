@@ -11,18 +11,6 @@ class BaseExtension extends BaseBaseExtension
     {
         return 'base_extension';
     }
-
-    public function defineConfiguration()
-    {
-    }
-
-    public function configure()
-    {
-    }
-
-    public function parseConfiguration()
-    {
-    }
 }
 
 class BaseExtensionTest extends \PHPUnit_Framework_TestCase

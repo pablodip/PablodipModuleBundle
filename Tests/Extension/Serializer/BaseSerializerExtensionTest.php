@@ -7,11 +7,6 @@ use Pablodip\ModuleBundle\Module\Module;
 
 class BaseSerializerExtension extends BaseBaseSerializerExtension
 {
-    public function getName()
-    {
-        return 'base_serializer';
-    }
-
     public function serialize($data)
     {
     }
@@ -43,6 +38,11 @@ class BaseSerializerExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension->setModule($this->module);
     }
 
+    public function testGetName()
+    {
+        $this->assertSame('serializer', $this->extension->getName());
+    }
+
     public function testDefineConfigurationSerializerFormatOption()
     {
         $this->extension->defineConfiguration();
@@ -53,42 +53,6 @@ class BaseSerializerExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->extension->defineConfiguration();
         $this->assertTrue($this->module->hasOption('serializerContentType'));
-    }
-
-    public function testDefineConfigurationSerializeCallback()
-    {
-        $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasCallback('serialize'));
-    }
-
-    public function testDefineConfigurationDeserializeCallback()
-    {
-        $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasCallback('deserialize'));
-    }
-
-    public function testDefineConfigurationCreateSerializedResponseCallback()
-    {
-        $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'createSerializedResponse'), $this->module->getCallback('createSerializedResponse'));
-    }
-
-    public function testDefineConfigurationCreateSerializedNotFoundResponseCallback()
-    {
-        $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'createSerializedNotFoundResponse'), $this->module->getCallback('createSerializedNotFoundResponse'));
-    }
-
-    public function testDefineConfigurationCreateSerializeCallback()
-    {
-        $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'serialize'), $this->module->getCallback('serialize'));
-    }
-
-    public function testDefineConfigurationCreateDeserializeCallback()
-    {
-        $this->extension->defineConfiguration();
-        $this->assertSame(array($this->extension, 'deserialize'), $this->module->getCallback('deserialize'));
     }
 
     public function testCreateSerializedResponse()

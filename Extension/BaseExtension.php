@@ -45,4 +45,25 @@ abstract class BaseExtension implements ExtensionInterface
 
         return $this->module;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function defineConfiguration()
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configure()
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function parseConfiguration()
+    {
+    }
 }
