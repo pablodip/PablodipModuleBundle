@@ -46,6 +46,23 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
         $this->action->getModule();
     }
 
+    public function testGetModuleOption()
+    {
+        $optionName = 'foo';
+        $optionValue = 'bar';
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->once())
+            ->method('getOption')
+            ->with($optionName)
+            ->will($this->returnValue($optionValue))
+        ;
+        $this->action->setModule($module);
+
+        $this->assertSame($optionValue, $this->action->getModuleOption($optionName));
+    }
+
     public function testGetContainer()
     {
         $container = new \DateTime();

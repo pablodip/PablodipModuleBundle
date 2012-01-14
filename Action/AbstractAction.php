@@ -72,6 +72,18 @@ class AbstractAction implements ActionInterface
     }
 
     /**
+     * Returns a module option.
+     *
+     * @param string $name The option name.
+     *
+     * @return mixed The option value.
+     */
+    public function getModuleOption($name)
+    {
+        return $this->getModule()->getOption($name);
+    }
+
+    /**
      * Returns the module container.
      *
      * @return ContainerInterface The container.
