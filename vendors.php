@@ -15,6 +15,7 @@ $deps = array(
     array('twig', 'http://github.com/fabpot/Twig', 'origin/master'),
     array('mondator', 'http://github.com/mandango/mondator', 'origin/master'),
     array('mandango', 'http://github.com/mandango/mandango', 'origin/master'),
+    array('molino', 'http://github.com/pablodip/molino', 'origin/master'),
 );
 
 foreach ($deps as $dep) {
