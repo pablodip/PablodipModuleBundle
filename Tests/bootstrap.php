@@ -7,11 +7,8 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony'           => $vendorDir.'/symfony/src',
-    'Molino'            => $vendorDir.'/molino/src',
-    'Mandango\Mondator' => $vendorDir.'/mondator/src',
-    'Mandango'          => $vendorDir.'/mandango/src',
-    'Model'             => __DIR__,
+    'Symfony' => $vendorDir.'/symfony/src',
+    'Molino'  => $vendorDir.'/molino/src',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => $vendorDir.'/twig/lib',
