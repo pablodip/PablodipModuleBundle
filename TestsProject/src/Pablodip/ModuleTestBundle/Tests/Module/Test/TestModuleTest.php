@@ -21,4 +21,13 @@ class TestModuleTest extends WebTestCase
         $crawler = $client->request('GET', '/test-module/redirect');
         $this->assertSame(302, $client->getResponse()->getStatusCode());
     }
+
+    public function testGuessTemplate()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/test-module/guess-template');
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertSame('Guessing template.'."\n", $client->getResponse()->getContent());
+    }
 }

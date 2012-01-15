@@ -503,6 +503,32 @@ class AbstractAction implements ActionInterface
      */
     public function render($template, array $parameters = array(), $response = null)
     {
+        if (is_array($template)) {
+            // guessing template
+            $parameters = $template;
+
+            $bundle = '';
+            $module = null;
+            foreach (explode('\\', get_class($this->getModule())) as $part) {
+                if (null === $module) {
+                    if (strlen($part) > 6 && 'Bundle' === substr($part, -6)) {
+                        $bundle .= $part;
+                        $module = '';
+                    } elseif ('Bundle' !== $part) {
+                        $bundle .= $part;
+                    }
+                } elseif (strlen($part) > 6 && 'Module' === substr($part, -6)) {
+                    $module = substr($part, 0, strlen($part) - 6);
+                }
+            }
+
+            if (null === $bundle || null === $module) {
+                throw new \RuntimeException(sprintf('The template for the action "%s" from the module "%s" cannot be guessed.', $this->getName(), get_class($this->getModule())));
+            }
+
+            $template = sprintf('%s:%s:%s.html.twig', $bundle, $module, $this->getName());
+        }
+
         $parameters['_module'] = $this->module->createView();
 
         return $this->getContainer()->get('templating')->renderResponse($template, $parameters, $response);

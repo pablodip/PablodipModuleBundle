@@ -19,7 +19,9 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony' => $vendorDir.'/symfony/src',
 ));
-
+$loader->registerPrefixes(array(
+    'Twig_' => $vendorDir.'/twig/lib',
+));
 $loader->registerNamespaceFallbacks(array(
     __DIR__.'/../src',
 ));

@@ -22,5 +22,9 @@ class TestModule extends Module
         $this->addAction(new Action('redirect', '/redirect', 'GET', function (Action $action) {
             return $action->redirect($action->generateModuleUrl('simple'));
         }));
+
+        $this->addAction(new Action('guess_template', '/guess-template', 'GET', function (Action $action) {
+            return $action->render(array());
+        }));
     }
 }

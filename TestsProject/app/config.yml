@@ -1,6 +1,12 @@
 framework:
-    secret: secret
-    router: { resource: "%kernel.root_dir%/routing.yml" }
-    test: ~
+    secret:     secret
+    router:     { resource: "%kernel.root_dir%/routing.yml" }
+    templating: { engines: ['twig'] }
+    test:       ~
     session:
         storage_id: session.storage.filesystem
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
