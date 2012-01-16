@@ -1,6 +1,6 @@
 <?php
 
-namespace Pablodip\ModuleTestBundle\Module\Test;
+namespace Pablodip\ModuleTestBundle\Module;
 
 use Pablodip\ModuleBundle\Module\Module;
 use Pablodip\ModuleBundle\Action\Action;
