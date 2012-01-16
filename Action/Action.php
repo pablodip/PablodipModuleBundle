@@ -16,7 +16,7 @@ namespace Pablodip\ModuleBundle\Action;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-class Action extends AbstractAction
+class Action extends BaseAction
 {
     /**
      * Constructor.
@@ -25,19 +25,21 @@ class Action extends AbstractAction
      *
      * @param string      $routeName    The route name.
      * @param string      $routePattern The route pattern.
-     * @param string|null $method       The method (null or 'ANY' for any).
+     * @param string|null $method       The method ('ANY' for any).
      * @param mixed       $controller   The controller (a callback).
-     *
-     * @return Action The action (fluent interface).
      */
     public function __construct($routeName, $routePattern, $method, $controller)
     {
         parent::__construct();
 
-        $this->setName($routeName);
         $this->setRoute($routeName, $routePattern, $method);
         $this->setController($controller);
+    }
 
-        return $this;
+    /**
+     * {@inheritdoc}
+     */
+    protected function defineConfiguration()
+    {
     }
 }

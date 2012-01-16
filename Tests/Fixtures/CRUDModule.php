@@ -15,7 +15,7 @@ class CRUDModule extends Module
         ;
 
         $this->addActions(array(
-            new Action('list', '/', null, function () {}),
+            new Action('list', '/', 'ANY', function () {}),
             new Action('cre', '/create', 'POST', function () {}),
             new Action('update', '/up', 'PUT', function () {}),
             new Action('delete', '/delete', 'DELETE', function () {}),
