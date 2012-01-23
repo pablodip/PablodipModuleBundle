@@ -3,6 +3,7 @@
 namespace Pablodip\ModuleBundle\Tests\Fixtures;
 
 use Pablodip\ModuleBundle\Module\Module;
+use Pablodip\ModuleBundle\Action\Action;
 use Pablodip\ModuleBundle\Action\RouteAction;
 
 class CRUDModule extends Module
@@ -15,6 +16,7 @@ class CRUDModule extends Module
         ;
 
         $this->addActions(array(
+            new Action('internal', function () {}),
             new RouteAction('list', '/', 'ANY', function () {}),
             new RouteAction('cre', '/create', 'POST', function () {}),
             new RouteAction('update', '/up', 'PUT', function () {}),

@@ -334,6 +334,31 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->module, $this->module->setActionOption($actionName, $optionName, $optionValue));
     }
 
+    public function testGetRouteActions()
+    {
+        $actions = array();
+        for ($i = 1; $i <= 4; $i++) {
+            if ($i % 2) {
+                $class = 'Pablodip\ModuleBundle\Action\ActionInterface';
+            } else {
+                $class = 'Pablodip\ModuleBundle\Action\RouteActionInterface';
+            }
+
+            $actions[$i] = $action = $this->getMock($class);
+            $action
+                ->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('action'.$i))
+            ;
+        }
+
+        $this->module->addActions($actions);
+        $this->assertSame(array(
+            'action2' => $actions[2],
+            'action4' => $actions[4],
+        ), $this->module->getRouteActions());
+    }
+
     public function testControllerPreExecutes()
     {
         $preExecute1 = function () {};

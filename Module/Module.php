@@ -13,6 +13,7 @@ namespace Pablodip\ModuleBundle\Module;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Pablodip\ModuleBundle\Action\ActionInterface;
+use Pablodip\ModuleBundle\Action\RouteActionInterface;
 use Pablodip\ModuleBundle\Action\ActionCollectionInterface;
 use Pablodip\ModuleBundle\Extension\ExtensionInterface;
 
@@ -419,6 +420,21 @@ abstract class Module implements ModuleInterface
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteActions()
+    {
+        $routeActions = array();
+        foreach ($this->actions as $name => $action) {
+            if ($action instanceof RouteActionInterface) {
+                $routeActions[$name] = $action;
+            }
+        }
+
+        return $routeActions;
     }
 
     /**

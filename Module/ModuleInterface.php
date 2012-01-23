@@ -110,6 +110,13 @@ interface ModuleInterface
     function getActions();
 
     /**
+     * Returns the route actions.
+     *
+     * @return array The route actions;
+     */
+    function getRouteActions();
+
+    /**
      * Returns the controller pre executes.
      *
      * @return array The controller pre executes.

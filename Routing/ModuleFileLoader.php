@@ -69,8 +69,8 @@ class ModuleFileLoader extends FileLoader
             $routeNamePrefix = $module->getRouteNamePrefix();
             $routePatternPrefix = $module->getRoutePatternPrefix();
 
-            // acitions
-            foreach ($module->getActions() as $action) {
+            // route actions
+            foreach ($module->getRouteActions() as $action) {
                 // action file resource
                 $reflection = new \ReflectionObject($action);
                 $collection->addResource(new FileResource($reflection->getFileName()));
