@@ -14,11 +14,11 @@ namespace Pablodip\ModuleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * ActionController.
+ * ModuleController.
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-class ActionController extends Controller
+class ModuleController extends Controller
 {
     /**
      * Executes an action.
