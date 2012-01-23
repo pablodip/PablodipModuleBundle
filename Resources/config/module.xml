@@ -5,11 +5,16 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="module_manager.class">Pablodip\ModuleBundle\Module\ModuleManager</parameter>
         <parameter key="routing.loader.pablodip_module_file.class">Pablodip\ModuleBundle\Routing\ModuleFileLoader</parameter>
         <parameter key="routing.loader.pablodip_module_directory.class">Pablodip\ModuleBundle\Routing\ModuleDirectoryLoader</parameter>
     </parameters>
 
     <services>
+        <service id="module_manager" class="%module_manager.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
         <service id="routing.loader.pablodip_module_file" class="%routing.loader.pablodip_module_file.class%">
             <tag name="routing.loader" />
             <argument type="service" id="file_locator" />

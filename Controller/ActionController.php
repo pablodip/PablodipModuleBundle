@@ -28,7 +28,7 @@ class ActionController extends Controller
         $moduleClass = $this->get('request')->get('_pablodip_module.module');
         $actionName = $this->get('request')->get('_pablodip_module.action');
 
-        $module = new $moduleClass($this->container);
+        $module = $this->get('module_manager')->get($moduleClass);
         foreach ($module->getControllerPreExecutes() as $controllerPreExecute) {
             if (null !== $retval = $controllerPreExecute($module)) {
                 return $retval;
