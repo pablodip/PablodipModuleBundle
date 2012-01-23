@@ -48,8 +48,8 @@ class ModuleFileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $fixture = __FILE__;
 
-        $this->assertTrue($this->loader->supports($fixture, 'pablodip_module'));
+        $this->assertTrue($this->loader->supports($fixture, 'module'));
         $this->assertFalse($this->loader->supports($fixture, 'foo'));
-        $this->assertFalse($this->loader->supports('foo.bar', 'pablodip_module'));
+        $this->assertFalse($this->loader->supports('foo.bar', 'module'));
     }
 }

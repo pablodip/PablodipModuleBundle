@@ -109,7 +109,7 @@ class ModuleFileLoader extends FileLoader
      */
     public function supports($resource, $type = null)
     {
-        return 'pablodip_module' === $type && is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION);
+        return 'module' === $type && is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION);
     }
 
     /**

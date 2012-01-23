@@ -71,6 +71,6 @@ class ModuleDirectoryLoader extends ModuleFileLoader
             return false;
         }
 
-        return 'pablodip_module' === $type && is_string($resource) && is_dir($path);
+        return 'module' === $type && is_string($resource) && is_dir($path);
     }
 }
