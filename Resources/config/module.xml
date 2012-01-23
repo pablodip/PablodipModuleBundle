@@ -6,8 +6,8 @@
 
     <parameters>
         <parameter key="module_manager.class">Pablodip\ModuleBundle\Module\ModuleManager</parameter>
-        <parameter key="routing.loader.pablodip_module_file.class">Pablodip\ModuleBundle\Routing\ModuleFileLoader</parameter>
-        <parameter key="routing.loader.pablodip_module_directory.class">Pablodip\ModuleBundle\Routing\ModuleDirectoryLoader</parameter>
+        <parameter key="routing.loader.module_file.class">Pablodip\ModuleBundle\Routing\ModuleFileLoader</parameter>
+        <parameter key="routing.loader.module_directory.class">Pablodip\ModuleBundle\Routing\ModuleDirectoryLoader</parameter>
     </parameters>
 
     <services>
@@ -15,13 +15,13 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="routing.loader.pablodip_module_file" class="%routing.loader.pablodip_module_file.class%">
+        <service id="routing.loader.module_file" class="%routing.loader.module_file.class%">
             <tag name="routing.loader" />
             <argument type="service" id="file_locator" />
             <argument type="service" id="module_manager" />
         </service>
 
-        <service id="routing.loader.pablodip_module_directory" class="%routing.loader.pablodip_module_directory.class%">
+        <service id="routing.loader.module_directory" class="%routing.loader.module_directory.class%">
             <tag name="routing.loader" />
             <argument type="service" id="file_locator" />
             <argument type="service" id="module_manager" />
