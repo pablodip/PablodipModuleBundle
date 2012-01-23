@@ -3,15 +3,15 @@
 namespace Pablodip\ModuleBundle\Tests\Fixtures;
 
 use Pablodip\ModuleBundle\Module\Module;
-use Pablodip\ModuleBundle\Action\Action;
+use Pablodip\ModuleBundle\Action\RouteAction;
 
 class NoRoutePrefixesModule extends Module
 {
     protected function defineConfiguration()
     {
         $this->addActions(array(
-            new Action('list', '/', null, function () {}),
-            new Action('create', '/create', 'POST', function () {}),
+            new RouteAction('list', '/', null, function () {}),
+            new RouteAction('create', '/create', 'POST', function () {}),
         ));
     }
 }

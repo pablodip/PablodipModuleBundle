@@ -3,7 +3,7 @@
 namespace Pablodip\ModuleTestBundle\Module;
 
 use Pablodip\ModuleBundle\Module\Module;
-use Pablodip\ModuleBundle\Action\Action;
+use Pablodip\ModuleBundle\Action\RouteAction;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -24,7 +24,7 @@ class PreExecuteModule extends Module
             })
         ;
 
-        $this->addAction(new Action('index', '/index', 'GET', function (Action $action) {
+        $this->addAction(new RouteAction('index', '/index', 'GET', function (RouteAction $action) {
             return new Response($action->get('request')->attributes->get('foo'));
         }));
     }

@@ -12,23 +12,27 @@
 namespace Pablodip\ModuleBundle\Action;
 
 /**
- * Action.
+ * RouteAction.
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-class Action extends BaseAction
+class RouteAction extends BaseRouteAction
 {
     /**
      * Constructor.
      *
-     * @param string $name       The name.
-     * @param mixed  $controller The controller (a callback).
+     * The name is the route name by default.
+     *
+     * @param string      $routeName    The route name.
+     * @param string      $routePattern The route pattern.
+     * @param string|null $method       The method ('ANY' for any).
+     * @param mixed       $controller   The controller (a callback).
      */
-    public function __construct($name, $controller)
+    public function __construct($routeName, $routePattern, $method, $controller)
     {
         parent::__construct();
 
-        $this->setName($name);
+        $this->setRoute($routeName, $routePattern, $method);
         $this->setController($controller);
     }
 

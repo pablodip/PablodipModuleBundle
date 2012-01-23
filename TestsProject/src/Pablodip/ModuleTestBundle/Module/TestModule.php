@@ -3,7 +3,7 @@
 namespace Pablodip\ModuleTestBundle\Module;
 
 use Pablodip\ModuleBundle\Module\Module;
-use Pablodip\ModuleBundle\Action\Action;
+use Pablodip\ModuleBundle\Action\RouteAction;
 use Symfony\Component\HttpFoundation\Response;
 
 class TestModule extends Module
@@ -15,15 +15,15 @@ class TestModule extends Module
             ->setRoutePatternPrefix('/test-module')
         ;
 
-        $this->addAction(new Action('simple', '/simple', 'GET', function () {
+        $this->addAction(new RouteAction('simple', '/simple', 'GET', function () {
             return new Response(200);
         }));
 
-        $this->addAction(new Action('redirect', '/redirect', 'GET', function (Action $action) {
+        $this->addAction(new RouteAction('redirect', '/redirect', 'GET', function (RouteAction $action) {
             return $action->redirect($action->generateModuleUrl('simple'));
         }));
 
-        $this->addAction(new Action('guess_template', '/guess-template', 'GET', function (Action $action) {
+        $this->addAction(new RouteAction('guess_template', '/guess-template', 'GET', function (RouteAction $action) {
             return $action->render(array());
         }));
     }

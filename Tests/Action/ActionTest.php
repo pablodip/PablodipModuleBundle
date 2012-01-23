@@ -12,14 +12,12 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->controller = function () {};
-        $this->action = new Action('list', '/list', 'GET', $this->controller);
+        $this->action = new Action('foo', $this->controller);
     }
 
     public function testConstructor()
     {
-        $this->assertSame('list', $this->action->getRouteNameSuffix());
-        $this->assertSame('/list', $this->action->getRoutePatternSuffix());
-        $this->assertSame(array('_method' => 'GET'), $this->action->getRouteRequirements());
+        $this->assertSame('foo', $this->action->getName());
         $this->assertSame($this->controller, $this->action->getController());
     }
 }
