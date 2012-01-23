@@ -14,9 +14,9 @@ namespace Pablodip\ModuleBundle\Routing;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
+use Pablodip\ModuleBundle\Module\ModuleManagerInterface;
 
 /**
  * ModuleLoader.
@@ -27,14 +27,15 @@ use Symfony\Component\Routing\Route;
  */
 class ModuleFileLoader extends FileLoader
 {
-    private $container;
+    private $moduleManager;
 
     /**
      * Constructor.
      *
-     * @param FileLocator $locator A FileLocator instance.
+     * @param FileLocator            $locator       A FileLocator instance.
+     * @param ModuleManagerInterface $moduleManager A module manager.
      */
-    public function __construct(FileLocator $locator, ContainerInterface $container)
+    public function __construct(FileLocator $locator, ModuleManagerInterface $moduleManager)
     {
         if (!function_exists('token_get_all')) {
             throw new \RuntimeException('The Tokenizer extension is required for the module loaders.');
@@ -42,7 +43,7 @@ class ModuleFileLoader extends FileLoader
 
         parent::__construct($locator);
 
-        $this->container = $container;
+        $this->moduleManager = $moduleManager;
     }
 
     /**
@@ -63,7 +64,7 @@ class ModuleFileLoader extends FileLoader
             $collection->addResource(new FileResource($path));
 
             // module instance
-            $module = new $class($this->container);
+            $module = $this->moduleManager->get($class);
 
             // routes prefixes
             $routeNamePrefix = $module->getRouteNamePrefix();

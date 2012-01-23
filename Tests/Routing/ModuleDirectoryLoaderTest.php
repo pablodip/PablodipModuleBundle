@@ -3,16 +3,20 @@
 namespace Pablodip\ModuleBundle\Tests\Action;
 
 use Pablodip\ModuleBundle\Routing\ModuleDirectoryLoader;
+use Pablodip\ModuleBundle\Module\ModuleManager;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Container;
 
 class ModuleDirectoryLoaderTest extends \PHPUnit_Framework_TestCase
 {
+    private $container;
+    private $moduleManager;
     private $loader;
 
     protected function setUp()
     {
-        $this->loader = new ModuleDirectoryLoader(new FileLocator(), new Container());
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->moduleManager = new ModuleManager($this->container);
+        $this->loader = new ModuleDirectoryLoader(new FileLocator(), $this->moduleManager);
     }
 
     public function testLoad()

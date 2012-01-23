@@ -18,13 +18,13 @@
         <service id="routing.loader.pablodip_module_file" class="%routing.loader.pablodip_module_file.class%">
             <tag name="routing.loader" />
             <argument type="service" id="file_locator" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="module_manager" />
         </service>
 
         <service id="routing.loader.pablodip_module_directory" class="%routing.loader.pablodip_module_directory.class%">
             <tag name="routing.loader" />
             <argument type="service" id="file_locator" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="module_manager" />
         </service>
     </services>
 
