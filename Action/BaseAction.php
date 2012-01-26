@@ -268,20 +268,6 @@ abstract class BaseAction implements ActionInterface
     }
 
     /**
-     * Forwards the request to another controller.
-     *
-     * @param  string  $controller The controller name (a string like BlogBundle:Post:index)
-     * @param  array   $path       An array of path parameters
-     * @param  array   $query      An array of query parameters
-     *
-     * @return Response A Response instance
-     */
-    public function forward($controller, array $path = array(), array $query = array())
-    {
-        return $this->getContainer()->get('http_kernel')->forward($controller, $path, $query);
-    }
-
-    /**
      * Returns a RedirectResponse to the given URL.
      *
      * @param string  $url The URL to redirect to

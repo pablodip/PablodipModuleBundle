@@ -135,6 +135,17 @@ interface ModuleInterface
     function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false);
 
     /**
+     * Forwards the request to an action.
+     *
+     * @param string $actionName The action name.
+     * @param array  $attributes An array of attributes (optional).
+     * @param array  $query      An array of query parameters (optional).
+     *
+     * @return Response A response.
+     */
+    function forward($actionName, array $attributes = array(), array $query = array());
+
+    /**
      * Returns a module view with the module.
      *
      * @return ModuleView A module view.

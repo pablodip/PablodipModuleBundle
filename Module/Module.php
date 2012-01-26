@@ -497,6 +497,18 @@ abstract class Module implements ModuleInterface
     /**
      * {@inheritdoc}
      */
+    public function forward($actionName, array $attributes = array(), array $query = array())
+    {
+        $controller = 'PablodipModuleBundle:Module:execute';
+        $attributes['_module.module'] = get_class($this);
+        $attributes['_module.action'] = $actionName;
+
+        return $this->container->get('http_kernel')->forward($controller, $attributes, $query);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createView()
     {
         return new ModuleView($this);

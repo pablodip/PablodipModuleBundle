@@ -400,6 +400,38 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($url, $module->generateModuleUrl($routeNameSuffix, $parameters, $absolute));
     }
 
+    public function testForward()
+    {
+        $actionName = 'list';
+        $attributes = array('sort' => 'name');
+        $retval = new \ArrayObject();
+
+        $httpKernel = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\HttpKernel')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $httpKernel
+            ->expects($this->once())
+            ->method('forward')
+            ->with('PablodipModuleBundle:Module:execute', array_merge($attributes, array(
+                '_module.module' => 'Pablodip\ModuleBundle\Tests\Module\Module',
+                '_module.action' => $actionName,
+            )))
+            ->will($this->returnValue($retval))
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('http_kernel')
+            ->will($this->returnValue($httpKernel))
+        ;
+
+        $module = new Module($container);
+        $this->assertSame($retval, $module->forward($actionName, $attributes));
+    }
+
     public function testCreateView()
     {
         $view = $this->module->createView();

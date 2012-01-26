@@ -285,44 +285,6 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($retval, $this->action->generateModuleUrl($routeNameSuffix, $parameters, $absolute));
     }
 
-    public function testForward()
-    {
-        $controller = 'ups';
-        $path = array('foo' => 'bar');
-        $query = array('bar' => 'fo');
-        $retval = new \DateTime();
-
-        $httpKernel = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\HttpKernel')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $httpKernel
-            ->expects($this->once())
-            ->method('forward')
-            ->with($controller, $path, $query)
-            ->will($this->returnValue($retval))
-        ;
-
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container
-            ->expects($this->any())
-            ->method('get')
-            ->with('http_kernel')
-            ->will($this->returnValue($httpKernel))
-        ;
-
-        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
-        $module
-            ->expects($this->any())
-            ->method('getContainer')
-            ->will($this->returnValue($container))
-        ;
-
-        $this->action->setModule($module);
-
-        $this->assertSame($retval, $this->action->forward($controller, $path, $query));
-    }
-
     public function testRedirect()
     {
         $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
