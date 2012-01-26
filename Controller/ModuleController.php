@@ -25,8 +25,8 @@ class ModuleController extends Controller
      */
     public function executeAction()
     {
-        $moduleClass = $this->get('request')->get('_pablodip_module.module');
-        $actionName = $this->get('request')->get('_pablodip_module.action');
+        $moduleClass = $this->get('request')->get('_module.module');
+        $actionName = $this->get('request')->get('_module.action');
 
         $module = $this->get('module_manager')->get($moduleClass);
         foreach ($module->getControllerPreExecutes() as $controllerPreExecute) {

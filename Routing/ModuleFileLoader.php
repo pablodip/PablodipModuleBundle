@@ -87,8 +87,8 @@ class ModuleFileLoader extends FileLoader
                 // defaults (action defaults + defaults needed to execute)
                 $defaults = array_merge($action->getRouteDefaults(), array(
                     '_controller' => 'PablodipModuleBundle:Module:execute',
-                    '_pablodip_module.module' => $class,
-                    '_pablodip_module.action' => $action->getName(),
+                    '_module.module' => $class,
+                    '_module.action' => $action->getName(),
                 ));
                 // requirements (just from the action)
                 $requirements = $action->getRouteRequirements();
