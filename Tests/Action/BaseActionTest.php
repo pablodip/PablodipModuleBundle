@@ -336,7 +336,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $templating
             ->expects($this->once())
             ->method('render')
-            ->with($template, array_merge($parameters, array('_module' => $moduleView)))
+            ->with($template, array_merge($parameters, array('module' => $moduleView)))
             ->will($this->returnValue($retval))
         ;
 
@@ -378,7 +378,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $templating
             ->expects($this->once())
             ->method('renderResponse')
-            ->with($template, array_merge($parameters, array('_module' => $moduleView)), $response)
+            ->with($template, array_merge($parameters, array('module' => $moduleView)), $response)
             ->will($this->returnValue($retval))
         ;
 

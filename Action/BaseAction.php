@@ -283,7 +283,7 @@ abstract class BaseAction implements ActionInterface
     /**
      * Renders a view.
      *
-     * Adds the "_module" and "_action" parameters with their view objects.
+     * Adds the "module" parameter.
      *
      * @param string $template   The template.
      * @param array  $parameters An array of parameters (optional).
@@ -292,7 +292,7 @@ abstract class BaseAction implements ActionInterface
      */
     public function renderView($template, array $parameters = array())
     {
-        $parameters['_module'] = $this->module->createView();
+        $parameters['module'] = $this->module->createView();
 
         return $this->getContainer()->get('templating')->render($template, $parameters);
     }
@@ -300,7 +300,7 @@ abstract class BaseAction implements ActionInterface
     /**
      * Renders a view a returns a response.
      *
-     * Adds the "_module" and "_action" parameters with their view objects.
+     * Adds the "module" parameter.
      *
      * @param string   $template   The template.
      * @param array    $parameters An array of parameters (optional).
@@ -336,7 +336,7 @@ abstract class BaseAction implements ActionInterface
             $template = sprintf('%s:%s:%s.html.twig', $bundle, $module, $this->getName());
         }
 
-        $parameters['_module'] = $this->module->createView();
+        $parameters['module'] = $this->module->createView();
 
         return $this->getContainer()->get('templating')->renderResponse($template, $parameters, $response);
     }
