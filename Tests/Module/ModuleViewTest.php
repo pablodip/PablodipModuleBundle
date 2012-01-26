@@ -44,6 +44,49 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($url, $view->url($routeNameSuffix, $parameters));
     }
 
+    public function testRender()
+    {
+        $actionName = 'list';
+        $attributes = array('sort' => 'name');
+        $options = array('standalone' => true);
+        $retval = new \ArrayObject();
+
+        $httpKernel = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\HttpKernel')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container
+            ->expects($this->any())
+            ->method('get')
+            ->with('http_kernel')
+            ->will($this->returnValue($httpKernel))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getContainer')
+            ->will($this->returnValue($container))
+        ;
+
+        $httpKernel
+            ->expects($this->once())
+            ->method('render')
+            ->with('PablodipModuleBundle:Module:execute', array_merge($options, array(
+                'attributes' => array_merge($attributes, array(
+                    '_module.module' => get_class($module),
+                    '_module.action' => $actionName,
+                )),
+            )))
+            ->will($this->returnValue($retval))
+        ;
+
+        $view = new ModuleView($module);
+        $this->assertSame($retval, $view->render($actionName, $attributes, $options));
+    }
+
     public function testGetParametersToPropagate()
     {
         $parametersToPropagate = array('foo' => 'bar');

@@ -67,6 +67,27 @@ class ModuleView
     }
 
     /**
+     * Renders an action.
+     *
+     * @param string $actionName The action name.
+     * @param array  $attributes An array of attributes (optional).
+     * @param array  $options    An array of options (optional).
+     *
+     * @see Symfony\Bundle\FrameworkBundle\HttpKernel::render()
+     */
+    public function render($actionName, array $attributes = array(), array $options = array())
+    {
+        $controller = 'PablodipModuleBundle:Module:execute';
+
+        $attributes['_module.module'] = get_class($this->module);
+        $attributes['_module.action'] = $actionName;
+
+        $options['attributes'] = $attributes;
+
+        return $this->module->getContainer()->get('http_kernel')->render($controller, $options);
+    }
+
+    /**
      * Returns the parameters to propagate.
      *
      * Useful when you have to propagate parameters in a form.
