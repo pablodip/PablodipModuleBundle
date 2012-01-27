@@ -231,6 +231,29 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($retval, $this->action->executeController());
     }
 
+    public function testGetMolino()
+    {
+        $retval = new \ArrayObject();
+
+        $extension = $this->getMock('Pablodip\ModuleBundle\Extension\Molino\MandangoMolinoExtension');
+        $extension
+            ->expects($this->once())
+            ->method('getMolino')
+            ->will($this->returnValue($retval))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->any())
+            ->method('getExtension')
+            ->with('molino')
+            ->will($this->returnValue($extension))
+        ;
+
+        $this->action->setModule($module);
+        $this->assertSame($retval, $this->action->getMolino());
+    }
+
     public function testGenerateUrl()
     {
         $route = 'route_name';

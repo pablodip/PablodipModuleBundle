@@ -239,6 +239,11 @@ abstract class BaseAction implements ActionInterface
         return call_user_func($this->controller);
     }
 
+    public function getMolino()
+    {
+        return $this->getModule()->getExtension('molino')->getMolino();
+    }
+
     /**
      * Generates a URL from the given parameters.
      *
