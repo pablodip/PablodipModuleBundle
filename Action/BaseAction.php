@@ -239,6 +239,11 @@ abstract class BaseAction implements ActionInterface
         return call_user_func($this->controller);
     }
 
+    /**
+     * Returns the molino from the "molino" extension.
+     *
+     * @return MolinoInterface A molino.
+     */
     public function getMolino()
     {
         return $this->getModule()->getExtension('molino')->getMolino();
