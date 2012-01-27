@@ -32,10 +32,10 @@ class SymfonySerializerExtension extends BaseSerializerExtension
         parent::defineConfiguration();
 
         $this->getModule()->addOptions(array(
-            'serializerNormalizers' => new \ArrayObject(array(
+            'serializer_normalizers' => new \ArrayObject(array(
                 new CustomNormalizer(),
             )),
-            'serializerEncoders'    => new \ArrayObject(array(
+            'serializer_encoders'    => new \ArrayObject(array(
                 new JsonEncoder(),
             )),
         ));
@@ -43,19 +43,19 @@ class SymfonySerializerExtension extends BaseSerializerExtension
 
     public function serialize($data)
     {
-        return $this->getSerializer()->serialize($data, $this->getModule()->getOption('serializerFormat'));
+        return $this->getSerializer()->serialize($data, $this->getModule()->getOption('serializer_format'));
     }
 
     public function deserialize($data, $type)
     {
-        return $this->getSerializer()->deserialize($data, $type, $this->getModule()->getOption('serializerFormat'));
+        return $this->getSerializer()->deserialize($data, $type, $this->getModule()->getOption('serializer_format'));
     }
 
     private function getSerializer()
     {
         if (null === $this->serializer) {
-            $normalizers = (array) $this->getModule()->getOption('serializerNormalizers');
-            $encoders = (array) $this->getModule()->getOption('serializerEncoders');
+            $normalizers = (array) $this->getModule()->getOption('serializer_normalizers');
+            $encoders = (array) $this->getModule()->getOption('serializer_encoders');
             $this->serializer = new Serializer($normalizers, $encoders);
         }
 

@@ -36,9 +36,9 @@ class ModelExtension extends BaseExtension
     public function defineConfiguration()
     {
         $this->getModule()->addOptions(array(
-            'modelClass'         => null,
-            'modelFields'        => new OptionBag(),
-            'modelFieldGuessers' => new OptionBag(),
+            'model_class'          => null,
+            'model_fields'         => new OptionBag(),
+            'model_field_guessers' => new OptionBag(),
         ));
     }
 
@@ -47,13 +47,13 @@ class ModelExtension extends BaseExtension
      */
     public function parseConfiguration()
     {
-        if (null === $modelClass = $this->getModule()->getOption('modelClass')) {
-            throw new \RuntimeException('The "modelClass" option is required.');
+        if (null === $modelClass = $this->getModule()->getOption('model_class')) {
+            throw new \RuntimeException('The "model_class" option is required.');
         }
 
-        if (count($modelFieldGuessers = $this->getModule()->getOption('modelFieldGuessers'))) {
+        if (count($modelFieldGuessers = $this->getModule()->getOption('model_field_guessers'))) {
             $guessador = new FieldGuessador($modelFieldGuessers);
-            foreach ($this->getModule()->getOption('modelFields') as $field) {
+            foreach ($this->getModule()->getOption('model_fields') as $field) {
                 $guessOptions = $guessador->guessOptions($modelClass, $field->getName());
                 $field->setOptions(array_merge($guessOptions, $field->getOptions()));
             }

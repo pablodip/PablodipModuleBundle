@@ -35,8 +35,8 @@ abstract class BaseSerializerExtension extends BaseExtension
     public function defineConfiguration()
     {
         $this->getModule()->addOptions(array(
-            'serializerFormat'      => 'json',
-            'serializerContentType' => 'application/json',
+            'serializer_format'       => 'json',
+            'serializer_content_type' => 'application/json',
         ));
     }
 
@@ -49,7 +49,7 @@ abstract class BaseSerializerExtension extends BaseExtension
         if (!is_string($content)) {
             $content = $this->serialize($content);
         }
-        $headers['Content-Type'] = $this->getModule()->getOption('serializerContentType');
+        $headers['Content-Type'] = $this->getModule()->getOption('serializer_content_type');
 
         return new Response($content, $statusCode, $headers);
     }

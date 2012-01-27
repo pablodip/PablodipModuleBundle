@@ -46,13 +46,13 @@ class BaseSerializerExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDefineConfigurationSerializerFormatOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('serializerFormat'));
+        $this->assertTrue($this->module->hasOption('serializer_format'));
     }
 
     public function testDefineConfigurationSerializerContentTypeOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('serializerContentType'));
+        $this->assertTrue($this->module->hasOption('serializer_content_type'));
     }
 
     public function testCreateSerializedResponse()

@@ -83,13 +83,13 @@ class SymfonySerializerExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDefineConfigurationSerializerNormalizersOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('serializerNormalizers'));
+        $this->assertTrue($this->module->hasOption('serializer_normalizers'));
     }
 
     public function testDefineConfigurationSerializerEncodersOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('serializerEncoders'));
+        $this->assertTrue($this->module->hasOption('serializer_encoders'));
     }
 
     public function testSerialize()
