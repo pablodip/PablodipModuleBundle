@@ -131,13 +131,7 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Returns an extension by name.
-     *
-     * @param string $name The name.
-     *
-     * @return ExtensionInterface The extension.
-     *
-     * @throws \InvalidArgumentException If the exception does not exist.
+     * {@inheritdoc}
      */
     public function getExtension($name)
     {
@@ -149,9 +143,7 @@ abstract class Module implements ModuleInterface
     }
 
     /**
-     * Returns the extensions.
-     *
-     * @return array The extensions.
+     * {@inheritdoc}
      */
     public function getExtensions()
     {

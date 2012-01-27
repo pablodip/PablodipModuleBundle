@@ -35,6 +35,24 @@ interface ModuleInterface
     function getContainer();
 
     /**
+     * Returns an extension by name.
+     *
+     * @param string $name The name.
+     *
+     * @return ExtensionInterface The extension.
+     *
+     * @throws \InvalidArgumentException If the exception does not exist.
+     */
+    function getExtension($name);
+
+    /**
+     * Returns the extensions.
+     *
+     * @return array The extensions.
+     */
+    function getExtensions();
+
+    /**
      * Returns the route name prefix.
      *
      * @return string The route name prefix.
