@@ -147,6 +147,21 @@ class BaseRouteActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('foo' => 'bar', '_method' => 'GET'), $this->action->getRouteRequirements());
     }
 
+    public function testSetGetRouteOptions()
+    {
+        $routeOptions = array('expose' => true);
+        $this->assertSame($this->action, $this->action->setRouteOptions($routeOptions));
+        $this->assertSame($routeOptions, $this->action->getRouteOptions());
+    }
+
+    public function testSetRouteOption()
+    {
+        $this->assertSame($this->action, $this->action->setRouteOption('foo', 'bar'));
+        $this->assertSame(array('foo' => 'bar'), $this->action->getRouteOptions());
+        $this->assertSame($this->action, $this->action->setRouteOption('expose', true));
+        $this->assertSame(array('foo' => 'bar', 'expose' => true), $this->action->getRouteOptions());
+    }
+
     public function testSetRouteBasic()
     {
         $this->assertSame($this->action, $this->action->setRoute('list', '/list', 'ANY'));

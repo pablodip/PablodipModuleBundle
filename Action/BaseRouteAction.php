@@ -24,6 +24,7 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
     private $routePatternSuffix;
     private $routeDefaults;
     private $routeRequirements;
+    private $routeOptions;
 
     /**
      * Constructor.
@@ -34,6 +35,7 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
 
         $this->routeDefaults = array();
         $this->routeRequirements = array();
+        $this->routeOptions = array();
     }
 
     protected function initialize()
@@ -167,6 +169,43 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
     public function setRouteRequirement($name, $value)
     {
         $this->routeRequirements[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Sets the route options.
+     *
+     * @param array $routeOptions The route options.
+     *
+     * @return AbstractAction The action (fluent interface).
+     */
+    public function setRouteOptions(array $routeOptions)
+    {
+        $this->routeOptions = $routeOptions;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteOptions()
+    {
+        return $this->routeOptions;
+    }
+
+    /**
+     * Sets a route option.
+     *
+     * @param string $name  The name.
+     * @param mixed  $value The value.
+     *
+     * @return AbstractAction The action (fluent interface).
+     */
+    public function setRouteOption($name, $value)
+    {
+        $this->routeOptions[$name] = $value;
 
         return $this;
     }

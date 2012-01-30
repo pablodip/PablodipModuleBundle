@@ -27,15 +27,18 @@ class ModuleFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(4, count($collection->all()));
 
         foreach (array(
-            'list'   => array('', array(), array()),
-            'cre'    => array('/create', array('_method' => 'POST')),
-            'update' => array('/up', array('_method' => 'PUT')),
-            'delete' => array('/delete', array('_method' => 'DELETE')),
+            'list'   => array('', array(), array('expose' => true)),
+            'cre'    => array('/create', array('_method' => 'POST'), array()),
+            'update' => array('/up', array('_method' => 'PUT'), array()),
+            'delete' => array('/delete', array('_method' => 'DELETE'), array()),
         ) as $name => $data) {
             $route = $collection->get('my_crud_'.$name);
             $this->assertNotNull($route);
             $this->assertSame('/foo-bar'.$data[0], $route->getPattern());
             $this->assertSame($data[1], $route->getRequirements());
+            $options = $route->getOptions();
+            unset($options['compiler_class']);
+            $this->assertSame($data[2], $options);
         }
     }
 

@@ -92,8 +92,10 @@ class ModuleFileLoader extends FileLoader
                 ));
                 // requirements (just from the action)
                 $requirements = $action->getRouteRequirements();
+                // options (from the action)
+                $options = $action->getRouteOptions();
 
-                $collection->add($name, new Route($pattern, $defaults, $requirements));
+                $collection->add($name, new Route($pattern, $defaults, $requirements, $options));
             }
         }
 

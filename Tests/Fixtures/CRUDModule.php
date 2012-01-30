@@ -15,9 +15,12 @@ class CRUDModule extends Module
             ->setRoutePatternPrefix('/foo-bar')
         ;
 
+        $listAction = new RouteAction('list', '/', 'ANY', function () {});
+        $listAction->setRouteOption('expose', true);
+
         $this->addActions(array(
             new Action('internal', function () {}),
-            new RouteAction('list', '/', 'ANY', function () {}),
+            $listAction,
             new RouteAction('cre', '/create', 'POST', function () {}),
             new RouteAction('update', '/up', 'PUT', function () {}),
             new RouteAction('delete', '/delete', 'DELETE', function () {}),
