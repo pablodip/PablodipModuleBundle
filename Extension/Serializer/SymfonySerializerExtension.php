@@ -36,7 +36,7 @@ class SymfonySerializerExtension extends BaseSerializerExtension
                 new CustomNormalizer(),
             )),
             'serializer_encoders'    => new \ArrayObject(array(
-                new JsonEncoder(),
+                'json' => new JsonEncoder(),
             )),
         ));
     }
