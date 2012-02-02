@@ -78,6 +78,13 @@ class OptionBagTest extends \PHPUnit_Framework_TestCase
         $bag->get('ups');
     }
 
+    public function testHas()
+    {
+        $bag = new OptionBag(array('foo' => 'bar'));
+        $this->assertTrue($bag->has('foo'));
+        $this->assertFalse($bag->has('bar'));
+    }
+
     public function testReplace()
     {
         $bag = new OptionBag();

@@ -125,6 +125,18 @@ class OptionBag implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns whether or not an option exists.
+     *
+     * @param string $name The name.
+     *
+     * @return Boolean Whether the option exists or not.
+     */
+    public function has($name)
+    {
+        return array_key_exists($name, $this->options);
+    }
+
+    /**
      * Replaces the options.
      *
      * @param array $options An array of options.
