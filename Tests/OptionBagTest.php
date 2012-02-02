@@ -62,6 +62,22 @@ class OptionBagTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('foo' => 'bar', 'bar' => 'foo'), $bag->all());
     }
 
+    public function testGet()
+    {
+        $bag = new OptionBag(array('foo' => 'bar', 'ups' => 'yep'));
+        $this->assertSame('bar', $bag->get('foo'));
+        $this->assertSame('yep', $bag->get('ups'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetNotExists()
+    {
+        $bag = new OptionBag(array('foo' => 'bar'));
+        $bag->get('ups');
+    }
+
     public function testReplace()
     {
         $bag = new OptionBag();

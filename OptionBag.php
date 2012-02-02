@@ -107,6 +107,24 @@ class OptionBag implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns a option by name.
+     *
+     * @param string $name The name.
+     *
+     * @return mixed The option value.
+     *
+     * @throws \InvalidArgumentException If the option does not exist.
+     */
+    public function get($name)
+    {
+        if (!array_key_exists($name, $this->options)) {
+            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
+        }
+
+        return $this->options[$name];
+    }
+
+    /**
      * Replaces the options.
      *
      * @param array $options An array of options.
