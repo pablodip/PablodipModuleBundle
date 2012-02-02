@@ -67,6 +67,31 @@ class ModuleView
     }
 
     /**
+     * Returns a module option.
+     *
+     * @param string $name The name.
+     *
+     * @return mixed The value.
+     */
+    public function getOption($name)
+    {
+        return $this->module->getOption($name);
+    }
+
+    /**
+     * Returns an action option.
+     *
+     * @param string $actionName The action name.
+     * @param string $optionName The option name.
+     *
+     * @return mixed The option value.
+     */
+    public function getActionOption($actionName, $optionName)
+    {
+        return $this->module->getAction($actionName)->getOption($optionName);
+    }
+
+    /**
      * Renders an action.
      *
      * @param string $actionName The action name.

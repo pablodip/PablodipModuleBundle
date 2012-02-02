@@ -44,6 +44,49 @@ class ModuleViewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($url, $view->url($routeNameSuffix, $parameters));
     }
 
+    public function testGetOption()
+    {
+        $name = 'foo';
+        $value = new \ArrayObject();
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->once())
+            ->method('getOption')
+            ->with($name)
+            ->will($this->returnValue($value))
+        ;
+
+        $view = new ModuleView($module);
+        $this->assertSame($value, $view->getOption($name));
+    }
+
+    public function testGetActionOption()
+    {
+        $action = 'list';
+        $name = 'foo';
+        $value = new \ArrayObject();
+
+        $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+        $action
+            ->expects($this->once())
+            ->method('getOption')
+            ->with($name)
+            ->will($this->returnValue($value))
+        ;
+
+        $module = $this->getMock('Pablodip\ModuleBundle\Module\ModuleInterface');
+        $module
+            ->expects($this->once())
+            ->method('getAction')
+            ->with($action)
+            ->will($this->returnValue($action))
+        ;
+
+        $view = new ModuleView($module);
+        $this->assertSame($value, $view->getActionOption($action, $name));
+    }
+
     public function testRender()
     {
         $actionName = 'list';
