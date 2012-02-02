@@ -61,13 +61,13 @@ class ModelExtensionTest extends \PHPUnit_Framework_TestCase
     public function testDefineConfigurationModelFieldsOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('model_fields'));
+        $this->assertInstanceOf('Pablodip\ModuleBundle\Field\FieldBag', $this->module->getOption('model_fields'));
     }
 
     public function testDefineConfigurationModelFieldGuessersOption()
     {
         $this->extension->defineConfiguration();
-        $this->assertTrue($this->module->hasOption('model_field_guessers'));
+        $this->assertInstanceOf('Pablodip\ModuleBundle\OptionBag', $this->module->getOption('model_field_guessers'));
     }
 
     /**

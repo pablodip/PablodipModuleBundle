@@ -12,6 +12,7 @@
 namespace Pablodip\ModuleBundle\Extension\Model;
 
 use Pablodip\ModuleBundle\Extension\BaseExtension;
+use Pablodip\ModuleBundle\Field\FieldBag;
 use Pablodip\ModuleBundle\OptionBag;
 use Pablodip\ModuleBundle\Field\Guesser\FieldGuessador;
 
@@ -37,7 +38,7 @@ class ModelExtension extends BaseExtension
     {
         $this->getModule()->addOptions(array(
             'model_class'          => null,
-            'model_fields'         => new OptionBag(),
+            'model_fields'         => new FieldBag(),
             'model_field_guessers' => new OptionBag(),
         ));
     }
