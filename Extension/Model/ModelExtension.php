@@ -60,4 +60,38 @@ class ModelExtension extends BaseExtension
             }
         }
     }
+
+    /**
+     * Filters the global fields.
+     *
+     * @param FieldBag $fields A field bag.
+     *
+     * @return FieldBag The fields filtered.
+     */
+    public function filterFields(FieldBag $fields)
+    {
+        $allFields = $this->getModule()->getOption('model_fields');
+
+        if (count($fields)) {
+            $filteredFields = new FieldBag();
+            foreach ($fields as $name => $field) {
+                if (!$allFields->has($name)) {
+                    throw new \RuntimeException(sprintf('The field "%s" does not exist.', $name));
+                }
+
+                $filteredField = clone $field;
+                foreach ($allFields->get($name)->getOptions() as $optionName => $optionValue) {
+                    if (!$filteredField->hasOption($optionName)) {
+                        $filteredField->setOption($optionName, $optionValue);
+                    }
+                }
+
+                $filteredFields->set($name, $filteredField);
+            }
+        } else {
+            $filteredFields = clone $allFields;
+        }
+
+        return $filteredFields;
+    }
 }

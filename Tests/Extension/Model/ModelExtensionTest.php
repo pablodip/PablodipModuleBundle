@@ -4,6 +4,7 @@ namespace Pablodip\ModuleBundle\Tests\Extension\Model;
 
 use Pablodip\ModuleBundle\Extension\Model\ModelExtension;
 use Pablodip\ModuleBundle\Module\Module;
+use Pablodip\ModuleBundle\Field\FieldBag;
 
 class ModelExtensionModule extends Module
 {
@@ -77,5 +78,49 @@ class ModelExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->extension->defineConfiguration();
         $this->extension->parseConfiguration();
+    }
+
+    public function testFilterFields()
+    {
+        $this->extension->defineConfiguration();
+        $this->module->getOption('model_fields')->add(array(
+            'foo' => array('foo' => 'bar'),
+            'bar' => array('bar' => 'foo'),
+            'ups' => array('foo' => 'bar', 'bar' => 'foo'),
+        ));
+
+        $filteredFields = $this->extension->filterFields($fields = new FieldBag(array(
+            'foo',
+            'ups' => array('bar' => 'ups'),
+        )));
+        $this->assertEquals(new FieldBag(array(
+            'foo' => array('foo' => 'bar'),
+            'ups' => array('foo' => 'bar', 'bar' => 'ups'),
+        )), $filteredFields);
+    }
+
+    public function testFilterFieldsEmpty()
+    {
+        $this->extension->defineConfiguration();
+        $this->module->getOption('model_fields')->add(array(
+            'foo' => array('foo' => 'bar'),
+            'bar' => array('bar' => 'foo'),
+            'ups' => array('foo' => 'bar', 'bar' => 'foo'),
+        ));
+
+        $filteredFields = $this->extension->filterFields(new FieldBag());
+        $this->assertEquals($filteredFields, $this->module->getOption('model_fields'));
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testFilterFieldsFieldDoesNotExist()
+    {
+        $this->extension->defineConfiguration();
+        $this->module->getOption('model_fields')->add(array(
+            'foo',
+        ));
+        $this->extension->filterFields(new FieldBag(array('foo', 'bar')));
     }
 }
