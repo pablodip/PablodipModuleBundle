@@ -38,6 +38,15 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($options, $field->getOptions());
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetOptionNotExists()
+    {
+        $field = new Field('foo');
+        $field->getOption('bar');
+    }
+
     public function testGetLabel()
     {
         $field = new Field('foo_bar');

@@ -94,7 +94,7 @@ class Field
     public function getOption($name)
     {
         if (!$this->hasOption($name)) {
-            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.'));
+            throw new \InvalidArgumentException(sprintf('The option "%s" does not exist.', $name));
         }
 
         return $this->options[$name];
