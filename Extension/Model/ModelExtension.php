@@ -53,7 +53,7 @@ class ModelExtension extends BaseExtension
         }
 
         if (count($modelFieldGuessers = $this->getModule()->getOption('model_field_guessers'))) {
-            $guessador = new FieldGuessador($modelFieldGuessers);
+            $guessador = new FieldGuessador($modelFieldGuessers->all());
             foreach ($this->getModule()->getOption('model_fields') as $field) {
                 $guessOptions = $guessador->guessOptions($modelClass, $field->getName());
                 $field->setOptions(array_merge($guessOptions, $field->getOptions()));
