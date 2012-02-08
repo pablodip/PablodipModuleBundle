@@ -91,6 +91,19 @@ class MolinoNestedTestModuleTest extends WebTestCase
         $this->assertEquals($article2->getId(), $client->getResponse()->getContent());
     }
 
+    public function testParameterToPropagate()
+    {
+        $client = static::createClient();
+        $molino = $this->createMolinoAndClean($client);
+
+        $article1 = $molino->create($this->getArticleClass());
+        $article1->setTitle('foo');
+        $molino->save($article1);
+
+        $crawler = $client->request('GET', '/molino-nested/'.$article1->getId().'/comments/parameter-to-propagate');
+        $this->assertSame('/molino-nested/'.$article1->getId().'/comments', $client->getResponse()->getContent());
+    }
+
     private function createMolino($client)
     {
         return new Molino($client->getContainer()->get('mandango'));

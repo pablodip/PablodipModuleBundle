@@ -113,6 +113,8 @@ class MolinoNestedExtension extends BaseExtension
         $this->addCheckParentControllerPreExecute();
         $this->addCreateQueryEvent();
         $this->addCreateModelEvent();
+
+        $this->getModule()->addParameterToPropagate($this->getRouteParameter());
     }
 
     private function addCheckParentControllerPreExecute()

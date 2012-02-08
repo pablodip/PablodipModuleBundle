@@ -41,5 +41,9 @@ class MolinoNestedTestModule extends Module
 
             return new Response($comment->getArticle()->getId());
         }));
+
+        $this->addAction(new RouteAction('propagate', '/parameter-to-propagate', 'GET', function (RouteAction $action) {
+            return new Response($action->generateModuleUrl('list'));
+        }));
     }
 }
