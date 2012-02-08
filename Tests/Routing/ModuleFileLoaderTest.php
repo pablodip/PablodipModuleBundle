@@ -9,13 +9,15 @@ use Symfony\Component\Config\FileLocator;
 class ModuleFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
+    private $parser;
     private $moduleManager;
     private $loader;
 
     protected function setUp()
     {
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->moduleManager = new ModuleManager($this->container);
+        $this->parser = $this->getMock('Pablodip\ModuleBundle\Module\ModuleNameParserInterface');
+        $this->moduleManager = new ModuleManager($this->container, $this->parser);
         $this->loader = new ModuleFileLoader(new FileLocator(), $this->moduleManager);
     }
 

@@ -20,29 +20,37 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ModuleManager implements ModuleManagerInterface
 {
-    private $container;
     private $modules;
+    private $container;
+    private $parser;
 
     /**
      * Cosntructor.
      *
-     * @param ContainerInterface $container A container.
+     * @param ContainerInterface        $container A container.
+     * @param ModuleNameParserInterface $parser    A module name parser.
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, ModuleNameParserInterface $parser)
     {
-        $this->container = $container;
         $this->modules = array();
+
+        $this->container = $container;
+        $this->parser = $parser;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($moduleClass)
+    public function get($module)
     {
-        if (!isset($this->modules[$moduleClass])) {
-            $this->modules[$moduleClass] = new $moduleClass($this->container);
+        if (false !== strpos($module, ':')) {
+            $module = $this->parser->parse($module);
         }
 
-        return $this->modules[$moduleClass];
+        if (!isset($this->modules[$module])) {
+            $this->modules[$module] = new $module($this->container);
+        }
+
+        return $this->modules[$module];
     }
 }

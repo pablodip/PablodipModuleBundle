@@ -5,14 +5,20 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="module_name_parser.class">Pablodip\ModuleBundle\Module\ModuleNameParser</parameter>
         <parameter key="module_manager.class">Pablodip\ModuleBundle\Module\ModuleManager</parameter>
         <parameter key="routing.loader.module_file.class">Pablodip\ModuleBundle\Routing\ModuleFileLoader</parameter>
         <parameter key="routing.loader.module_directory.class">Pablodip\ModuleBundle\Routing\ModuleDirectoryLoader</parameter>
     </parameters>
 
     <services>
+        <service id="module_name_parser" class="%module_name_parser.class%">
+            <argument type="service" id="kernel" />
+        </service>
+
         <service id="module_manager" class="%module_manager.class%">
             <argument type="service" id="service_container" />
+            <argument type="service" id="module_name_parser" />
         </service>
 
         <service id="routing.loader.module_file" class="%routing.loader.module_file.class%">

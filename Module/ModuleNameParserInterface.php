@@ -12,18 +12,16 @@
 namespace Pablodip\ModuleBundle\Module;
 
 /**
- * ModuleManagerInterface.
+ * ModuleNameParserInterface.
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-interface ModuleManagerInterface
+interface ModuleNameParserInterface
 {
     /**
-     * Returns a module.
+     * Converts a notation to a class.
      *
-     * @param The module.
-     *
-     * @return ModuleInterface A module.
+     * @param string $module A notation.
      */
-    function get($module);
+    function parse($module);
 }

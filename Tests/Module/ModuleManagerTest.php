@@ -22,12 +22,14 @@ class ModuleManagerModule2 extends Module
 class ModuleManagerTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
+    private $parser;
     private $manager;
 
     protected function setUp()
     {
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->manager = new ModuleManager($this->container);
+        $this->parser = $this->getMock('Pablodip\ModuleBundle\Module\ModuleNameParserInterface');
+        $this->manager = new ModuleManager($this->container, $this->parser);
     }
 
     public function testGet()
