@@ -17,7 +17,10 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Symfony' => $vendorDir.'/symfony/src',
+    'Symfony'           => $vendorDir.'/symfony/src',
+    'Mandango\Mondator' => $vendorDir.'/mondator/src',
+    'Mandango'          => array($vendorDir.'/mandango/src', $vendorDir.'/bundles'),
+    'Molino'            => $vendorDir.'/molino/src',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => $vendorDir.'/twig/lib',

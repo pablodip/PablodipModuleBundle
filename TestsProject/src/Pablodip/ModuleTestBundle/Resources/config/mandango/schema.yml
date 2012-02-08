@@ -1,0 +1,11 @@
+Model\PablodipModuleTestBundle\Article:
+    idGenerator: sequence
+    fields:
+        title: string
+
+Model\PablodipModuleTestBundle\Comment:
+    idGenerator: sequence
+    fields:
+        text: string
+    referencesOne:
+        article: { class: Model\PablodipModuleTestBundle\Article }

@@ -14,7 +14,9 @@ $deps = array(
     array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
     array('twig', 'http://github.com/fabpot/Twig', 'origin/master'),
     array('molino', 'http://github.com/pablodip/molino', 'origin/master'),
+    array('mondator', 'http://github.com/mandango/mondator', 'origin/master'),
     array('mandango', 'http://github.com/mandango/mandango', 'origin/master'),
+    array('mandango-bundle', 'http://github.com/mandango/MandangoBundle', 'origin/master', 'bundles/Mandango/MandangoBundle'),
 );
 
 foreach ($deps as $dep) {
