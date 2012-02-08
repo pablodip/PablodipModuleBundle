@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+foreach (array(
+    'mandango:generate',
+) as $command) {
+    system('php '.__DIR__.'/TestsProject/app/console '.$command);
+}
+
 require_once(__DIR__.'/vendor/symfony/src/Symfony/Component/Process/Process.php');
 
 use Symfony\Component\Process\Process;
