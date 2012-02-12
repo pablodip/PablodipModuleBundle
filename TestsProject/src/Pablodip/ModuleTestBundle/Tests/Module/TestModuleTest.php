@@ -1,6 +1,6 @@
 <?php
 
-namespace Pablodip\ModuleTestBundle\Tests\Module\Test;
+namespace Pablodip\ModuleTestBundle\Tests\Module;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
