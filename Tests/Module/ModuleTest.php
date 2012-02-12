@@ -373,7 +373,8 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     public function testGenerateModuleUrl()
     {
         $routeNamePrefix = 'my_prefix_';
-        $routeNameSuffix = 'list';
+        $actionName = 'list';
+        $actionRouteName = 'my_list';
         $parameters = array('foo' => 'bar', 'bar' => 'foo');
         $absolute = false;
         $url = '/ups/bump';
@@ -382,7 +383,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $router
             ->expects($this->once())
             ->method('generate')
-            ->with($routeNamePrefix.$routeNameSuffix, $parameters, $absolute)
+            ->with($routeNamePrefix.$actionRouteName, $parameters, $absolute)
             ->will($this->returnValue($url))
         ;
 
@@ -394,10 +395,23 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($router))
         ;
 
+        $action = $this->getMock('Pablodip\ModuleBundle\Action\RouteActionInterface');
+        $action
+            ->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue($actionName))
+        ;
+        $action
+            ->expects($this->once())
+            ->method('getRouteNameSuffix')
+            ->will($this->returnValue($actionRouteName))
+        ;
+
         $module = new Module($container);
+        $module->addAction($action);
         $module->setRouteNamePrefix($routeNamePrefix);
 
-        $this->assertSame($url, $module->generateModuleUrl($routeNameSuffix, $parameters, $absolute));
+        $this->assertSame($url, $module->generateModuleUrl($actionName, $parameters, $absolute));
     }
 
     public function testForward()

@@ -290,7 +290,7 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateModuleUrl()
     {
-        $routeNameSuffix = 'list';
+        $actionName = 'list';
         $parameters = array('foo' => 'bar');
         $absolute = true;
         $retval = new \DateTime();
@@ -299,13 +299,13 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $module
             ->expects($this->once())
             ->method('generateModuleUrl')
-            ->with($routeNameSuffix, $parameters, $absolute)
+            ->with($actionName, $parameters, $absolute)
             ->will($this->returnValue($retval))
         ;
 
         $this->action->setModule($module);
 
-        $this->assertSame($retval, $this->action->generateModuleUrl($routeNameSuffix, $parameters, $absolute));
+        $this->assertSame($retval, $this->action->generateModuleUrl($actionName, $parameters, $absolute));
     }
 
     public function testRedirect()

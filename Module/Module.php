@@ -470,9 +470,9 @@ abstract class Module implements ModuleInterface
     /**
      * {@inheritdoc}
      */
-    public function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false)
+    public function generateModuleUrl($actionName, array $parameters = array(), $absolute = false)
     {
-        $routeName = $this->getRouteNamePrefix().$routeNameSuffix;
+        $routeName = $this->getRouteNamePrefix().$this->getAction($actionName)->getRouteNameSuffix();
 
         if ($this->parametersToPropagate) {
             $request = $this->container->get('request');

@@ -144,13 +144,13 @@ interface ModuleInterface
     /**
      * Generates a module url.
      *
-     * @param string  $routeNameSuffix The routeNameSuffix.
-     * @param array   $parameters      An array of parameters.
-     * @param Boolean $absolute        Whether to generate an absolute url or not.
+     * @param string  $actionName The action name.
+     * @param array   $parameters An array of parameters.
+     * @param Boolean $absolute   Whether to generate an absolute url or not.
      *
      * @return string The url.
      */
-    function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false);
+    function generateModuleUrl($actionName, array $parameters = array(), $absolute = false);
 
     /**
      * Forwards the request to an action.

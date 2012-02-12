@@ -266,15 +266,15 @@ abstract class BaseAction implements ActionInterface
     /**
      * Generates a module url.
      *
-     * @param string  $routeNameSuffix The route name suffix.
-     * @param array   $parameters      An array of parameters.
-     * @param Boolean $absolute        Whether to generate an absolute URL.
+     * @param string  $actionName The action name.
+     * @param array   $parameters An array of parameters.
+     * @param Boolean $absolute   Whether to generate an absolute URL.
      *
      * @return string The URL.
      */
-    public function generateModuleUrl($routeNameSuffix, array $parameters = array(), $absolute = false)
+    public function generateModuleUrl($actionName, array $parameters = array(), $absolute = false)
     {
-        return $this->module->generateModuleUrl($routeNameSuffix, $parameters, $absolute);
+        return $this->module->generateModuleUrl($actionName, $parameters, $absolute);
     }
 
     /**
