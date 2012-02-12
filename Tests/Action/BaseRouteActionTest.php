@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 class BaseRouteAction extends BaseBaseRouteAction
 {
     static public $name;
-    static public $routeNameSuffix;
-    static public $routePatternSuffix;
+    static public $routeName;
+    static public $routePattern;
     static public $controller;
 
     protected function defineConfiguration()
@@ -18,11 +18,11 @@ class BaseRouteAction extends BaseBaseRouteAction
         if (null !== self::$name) {
             $this->setName(self::$name);
         }
-        if (null !== self::$routeNameSuffix) {
-            $this->setRouteNameSuffix(self::$routeNameSuffix);
+        if (null !== self::$routeName) {
+            $this->setRouteName(self::$routeName);
         }
-        if (null !== self::$routePatternSuffix) {
-            $this->setRoutePatternSuffix(self::$routePatternSuffix);
+        if (null !== self::$routePattern) {
+            $this->setRoutePattern(self::$routePattern);
         }
         if (null !== self::$controller) {
             $this->setController(self::$controller);
@@ -41,8 +41,8 @@ class BaseRouteActionTest extends \PHPUnit_Framework_TestCase
         $this->controller = function () {};
 
         BaseRouteAction::$name = 'list_name';
-        BaseRouteAction::$routeNameSuffix = 'list';
-        BaseRouteAction::$routePatternSuffix = '/list';
+        BaseRouteAction::$routeName = 'list';
+        BaseRouteAction::$routePattern = '/list';
         BaseRouteAction::$controller = $this->controller;
 
         $this->action = new BaseRouteAction();
@@ -70,9 +70,9 @@ class BaseRouteActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testConstructorConfigureNoRouteNameSuffix()
+    public function testConstructorConfigureNoRouteName()
     {
-        BaseRouteAction::$routeNameSuffix = null;
+        BaseRouteAction::$routeName = null;
 
         $action = new BaseRouteAction();
         $action->setModule($this->module);
@@ -81,9 +81,9 @@ class BaseRouteActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testConstructorConfigureNoRoutePatternSuffix()
+    public function testConstructorConfigureNoRoutePattern()
     {
-        BaseRouteAction::$routePatternSuffix = null;
+        BaseRouteAction::$routePattern = null;
 
         $action = new BaseRouteAction();
         $action->setModule($this->module);
@@ -102,19 +102,19 @@ class BaseRouteActionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetRouteName()
     {
-        $this->assertSame($this->action, $this->action->setRouteNameSuffix('list'));
-        $this->assertSame('list', $this->action->getRouteNameSuffix());
+        $this->assertSame($this->action, $this->action->setRouteName('list'));
+        $this->assertSame('list', $this->action->getRouteName());
     }
 
     public function testSetGetRoutePattern()
     {
         // /
-        $this->assertSame($this->action, $this->action->setRoutePatternSuffix('/'));
-        $this->assertSame('/', $this->action->getRoutePatternSuffix());
+        $this->assertSame($this->action, $this->action->setRoutePattern('/'));
+        $this->assertSame('/', $this->action->getRoutePattern());
 
         // normal
-        $this->assertSame($this->action, $this->action->setRoutePatternSuffix('/list'));
-        $this->assertSame('/list', $this->action->getRoutePatternSuffix());
+        $this->assertSame($this->action, $this->action->setRoutePattern('/list'));
+        $this->assertSame('/list', $this->action->getRoutePattern());
     }
 
     public function testSetGetRouteDefaults()
@@ -165,8 +165,8 @@ class BaseRouteActionTest extends \PHPUnit_Framework_TestCase
     public function testSetRouteBasic()
     {
         $this->assertSame($this->action, $this->action->setRoute('list', '/list', 'ANY'));
-        $this->assertSame('list', $this->action->getRouteNameSuffix());
-        $this->assertSame('/list', $this->action->getRoutePatternSuffix());
+        $this->assertSame('list', $this->action->getRouteName());
+        $this->assertSame('/list', $this->action->getRoutePattern());
         $this->assertSame(array(), $this->action->getRouteDefaults());
         $this->assertSame(array(), $this->action->getRouteRequirements());
     }

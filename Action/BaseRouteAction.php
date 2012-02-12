@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class BaseRouteAction extends BaseAction implements RouteActionInterface
 {
-    private $routeNameSuffix;
-    private $routePatternSuffix;
+    private $routeName;
+    private $routePattern;
     private $routeDefaults;
     private $routeRequirements;
     private $routeOptions;
@@ -42,29 +42,29 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
     {
         parent::initialize();
 
-        if (!$this->getRouteNameSuffix()) {
-            throw new \RuntimeException('An action must have route name suffix.');
+        if (!$this->getRouteName()) {
+            throw new \RuntimeException('An action must have route name.');
         }
-        if (!$this->getRoutePatternSuffix()) {
-            throw new \RuntimeException('An action must have route pattern suffix.');
+        if (!$this->getRoutePattern()) {
+            throw new \RuntimeException('An action must have route pattern.');
         }
 
-        // if there is no name the route name suffix is the name
+        // if there is no name the route name is the name
         if (!$this->getName()) {
-            $this->setName($this->getRouteNameSuffix());
+            $this->setName($this->getRouteName());
         }
     }
 
     /**
-     * Sets the route name suffix.
+     * Sets the route name.
      *
-     * @param string $routeNameSuffix The route name suffix.
+     * @param string $routeName The route name.
      *
      * @return AbstractAction The action (fluent interface).
      */
-    public function setRouteNameSuffix($routeNameSuffix)
+    public function setRouteName($routeName)
     {
-        $this->routeNameSuffix = $routeNameSuffix;
+        $this->routeName = $routeName;
 
         return $this;
     }
@@ -72,21 +72,21 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
     /**
      * {@inheritdoc}
      */
-    public function getRouteNameSuffix()
+    public function getRouteName()
     {
-        return $this->routeNameSuffix;
+        return $this->routeName;
     }
 
     /**
-     * Sets the route pattern suffix.
+     * Sets the route pattern.
      *
-     * @param string $routePatternSuffix The route pattern suffix.
+     * @param string $routePattern The route pattern.
      *
      * @return AbstractAction The action (fluent interface).
      */
-    public function setRoutePatternSuffix($routePatternSuffix)
+    public function setRoutePattern($routePattern)
     {
-        $this->routePatternSuffix = $routePatternSuffix;
+        $this->routePattern = $routePattern;
 
         return $this;
     }
@@ -94,9 +94,9 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
     /**
      * {@inheritdoc}
      */
-    public function getRoutePatternSuffix()
+    public function getRoutePattern()
     {
-        return $this->routePatternSuffix;
+        return $this->routePattern;
     }
 
     /**
@@ -213,16 +213,16 @@ abstract class BaseRouteAction extends BaseAction implements RouteActionInterfac
     /**
      * Set the route (less verbose than to use all the methods).
      *
-     * @param string      $nameSuffix    The route name.
-     * @param string      $patternSuffix The route pattern.
-     * @param string|null $method        The method ('ANY' for any).
+     * @param string      $name    The route name.
+     * @param string      $pattern The route pattern.
+     * @param string|null $method  The method ('ANY' for any).
      *
      * @return AbstractAction The action (fluent interface).
      */
-    public function setRoute($nameSuffix, $patternSuffix, $method)
+    public function setRoute($name, $pattern, $method)
     {
-        $this->setRouteNameSuffix($nameSuffix);
-        $this->setRoutePatternSuffix($patternSuffix);
+        $this->setRouteName($name);
+        $this->setRoutePattern($pattern);
         $this->setRouteRequirements('ANY' === $method ? array() : array('_method' => $method));
         $this->setRouteDefaults(array());
 

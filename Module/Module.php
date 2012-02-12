@@ -472,7 +472,7 @@ abstract class Module implements ModuleInterface
      */
     public function generateModuleUrl($actionName, array $parameters = array(), $absolute = false)
     {
-        $routeName = $this->getRouteNamePrefix().$this->getAction($actionName)->getRouteNameSuffix();
+        $routeName = $this->getRouteNamePrefix().$this->getAction($actionName)->getRouteName();
 
         if ($this->parametersToPropagate) {
             $request = $this->container->get('request');

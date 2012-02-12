@@ -77,12 +77,12 @@ class ModuleFileLoader extends FileLoader
                 $collection->addResource(new FileResource($reflection->getFileName()));
 
                 // name (module prefix + action suffix)
-                $name = $routeNamePrefix.$action->getRouteNameSuffix();
+                $name = $routeNamePrefix.$action->getRouteName();
                 // pattern (module prefix + action suffix)
-                if ('/' === $action->getRoutePatternSuffix() && '' !== $routePatternPrefix) {
+                if ('/' === $action->getRoutePattern() && '' !== $routePatternPrefix) {
                     $pattern = $routePatternPrefix;
                 } else {
-                    $pattern = $routePatternPrefix.$action->getRoutePatternSuffix();
+                    $pattern = $routePatternPrefix.$action->getRoutePattern();
                 }
                 // defaults (action defaults + defaults needed to execute)
                 $defaults = array_merge($action->getRouteDefaults(), array(

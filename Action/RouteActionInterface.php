@@ -19,18 +19,18 @@ namespace Pablodip\ModuleBundle\Action;
 interface RouteActionInterface extends ActionInterface
 {
     /**
-     * Returns the route name suffix.
+     * Returns the route name.
      *
-     * @return string The route name suffix.
+     * @return string The route name.
      */
-    function getRouteNameSuffix();
+    function getRouteName();
 
     /**
-     * Returns the route pattern suffix.
+     * Returns the route pattern.
      *
-     * @return string The route pattern suffix.
+     * @return string The route pattern.
      */
-    function getRoutePatternSuffix();
+    function getRoutePattern();
 
     /**
      * Returns the route defaults.

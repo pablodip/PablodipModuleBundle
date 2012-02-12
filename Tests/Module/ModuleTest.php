@@ -403,7 +403,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         ;
         $action
             ->expects($this->once())
-            ->method('getRouteNameSuffix')
+            ->method('getRouteName')
             ->will($this->returnValue($actionRouteName))
         ;
 
