@@ -30,4 +30,13 @@ class TestModuleTest extends WebTestCase
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertSame('Guessing template.'."\n", $client->getResponse()->getContent());
     }
+
+    public function testTwigModule()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/test-module/twig-module');
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertSame('/test-module/simple'."\n", $client->getResponse()->getContent());
+    }
 }

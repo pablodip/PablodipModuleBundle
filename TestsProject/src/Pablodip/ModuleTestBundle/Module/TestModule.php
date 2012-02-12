@@ -26,5 +26,9 @@ class TestModule extends Module
         $this->addAction(new RouteAction('guess_template', '/guess-template', 'GET', function (RouteAction $action) {
             return $action->render(array());
         }));
+
+        $this->addAction(new RouteAction('twig_module', '/twig-module', 'GET', function (RouteAction $action) {
+            return $action->render('PablodipModuleTestBundle:Test:twig_module.html.twig');
+        }));
     }
 }
