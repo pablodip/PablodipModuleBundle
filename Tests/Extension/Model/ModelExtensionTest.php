@@ -99,19 +99,6 @@ class ModelExtensionTest extends \PHPUnit_Framework_TestCase
         )), $filteredFields);
     }
 
-    public function testFilterFieldsEmpty()
-    {
-        $this->extension->defineConfiguration();
-        $this->module->getOption('model_fields')->add(array(
-            'foo' => array('foo' => 'bar'),
-            'bar' => array('bar' => 'foo'),
-            'ups' => array('foo' => 'bar', 'bar' => 'foo'),
-        ));
-
-        $filteredFields = $this->extension->filterFields(new FieldBag());
-        $this->assertEquals($filteredFields, $this->module->getOption('model_fields'));
-    }
-
     /**
      * @expectedException \RuntimeException
      */

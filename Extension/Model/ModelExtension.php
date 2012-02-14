@@ -72,24 +72,20 @@ class ModelExtension extends BaseExtension
     {
         $allFields = $this->getModule()->getOption('model_fields');
 
-        if (count($fields)) {
-            $filteredFields = new FieldBag();
-            foreach ($fields as $name => $field) {
-                if (!$allFields->has($name)) {
-                    throw new \RuntimeException(sprintf('The field "%s" does not exist.', $name));
-                }
-
-                $filteredField = clone $field;
-                foreach ($allFields->get($name)->getOptions() as $optionName => $optionValue) {
-                    if (!$filteredField->hasOption($optionName)) {
-                        $filteredField->setOption($optionName, $optionValue);
-                    }
-                }
-
-                $filteredFields->set($name, $filteredField);
+        $filteredFields = new FieldBag();
+        foreach ($fields as $name => $field) {
+            if (!$allFields->has($name)) {
+                throw new \RuntimeException(sprintf('The field "%s" does not exist.', $name));
             }
-        } else {
-            $filteredFields = clone $allFields;
+
+            $filteredField = clone $field;
+            foreach ($allFields->get($name)->getOptions() as $optionName => $optionValue) {
+                if (!$filteredField->hasOption($optionName)) {
+                    $filteredField->setOption($optionName, $optionValue);
+                }
+            }
+
+            $filteredFields->set($name, $filteredField);
         }
 
         return $filteredFields;
