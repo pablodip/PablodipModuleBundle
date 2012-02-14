@@ -11,12 +11,12 @@ if (isset($argv[1])) {
 }
 
 $deps = array(
-    array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
-    array('twig', 'http://github.com/fabpot/Twig', 'origin/master'),
-    array('molino', 'http://github.com/pablodip/molino', 'origin/master'),
-    array('mondator', 'http://github.com/mandango/mondator', 'origin/master'),
-    array('mandango', 'http://github.com/mandango/mandango', 'origin/master'),
-    array('mandango-bundle', 'http://github.com/mandango/MandangoBundle', 'origin/master', 'bundles/Mandango/MandangoBundle'),
+    array('symfony', 'git://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
+    array('twig', 'git://github.com/fabpot/Twig', 'origin/master'),
+    array('molino', 'git://github.com/pablodip/molino', 'origin/master'),
+    array('mondator', 'git://github.com/mandango/mondator', 'origin/master'),
+    array('mandango', 'git://github.com/mandango/mandango', 'origin/master'),
+    array('mandango-bundle', 'git://github.com/mandango/MandangoBundle', 'origin/master', 'bundles/Mandango/MandangoBundle'),
 );
 
 foreach ($deps as $dep) {
@@ -42,7 +42,7 @@ foreach ($deps as $dep) {
         $install = true;
         echo "> Installing $name\n";
 
-        system(sprintf('git clone %s %s', escapeshellarg($url), escapeshellarg($installDir)));
+        system(sprintf('git clone -q %s %s', escapeshellarg($url), escapeshellarg($installDir)));
     }
 
     if (!$install) {
