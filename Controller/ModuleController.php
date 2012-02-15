@@ -30,7 +30,7 @@ class ModuleController extends Controller
 
         $module = $this->get('module_manager')->get($moduleClass);
         foreach ($module->getControllerPreExecutes() as $controllerPreExecute) {
-            if (null !== $retval = $controllerPreExecute($module)) {
+            if (null !== $retval = call_user_func($controllerPreExecute, $module)) {
                 return $retval;
             }
         }
