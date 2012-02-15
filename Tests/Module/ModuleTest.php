@@ -362,12 +362,19 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     public function testControllerPreExecutes()
     {
         $preExecute1 = function () {};
-        $preExecute2 = function () {};
 
         $this->assertSame($this->module, $this->module->addControllerPreExecute($preExecute1));
         $this->assertSame(array($preExecute1), $this->module->getControllerPreExecutes());
-        $this->assertSame($this->module, $this->module->addControllerPreExecute($preExecute2));
-        $this->assertSame(array($preExecute1, $preExecute2), $this->module->getControllerPreExecutes());
+        $this->assertSame($this->module, $this->module->addControllerPreExecute('intval'));
+        $this->assertSame(array($preExecute1, 'intval'), $this->module->getControllerPreExecutes());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAddControllerPreExecuteNotCallable()
+    {
+        $this->module->addControllerPreExecute('foo');
     }
 
     public function testGenerateModuleUrl()

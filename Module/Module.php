@@ -448,12 +448,16 @@ abstract class Module implements ModuleInterface
     /**
      * Adds a controller pre execute.
      *
-     * @param \Closure $controllerPreExecute A controller pre execute.
+     * @param mixed $controllerPreExecute A callable.
      *
      * @return ModuleInterface The module (fluent interface).
      */
-    public function addControllerPreExecute(\Closure $controllerPreExecute)
+    public function addControllerPreExecute($controllerPreExecute)
     {
+        if (!is_callable($controllerPreExecute)) {
+            throw new \InvalidArgumentException('The controller pre execute is not callable.');
+        }
+
         $this->controllerPreExecutes[] = $controllerPreExecute;
 
         return $this;
