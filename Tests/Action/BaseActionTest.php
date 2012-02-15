@@ -231,6 +231,14 @@ class BaseActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($retval, $this->action->executeController());
     }
 
+    public function testExecuteControllerActionAsArgument()
+    {
+        $this->action->setController(function () {
+            return func_get_args();
+        });
+        $this->assertSame(array($this->action), $this->action->executeController());
+    }
+
     public function testGetMolino()
     {
         $retval = new \ArrayObject();

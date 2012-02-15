@@ -236,7 +236,7 @@ abstract class BaseAction implements ActionInterface
      */
     public function executeController()
     {
-        return call_user_func($this->controller);
+        return call_user_func($this->controller, $this);
     }
 
     /**
