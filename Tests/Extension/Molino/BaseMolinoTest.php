@@ -18,26 +18,19 @@ class BaseMolinoExtension extends OriginalBaseMolinoExtension
 
 class BaseMolinoExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstructorIsEventGetEventDispatcher()
+    public function testWithoutEventDispatcher()
+    {
+        $extension = new BaseMolinoExtension();
+        $this->assertFalse($extension->isEvented());
+        $this->assertNull($extension->getEventDispatcher());
+    }
+
+    public function testWithEventDispatcher()
     {
         $eventDispatcher = new EventDispatcher();
-        $extension = new BaseMolinoExtension(true, $eventDispatcher);
-        $this->assertTrue($extension->isEvent());
+        $extension = new BaseMolinoExtension($eventDispatcher);
+        $this->assertTrue($extension->isEvented());
         $this->assertSame($eventDispatcher, $extension->getEventDispatcher());
-    }
-
-    public function testConstructorCreatesEventDispatcherWhenIsEventWithoutEventDispatcher()
-    {
-        $extension = new BaseMolinoExtension(true);
-        $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventDispatcher', $extension->getEventDispatcher());
-    }
-
-    /**
-     * @expectedException \LogicException
-     */
-    public function testConstructorNotIsEventWithEventDispatcher()
-    {
-        new BaseMolinoExtension(false, new EventDispatcher());
     }
 
     public function testGetName()
@@ -70,7 +63,7 @@ class BaseMolinoExtensionTest extends \PHPUnit_Framework_TestCase
     {
         BaseMolinoExtension::$registerMolino = $molino = $this->getMock('Molino\MolinoInterface');
         $eventDispatcher = new EventDispatcher();
-        $extension = new BaseMolinoExtension(true, $eventDispatcher);
+        $extension = new BaseMolinoExtension($eventDispatcher);
         $extension->defineConfiguration();
         $eventMolino = $extension->getMolino();
         $this->assertInstanceOf('Molino\EventMolino', $eventMolino);

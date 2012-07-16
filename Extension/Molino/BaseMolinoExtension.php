@@ -24,51 +24,36 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 abstract class BaseMolinoExtension extends BaseExtension
 {
-    private $isEvent;
     private $eventDispatcher;
     private $molino;
 
     /**
      * Constructor.
      *
-     * @param Boolean                       $isEvent         Whether the molino is event or not.
      * @param EventDispatcherInterface|null $eventDispatcher A event dispatcher for the event molino (optional).
-     *
-     * @throws \LogicException If there is event dispatcher and the molino is not event.
      */
-    public function __construct($isEvent = false, EventDispatcherInterface $eventDispatcher = null)
+    public function __construct(EventDispatcherInterface $eventDispatcher = null)
     {
-        $this->isEvent = (Boolean) $isEvent;
-        if ($this->isEvent) {
-            $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
-        } elseif (null !== $eventDispatcher) {
-            throw new \LogicException('The event dispatcher is not needed if the molino is not event.');
-        }
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * Returns whether the molino is event or not.
+     * Returns whether or not is evented.
      *
-     * @return Boolean Whether the molino is event or not.
+     * @return Boolean Whether or not is evented.
      */
-    public function isEvent()
+    public function IsEvented()
     {
-        return $this->isEvent;
+        return $this->eventDispatcher !== null;
     }
 
     /**
      * Returns the event dispatcher.
      *
-     * @return EventDispatcherInterface The event dispatcher.
-     *
-     * @throws \LogicException If the molino is not event.
+     * @return EventDispatcherInterface|null The event dispatcher or null.
      */
     public function getEventDispatcher()
     {
-        if (!$this->isEvent) {
-            throw new \LogicException('The molino is not event.');
-        }
-
         return $this->eventDispatcher;
     }
 
@@ -89,7 +74,8 @@ abstract class BaseMolinoExtension extends BaseExtension
         if (!$molino instanceof MolinoInterface) {
             throw new \RuntimeException('The molino must be an instance of MolinoInterface.');
         }
-        $this->molino = $this->isEvent ? new EventMolino($molino, $this->eventDispatcher) : $molino;
+
+        $this->molino = $this->isEvented() ? new EventMolino($molino, $this->eventDispatcher) : $molino;
     }
 
     /**
