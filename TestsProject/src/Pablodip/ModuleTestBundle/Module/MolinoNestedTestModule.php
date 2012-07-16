@@ -7,13 +7,14 @@ use Pablodip\ModuleBundle\Extension\Molino\MandangoMolinoExtension;
 use Pablodip\ModuleBundle\Extension\Molino\MolinoNestedExtension;
 use Pablodip\ModuleBundle\Action\RouteAction;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class MolinoNestedTestModule extends Module
 {
     protected function registerExtensions()
     {
         return array(
-            new MandangoMolinoExtension(true),
+            new MandangoMolinoExtension(new EventDispatcher()),
             new MolinoNestedExtension('Model\PablodipModuleTestBundle\Article', 'article_id', 'article', 'article'),
         );
     }

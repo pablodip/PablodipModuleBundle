@@ -11,7 +11,7 @@ if (isset($argv[1])) {
 }
 
 $deps = array(
-    array('symfony', 'git://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
+    array('symfony', 'git://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/2.0'),
     array('twig', 'git://github.com/fabpot/Twig', 'origin/master'),
     array('molino', 'git://github.com/pablodip/molino', 'origin/master'),
     array('mondator', 'git://github.com/mandango/mondator', 'origin/master'),
