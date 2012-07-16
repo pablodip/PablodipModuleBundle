@@ -15,7 +15,12 @@ class MolinoNestedTestModule extends Module
     {
         return array(
             new MandangoMolinoExtension(new EventDispatcher()),
-            new MolinoNestedExtension('Model\PablodipModuleTestBundle\Article', 'article_id', 'article', 'article'),
+            new MolinoNestedExtension(array(
+                'parent_class'    => 'Model\PablodipModuleTestBundle\Article',
+                'route_parameter' => 'article_id',
+                'query_field'     => 'article',
+                'association'     => 'article',
+            )),
         );
     }
 

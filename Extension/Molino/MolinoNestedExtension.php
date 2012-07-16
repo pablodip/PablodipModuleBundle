@@ -32,19 +32,44 @@ class MolinoNestedExtension extends BaseExtension
     /**
      * Constructor.
      *
-     * @param string $parentClass      The parent class.
-     * @param string $routeParameter   The route parameter.
-     * @param string $queryField       The query field.
-     * @param string $association      The association.
-     * @param string $requestAttribute The request attribute.
+     * Options:
+     *
+     *   * parent_class
+     *   * route_parameter
+     *   * query_field
+     *   * association
+     *   * request_attribute (optional, _parent by default)
+     *
+     * @param array $options An array of options.
      */
-    public function __construct($parentClass, $routeParameter, $queryField, $association, $requestAttribute = '_parent')
+    public function __construct(array $options)
     {
-        $this->parentClass = $parentClass;
-        $this->routeParameter = $routeParameter;
-        $this->queryField = $queryField;
-        $this->association = $association;
-        $this->requestAttribute = $requestAttribute;
+        $cleanOptions = $this->cleanOptions($options);
+
+        $this->parentClass = $cleanOptions['parent_class'];
+        $this->routeParameter = $cleanOptions['route_parameter'];
+        $this->queryField = $cleanOptions['query_field'];
+        $this->association = $cleanOptions['association'];
+        $this->requestAttribute = $cleanOptions['request_attribute'];
+    }
+
+    private function cleanOptions(array $rawOptions)
+    {
+        $options = array_replace(array(
+            'parent_class'      => null,
+            'route_parameter'   => null,
+            'query_field'       => null,
+            'association'       => null,
+            'request_attribute' => '_parent',
+        ), $rawOptions);
+
+        foreach ($options as $name => $value) {
+            if (!$value || !is_string($value)) {
+                throw new \InvalidArgumentException(sprintf('The option "%s" is not valid.', $name));
+            }
+        }
+
+        return $options;
     }
 
     /**
