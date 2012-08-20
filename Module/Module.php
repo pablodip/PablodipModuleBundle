@@ -409,6 +409,18 @@ abstract class Module implements ModuleInterface
     /**
      * {@inheritdoc}
      */
+    public function deleteAction($name)
+    {
+        if (!isset($this->actions[$name])) {
+            throw new \InvalidArgumentException(sprintf('The action "%s" does not exist.', $name));
+        }
+
+        unset($this->actions[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getActions()
     {
         return $this->actions;

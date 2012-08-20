@@ -121,6 +121,15 @@ interface ModuleInterface
     function getAction($name);
 
     /**
+     * Deletes an action.
+     *
+     * @param string $name The name.
+     *
+     * @throws \InvalidArgumentException If the action does not exist.
+     */
+    function deleteAction($name);
+
+    /**
      * Returns the actions.
      *
      * @return array An array of actions.

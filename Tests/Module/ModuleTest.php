@@ -311,6 +311,26 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($actions[2], $this->module->getAction('action2'));
     }
 
+    public function testDeleteAction()
+    {
+        $actions = array();
+        for ($i = 1; $i <= 2; $i++) {
+            $actions[$i] = $action = $this->getMock('Pablodip\ModuleBundle\Action\ActionInterface');
+            $action
+                ->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('action'.$i))
+            ;
+        }
+
+        $this->module->addActions($actions);
+
+        $this->module->deleteAction('action1');
+
+        $this->assertFalse($this->module->hasAction('action1'));
+        $this->assertTrue($this->module->hasAction('action2'));
+    }
+
     public function testSetActionOption()
     {
         $actionName = 'list';
