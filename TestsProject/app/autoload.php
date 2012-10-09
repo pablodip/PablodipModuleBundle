@@ -1,31 +1,4 @@
 <?php
 
-spl_autoload_register(function($class)
-{
-    if (0 === strpos($class, 'Pablodip\ModuleBundle\\')) {
-        $path = implode('/', array_slice(explode('\\', $class), 2)).'.php';
-        require_once __DIR__.'/../../'.$path;
-        return true;
-    }
-});
-
-$vendorDir = __DIR__.'/../../vendor';
-require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
-
-use Symfony\Component\ClassLoader\UniversalClassLoader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-
-$loader = new UniversalClassLoader();
-$loader->registerNamespaces(array(
-    'Symfony'           => $vendorDir.'/symfony/src',
-    'Mandango\Mondator' => $vendorDir.'/mondator/src',
-    'Mandango'          => array($vendorDir.'/mandango/src', $vendorDir.'/bundles'),
-    'Molino'            => $vendorDir.'/molino/src',
-));
-$loader->registerPrefixes(array(
-    'Twig_' => $vendorDir.'/twig/lib',
-));
-$loader->registerNamespaceFallbacks(array(
-    __DIR__.'/../src',
-));
-$loader->register();
+$loader = require_once __DIR__.'/../../vendor/autoload.php';
+$loader->add('', __DIR__.'/../src');

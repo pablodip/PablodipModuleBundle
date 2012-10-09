@@ -7,7 +7,7 @@ foreach (array(
     system('php '.__DIR__.'/TestsProject/app/console '.$command);
 }
 
-require_once(__DIR__.'/vendor/symfony/src/Symfony/Component/Process/Process.php');
+require_once(__DIR__.'/vendor/symfony/symfony/src/Symfony/Component/Process/Process.php');
 
 use Symfony\Component\Process\Process;
 

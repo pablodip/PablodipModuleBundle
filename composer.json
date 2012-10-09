@@ -13,10 +13,15 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/framework-bundle": "2.*"
+        "symfony/symfony": "2.0.*",
+        "pablodip/molino": "dev-master"
+    },
+    "require-dev": {
+        "mandango/mandango-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": { "Pablodip\\ModuleBundle": "" }
     },
-    "target-dir": "Pablodip/ModuleBundle"
+    "target-dir": "Pablodip/ModuleBundle",
+    "minimum-stability": "dev"
 }
