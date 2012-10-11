@@ -5,6 +5,9 @@ namespace Pablodip\ModuleBundle\Tests\Extension\Serializer;
 use Pablodip\ModuleBundle\Extension\Serializer\SymfonySerializerExtension;
 use Pablodip\ModuleBundle\Module\Module;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class SymfonySerializerExtensionModule extends Module
@@ -14,7 +17,7 @@ class SymfonySerializerExtensionModule extends Module
     }
 }
 
-class SymfonySerializerData implements NormalizableInterface
+class SymfonySerializerData implements NormalizableInterface, DenormalizableInterface
 {
     private $title;
     private $content;
@@ -39,7 +42,7 @@ class SymfonySerializerData implements NormalizableInterface
         return $this->content;
     }
 
-    public function normalize(SerializerInterface $normalizer, $format = null)
+    public function normalize(NormalizerInterface $normalizer, $format = null)
     {
         return array(
             'title'   => $this->getTitle(),
@@ -47,7 +50,7 @@ class SymfonySerializerData implements NormalizableInterface
         );
     }
 
-    public function denormalize(SerializerInterface $denormalizer, $data, $format = null)
+    public function denormalize(DenormalizerInterface $denormalizer, $data, $format = null)
     {
         if (isset($data['title'])) {
             $this->setTitle($data['title']);

@@ -1,33 +1,38 @@
 {
-    "hash": "54460229eeb964b339ed807ea52f5174",
+    "hash": "2b65eb7c47ab546bc5a0b98221b8b895",
     "packages": [
         {
             "name": "doctrine/common",
-            "version": "2.2.3",
+            "version": "2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common",
-                "reference": "2.2.3"
+                "reference": "bb0aebbf234db52df476a2b473d434745b34221c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/common/zipball/2.2.3",
-                "reference": "2.2.3",
+                "url": "https://github.com/doctrine/common/zipball/bb0aebbf234db52df476a2b473d434745b34221c",
+                "reference": "bb0aebbf234db52df476a2b473d434745b34221c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-08-29 08:04:14",
+            "time": "1348120518",
             "type": "library",
-            "installation-source": "dist",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3.x-dev"
+                }
+            },
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Doctrine\\Common": "lib/"
                 }
             },
             "license": [
-                "LGPL"
+                "MIT"
             ],
             "authors": [
                 {
@@ -63,62 +68,6 @@
                 "eventmanager",
                 "annotations",
                 "persistence"
-            ]
-        },
-        {
-            "name": "monolog/monolog",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog",
-                "reference": "1.2.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/Seldaek/monolog/zipball/1.2.1",
-                "reference": "1.2.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "mlehner/gelf-php": "1.0.*"
-            },
-            "suggest": {
-                "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-                "ext-mongo": "Allow sending log messages to a MongoDB server"
-            },
-            "time": "2012-08-29 11:53:20",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Monolog": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Logging for PHP 5.3",
-            "homepage": "http://github.com/Seldaek/monolog",
-            "keywords": [
-                "log",
-                "logging"
             ]
         },
         {
@@ -163,86 +112,32 @@
             ]
         },
         {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v4.2.1",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "v4.2.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.2.1",
-                "reference": "v4.2.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "time": "2012-07-13 16:46:37",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "license": [
-                "LGPL"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Chris Corbyn"
-                }
-            ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "http://swiftmailer.org",
-            "keywords": [
-                "mail",
-                "mailer"
-            ]
-        },
-        {
             "name": "symfony/symfony",
-            "version": "v2.0.17",
+            "version": "2.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "v2.0.17"
+                "reference": "1202d9a7386d4245ef48ab89dcd2c97ea9a094e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/symfony/zipball/1202d9a7386d4245ef48ab89dcd2c97ea9a094e4",
+                "reference": "1202d9a7386d4245ef48ab89dcd2c97ea9a094e4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
-                "doctrine/common": ">=2.1,<2.3-dev",
-                "monolog/monolog": ">=1.0,<1.3-dev",
-                "swiftmailer/swiftmailer": "4.2.*",
-                "twig/twig": ">=1.1,<2.0-dev"
+                "php": ">=5.3.3",
+                "doctrine/common": ">2.2,<2.4-dev",
+                "twig/twig": ">=1.9.1,<2.0-dev"
             },
             "replace": {
                 "symfony/doctrine-bridge": "self.version",
                 "symfony/monolog-bridge": "self.version",
+                "symfony/propel1-bridge": "self.version",
                 "symfony/swiftmailer-bridge": "self.version",
                 "symfony/twig-bridge": "self.version",
-                "symfony/doctrine-abstract-bundle": "self.version",
-                "symfony/doctrine-bundle": "self.version",
                 "symfony/framework-bundle": "self.version",
-                "symfony/monolog-bundle": "self.version",
                 "symfony/security-bundle": "self.version",
-                "symfony/swiftmailer-bundle": "self.version",
                 "symfony/twig-bundle": "self.version",
                 "symfony/web-profiler-bundle": "self.version",
                 "symfony/browser-kit": "self.version",
@@ -253,11 +148,13 @@
                 "symfony/dependency-injection": "self.version",
                 "symfony/dom-crawler": "self.version",
                 "symfony/event-dispatcher": "self.version",
+                "symfony/filesystem": "self.version",
                 "symfony/finder": "self.version",
                 "symfony/form": "self.version",
                 "symfony/http-foundation": "self.version",
                 "symfony/http-kernel": "self.version",
                 "symfony/locale": "self.version",
+                "symfony/options-resolver": "self.version",
                 "symfony/process": "self.version",
                 "symfony/routing": "self.version",
                 "symfony/security": "self.version",
@@ -267,12 +164,25 @@
                 "symfony/validator": "self.version",
                 "symfony/yaml": "self.version"
             },
-            "time": "2012-08-28 07:05:44",
+            "require-dev": {
+                "doctrine/dbal": ">=2.2,<2.4-dev",
+                "doctrine/orm": ">=2.2.3,<2.4-dev",
+                "doctrine/data-fixtures": "1.0.*",
+                "propel/propel1": "dev-master",
+                "monolog/monolog": "dev-master"
+            },
+            "time": "1349767195",
             "type": "library",
-            "installation-source": "dist",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony": "src/"
+                    "Symfony": "src/",
+                    "SessionHandlerInterface": "src/Symfony/Component/HttpFoundation/Resources/stubs"
                 }
             },
             "license": [
@@ -296,29 +206,29 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.10.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "v1.10.0"
+                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/v1.10.0",
-                "reference": "v1.10.0",
+                "url": "https://github.com/fabpot/Twig/zipball/347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
+                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-09-28 20:11:39",
+            "time": "1349702400",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.10-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
@@ -344,12 +254,141 @@
             ]
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "mandango/mandango",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/mandango/mandango.git",
+                "reference": "4897b64d2e94d34476f5c0afa6af506ce1e9182f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/mandango/mandango/zipball/4897b64d2e94d34476f5c0afa6af506ce1e9182f",
+                "reference": "4897b64d2e94d34476f5c0afa6af506ce1e9182f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "mandango/mondator": "dev-master"
+            },
+            "time": "1339154613",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Mandango\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com",
+                    "homepage": "http://github.com/pablodip"
+                }
+            ],
+            "description": "Simple, poweful and ultrafast Object Document Mapper (ODM) for PHP and MongoDB",
+            "homepage": "http://mandango.org",
+            "keywords": [
+                "mongodb",
+                "odm"
+            ]
+        },
+        {
+            "name": "mandango/mandango-bundle",
+            "version": "dev-master",
+            "target-dir": "Mandango/MandangoBundle",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/mandango/MandangoBundle.git",
+                "reference": "36e2ff4cc43989abbb3bd2f84cd7909c0f39d5b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/mandango/MandangoBundle/zipball/36e2ff4cc43989abbb3bd2f84cd7909c0f39d5b9",
+                "reference": "36e2ff4cc43989abbb3bd2f84cd7909c0f39d5b9",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "2.*",
+                "mandango/mandango": "dev-master"
+            },
+            "time": "1347957909",
+            "type": "symfony-bundle",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Mandango\\MandangoBundle": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com",
+                    "homepage": "http://github.com/pablodip"
+                }
+            ],
+            "description": "Bundle to use Mandango with Symfony2",
+            "keywords": [
+                "mongodb",
+                "mandango"
+            ]
+        },
+        {
+            "name": "mandango/mondator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/mandango/mondator.git",
+                "reference": "ed3d5aedf152f46ad5e0dcc20056b182f52e227c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/mandango/mondator/zipball/ed3d5aedf152f46ad5e0dcc20056b182f52e227c",
+                "reference": "ed3d5aedf152f46ad5e0dcc20056b182f52e227c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "twig/twig": ">=1.2"
+            },
+            "time": "1343565529",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Mandango\\Mondator\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com",
+                    "homepage": "http://github.com/pablodip"
+                }
+            ],
+            "description": "Easy and flexible class generator for PHP",
+            "keywords": [
+                "class-generator"
+            ]
+        }
+    ],
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
-        "pablodip/molino": 20
+        "pablodip/molino": 20,
+        "mandango/mandango-bundle": 20
     }
 }

@@ -10,7 +10,7 @@ class NoRoutePrefixesModule extends Module
     protected function defineConfiguration()
     {
         $this->addActions(array(
-            new RouteAction('list', '/', null, function () {}),
+            new RouteAction('list', '/', 'ANY', function () {}),
             new RouteAction('create', '/create', 'POST', function () {}),
         ));
     }
