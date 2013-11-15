@@ -28,7 +28,7 @@
         "symfony/browser-kit": "2.0.*",
         "symfony/css-selector": "2.0.*",
         "mandango/mandango-bundle": "dev-master",
-        "phpunit/phpunit": "~3.7"
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": { "Pablodip\\ModuleBundle": "" }
