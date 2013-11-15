@@ -7,13 +7,13 @@ foreach (array(
     system('php '.__DIR__.'/TestsProject/app/console '.$command);
 }
 
-require_once(__DIR__.'/vendor/symfony/symfony/src/Symfony/Component/Process/Process.php');
+require_once __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\Process\Process;
 
 $commands = array(
-    'phpunit',
-    'phpunit -c TestsProject/app/',
+    'php vendor/bin/phpunit',
+    'php vendor/bin/phpunit -c TestsProject/app/',
 );
 $fail = false;
 
