@@ -10,9 +10,8 @@ class AppKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Mandango\MandangoBundle\MandangoBundle(),
             new Pablodip\ModuleBundle\PablodipModuleBundle(),
-            new Pablodip\ModuleTestBundle\PablodipModuleTestBundle(),
+            new Pablodip\ModuleTestBundle\PablodipModuleTestBundle()
         );
 
         return $bundles;
