@@ -1,6 +1,6 @@
 # PablodipModuleBundle
 
-[![Build Status](https://secure.travis-ci.org/pablodip/PablodipModuleBundle.png)](http://travis-ci.org/pablodip/PablodipModuleBundle)
+[![Build Status](https://secure.travis-ci.org/pablodip/PablodipModuleBundle.png)](http://travis-ci.org/pablodip/PablodipModuleBundle) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/pablodip/PablodipModuleBundle/badges/quality-score.png?s=286d142e9401b751797de720e4b8847e49175dd9)](https://scrutinizer-ci.com/g/pablodip/PablodipModuleBundle/)
 
   1. [Introduction](#introduction)
   1. [Creating modules](#creating-modules)
